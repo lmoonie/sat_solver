@@ -22,22 +22,29 @@ include(Sanitizers.cmake)
 # endif()
 
 # Define libraries
-add_library(lib_ex include/lib_ex.hpp)
-set_target_properties(lib_ex PROPERTIES LINKER_LANGUAGE CXX)
+add_library(cnf include/cnf.hpp)
+add_library(io lib/io.hpp)
+
+# Set target language
+set_target_properties(cnf PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(io PROPERTIES LINKER_LANGUAGE CXX)
+
+# Include directories
+target_include_directories(cnf PUBLIC include)
+target_include_directories(io PUBLIC include)
 
 # Enable external libraries
-find_package(Catch2 3 REQUIRED)
+# find_package(Catch2 3 REQUIRED)
 find_package(Boost 1.54.0 REQUIRED COMPONENTS)
 
 # Define executables
-add_executable(sat_verify app/sat_verify.cpp)
-add_executable(sat_solve app/sat_solve.cpp)
+# add_executable(sat_verify app/sat_verify.cpp)
+# add_executable(sat_solve app/sat_solve.cpp)
 
 # Link the libraries
-target_include_directories(lib_ex PUBLIC include)
-target_link_libraries(test_ex PRIVATE lib_ex Catch2::Catch2WithMain)
-target_link_libraries(sat_verify PRIVATE lib_ex)
-target_link_libraries(sat_solve PRIVATE lib_ex)
+# target_link_libraries(test_ex PRIVATE lib_ex Catch2::Catch2WithMain)
+# target_link_libraries(sat_verify PRIVATE lib_ex)
+# target_link_libraries(sat_solve PRIVATE lib_ex)
 
 # Generate coverage report
 # if(ENABLE_COVERAGE)
