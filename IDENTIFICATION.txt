@@ -1,0 +1,7 @@
+name "Logan Moonie"
+student_id "V00952653"
+email "school@lmoonie.ca"
+term "2024-05"
+course "SENG475"
+section "T01"
+assignment "cpp_project"
