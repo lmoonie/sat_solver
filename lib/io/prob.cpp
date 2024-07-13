@@ -29,7 +29,7 @@ namespace io::prob {
             if (str.substr(0, 6) != "p cnf ") {
                 throw std::invalid_argument(err::problem_format);
             }
-        catch (std::out_of_range) {
+        } catch (std::out_of_range) {
             throw std::out_of_range(err::problem_format);
         }
         // record number of clauses and variables
