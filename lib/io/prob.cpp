@@ -1,4 +1,4 @@
-// io.cpp
+// prob.cpp
 // Logan Moonie
 // Jul 12, 2024
 
@@ -48,11 +48,11 @@ namespace io::prob {
     inline void parse_expression(
         std::istream& istr,
         cnf_expr& expr,
-        disjunctive_clause& dis_clause,
-        literal& lit,
-        variable& max_var,
-        int& clauses
+        const variable& max_var,
+        const int& clauses
     ) {
+        literal lit;
+        clause cl(1);
         do {
             // check for a comment line
             if (istr.peek() == 'c') {
@@ -69,24 +69,17 @@ namespace io::prob {
                     // not a valid literal
                     throw std::invalid_argument(err::invalid_variable);
                 } else if (lit == 0) {
-                    // integer was zero; marking end of clause
-                    if (dis_clause.empty()) {
-                        // count the clause without adding to expr
-                        clauses--;
-                    } else {
-                        // add clause to expr and reset
-                        expr.insert(dis_clause);
-                        dis_clause.clear();
-                    }
+                    // increment clause counter
+                    cl++;
                 } else {
                     // integer is a valid literal
-                    dis_clause.insert(lit);
+                    expr.add_literal(lit, cl);
                 }
             }
         } while (istr.good());
 
         // ensure the correct number of clauses was provided
-        if (expr.size() != clauses) {
+        if (cl != clauses) {
             throw std::invalid_argument(err::wrong_number_clauses);
         }
     }
@@ -94,12 +87,7 @@ namespace io::prob {
     // extract_cnf_problem accepts a CNF-formatted problem
     // specification via an input stream and returns a cnf_expr.
     // It throws exceptions if the provided input cannot be read.
-    cnf_expr extract_cnf_problem(std::istream& istr) {
-        // cnf data structures
-        cnf_expr expr;
-        disjunctive_clause dis_clause;
-        literal lit;
-
+    cnf_expr& extract_cnf_problem(std::istream& istr, cnf_expr& expr) {
         // variables needed for parsing
         std::string line;
         variable max_var(0);
@@ -120,9 +108,7 @@ namespace io::prob {
         }
 
         // parse the expression body
-        parse_expression(
-            istr, expr, dis_clause, lit, max_var, clauses
-        );
+        parse_expression(istr, expr, max_var, clauses);
         // ensure no errors occurred while reading expression
         if (istr.bad()) {
             // likely an I/O error
