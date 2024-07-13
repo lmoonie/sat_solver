@@ -8,6 +8,7 @@
 #include <ostream>
 #include <iostream>
 #include "io.hpp"
+#include "cnf.hpp"
 
 namespace cnf {
 

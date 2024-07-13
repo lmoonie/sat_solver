@@ -1,5 +1,5 @@
-#include "cnf.hpp"
 #include "io.hpp"
+#include "cnf.hpp"
 
 #include <iostream>
 #include <istream>

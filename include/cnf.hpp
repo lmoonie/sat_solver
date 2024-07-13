@@ -2,8 +2,14 @@
 // Logan Moonie
 // Jul 12, 2024
 
+#ifndef INC_CNF
+#define INC_CNF
+
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
+#include <istream>
+#include <ostream>
 
 // a collection of types used to store CNF problems
 namespace cnf {
@@ -62,3 +68,4 @@ namespace cnf {
 
 }
 
+#endif

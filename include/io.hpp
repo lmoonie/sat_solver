@@ -2,6 +2,9 @@
 // Logan Moonie
 // Jul 12, 2024
 
+#ifndef INC_IO
+#define INC_IO
+
 #include "cnf.hpp"
 
 namespace io {
@@ -77,3 +80,5 @@ namespace io {
     }
 
 }
+
+#endif
