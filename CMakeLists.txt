@@ -38,7 +38,7 @@ target_include_directories(io PUBLIC include)
 find_package(Boost 1.54.0 REQUIRED COMPONENTS)
 
 # Define executables
-# add_executable(sat_verify app/sat_verify.cpp)
+add_executable(test_cnf_input app/test_cnf_input.cpp)
 # add_executable(sat_solve app/sat_solve.cpp)
 
 # Link the libraries
