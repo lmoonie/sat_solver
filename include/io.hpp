@@ -24,7 +24,7 @@ namespace io {
     namespace sol {
 
         // -------------INSERT COMMENT HERE----------------------------------
-        ::cnf::solution extract_solution(std::istream&, ::cnf::ProblemType, ::cnf::variable, int);
+        ::cnf::solution extract_solution(std::istream&, ProblemType, ::cnf::variable, int);
 
     }
 

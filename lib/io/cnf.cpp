@@ -13,7 +13,7 @@
 namespace io::cnf {
 
     // to simplify working with CNF types
-    using namespace cnf;
+    using namespace cnf = ::cnf;
 
     // Given a suspected CNF problem line, parse_problem_line
     // extracts the number of variables and clauses, throwing
@@ -34,7 +34,7 @@ namespace io::cnf {
             clauses = std::stoi(str.substr(6 + *clause_idx));
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
-        } catch {
+        } catch (...) {
             throw std::invalid_argument(err::problem_format);
         }
         if (clauses <= 0 || max_var <= 0) {
