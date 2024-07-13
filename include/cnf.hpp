@@ -28,17 +28,17 @@ namespace cnf {
 
     // a complete boolean CNF expression
     class cnf_expr {
-        cnf_expr() = default;
-        cnf_expr(const cnf_expr&) = default;
-        cnf_expr(cnf_expr&&) = default;
-        cnf_expr& operator=(const cnf_expr&) = delete;
-        cnf_expr& operator=(cnf_expr&&) = delete;
+        cnf_expr();
+        cnf_expr(const cnf_expr&);
+        cnf_expr(cnf_expr&&);
+        cnf_expr& operator=(const cnf_expr&);
+        cnf_expr& operator=(cnf_expr&&);
         void add_literal(literal lit, clause cl);
         void remove_literal(literal lit, clause cl);
         void remove_clause(clause cl);
         clause num_clauses();
         variable num_variables();
-    }
+    };
 
 }
 
