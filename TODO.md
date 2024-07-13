@@ -1,0 +1,1 @@
+- check for identical variable sets between problem and solution after extraction

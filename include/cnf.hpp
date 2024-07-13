@@ -3,6 +3,7 @@
 // Jul 12, 2024
 
 #include <unordered_set>
+#include <map>
 
 // a collection of types used to store CNF problems
 namespace cnf {
@@ -20,7 +21,7 @@ namespace cnf {
     using cnf_expr = std::unordered_set<disjunctive_clause>;
 
     // a map of variables to their proposed value
-    using solution = std::unordered_map<variable, bool>;
+    using solution = std::map<variable, bool>;
 
 }
 

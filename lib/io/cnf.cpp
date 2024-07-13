@@ -9,8 +9,8 @@
 #include "io.hpp"
 #include "cnf.hpp"
 
-// a collection of functions used to process I/O
-namespace io {
+// a collection of functions used to process CNF format via I/O
+namespace io::cnf {
 
     // to simplify working with CNF types
     using namespace cnf;
