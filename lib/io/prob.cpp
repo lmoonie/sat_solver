@@ -9,11 +9,11 @@
 #include "io.hpp"
 #include "cnf.hpp"
 
-// a collection of functions used to process CNF format via I/O
-namespace io::cnf {
+// a collection of functions used to process problems via I/O
+namespace io::prob {
 
     // to simplify working with CNF types
-    using namespace cnf = ::cnf;
+    using namespace cnf;
 
     // Given a suspected CNF problem line, parse_problem_line
     // extracts the number of variables and clauses, throwing

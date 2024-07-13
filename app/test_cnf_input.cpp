@@ -22,7 +22,7 @@ void print_cnf_expr(ostream& ostr, const cnf::cnf_expr& expr) {
 
 int main() {
     try {
-        cnf::cnf_expr expr = io::cnf::extract_cnf_problem(std::cin);
+        cnf::cnf_expr expr = io::prob::extract_cnf_problem(std::cin);
         print_cnf_expr(expr);
     } catch (...) return 1;
     return 0;
