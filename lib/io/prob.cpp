@@ -13,7 +13,7 @@
 namespace io::prob {
 
     // to simplify working with CNF types
-    using namespace cnf;
+    using namespace ::cnf;
 
     // Given a suspected CNF problem line, parse_problem_line
     // extracts the number of variables and clauses, throwing
@@ -51,7 +51,7 @@ namespace io::prob {
         disjunctive_clause& dis_clause,
         literal& lit,
         variable& max_var,
-        clauses& clauses
+        int& clauses
     ) {
         do {
             // check for a comment line
@@ -86,7 +86,7 @@ namespace io::prob {
         } while (istr.good());
 
         // ensure the correct number of clauses was provided
-        if (cnf_expr.size() != clauses) {
+        if (expr.size() != clauses) {
             throw std::invalid_argument(err::wrong_number_clauses);
         }
     }
