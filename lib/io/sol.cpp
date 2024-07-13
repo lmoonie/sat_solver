@@ -31,7 +31,7 @@ namespace io::sol {
             type == ProblemType::CNF &&
                 str.substr(2, 5) != std::string("cnf") ||
             type == ProblemType::SAT &&
-                str.substr(2, 5) != std::string("sat") ||
+                str.substr(2, 5) != std::string("sat")
         ) {
             throw std::invalid_argument(err::solution_type);
         }
