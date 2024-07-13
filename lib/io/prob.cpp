@@ -57,7 +57,7 @@ namespace io::prob {
         const int& clauses
     ) {
         literal lit;
-        clause cl(1);
+        clause cl(0);
         do {
             // check for a comment line
             if (istr.peek() == 'c') {
