@@ -23,7 +23,7 @@ include(Sanitizers.cmake)
 
 # Define libraries
 add_library(cnf include/cnf.hpp)
-add_library(io include/io.hpp lib/io/cnf.cpp lib/io/sol.cpp)
+add_library(io include/io.hpp lib/io/prob.cpp lib/io/sol.cpp)
 
 # Set target language
 set_target_properties(cnf PROPERTIES LINKER_LANGUAGE CXX)
