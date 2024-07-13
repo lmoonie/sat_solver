@@ -2,27 +2,29 @@
 // Logan Moonie
 // Jul 12, 2024
 
+#include "cnf.hpp"
+
 namespace io {
 
     // used to specify the problem format
     enum ProblemType: bool {
         CNF = true,
         SAT = false
-    }
+    };
 
     namespace cnf {
 
         // extract_cnf_problem accepts a CNF-formatted problem
         // specification via an input stream and returns a cnf_expr.
         // It throws exceptions if the provided input cannot be read.
-        cnf::cnf_expr extract_cnf_problem(std::istream&);
+        ::cnf::cnf_expr extract_cnf_problem(std::istream&);
 
     }
 
     namespace sol {
 
         // -------------INSERT COMMENT HERE----------------------------------
-        cnf::solution extract_solution(std::istream&, ProblemType, cnf::variable, int);
+        ::cnf::solution extract_solution(std::istream&, ::cnf::ProblemType, ::cnf::variable, int);
 
     }
 
