@@ -67,9 +67,9 @@ namespace cnf {
         // tracks which literals are in a given clause
         std::unordered_map<clause, lit_set> clauses;
 
-        friend std::ostream& operator<<(std::ostream& ostr, const cnf_expr&) {
-            auto clause_iter(clauses.begin());
-            while (clause_iter != clauses.end()) {
+        friend std::ostream& operator<<(std::ostream& ostr, const cnf_expr& expr) {
+            auto clause_iter(expr.clauses.begin());
+            while (clause_iter != expr.clauses.end()) {
                 std::cout << "{ ";
                 for (literal lit : clause_iter->second) {
                     std::cout << lit << " ";
@@ -77,6 +77,7 @@ namespace cnf {
                 std::cout << "}" << std::endl;
                 clause_iter++;
             }
+            return ostr;
         }
     };
 }
