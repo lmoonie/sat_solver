@@ -94,7 +94,7 @@ namespace io::prob {
         int clauses(0);
 
         // find and parse the problem line
-        while (istr.getline(line.begin(), line.max_size()).good()) {
+        while (istr.getline(line.c_str(), line.max_size()).good()) {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {

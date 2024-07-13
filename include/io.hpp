@@ -20,7 +20,7 @@ namespace io {
         // extract_cnf_problem accepts a CNF-formatted problem
         // specification via an input stream and returns a cnf_expr.
         // It throws exceptions if the provided input cannot be read.
-        ::cnf::cnf_expr extract_cnf_problem(std::istream&, ::cnf::cnf_expr&);
+        ::cnf::cnf_expr& extract_cnf_problem(std::istream&, ::cnf::cnf_expr&);
 
     }
 
