@@ -19,11 +19,11 @@ namespace io::sol {
     inline void check_solution_line(
         const std::string& str,
         ProblemType type,
-        cnf::variable max_mar,
+        cnf::variable max_var,
         int clauses
     ) {
         // must indicate solution line
-        if (str.at(0) != "s") {
+        if (str.at(0) != 's') {
             throw std::invalid_argument(err::problem_format);
         }
         // solution type must match problem
@@ -51,7 +51,7 @@ namespace io::sol {
             }
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
-        } catch {
+        } catch (...) {
             throw std::invalid_argument(err::solution_format);
         }
     }
@@ -66,7 +66,7 @@ namespace io::sol {
         std::string line;
 
         // parse each variable line
-        while (istr.getline(line.begin(), line.max_size()).good()) {
+        while (std::getline(istr, line).good()) {
             // empty lines, comment lines, and timing lines are ignored
             if (
                 line.size() == 0 ||
@@ -74,7 +74,7 @@ namespace io::sol {
                 line.at(0) == 't'
             ) continue;
             // remaining lines must be variable lines
-            if (str.at(0) != "v") {
+            if (line.at(0) != 'v') {
                 throw std::invalid_argument(err::sol_body_format);
             }
             // record the variable value
@@ -82,7 +82,7 @@ namespace io::sol {
                 cnf::literal lit = std::stoi(line.substr(2));
                 if (std::abs(lit) > max_var) {
                     // variable name is too large
-                    throw std::out_of_range();
+                    throw std::out_of_range(err::invalid_variable);
                 }
                 if (lit > 0) {
                     // variable is true
@@ -96,7 +96,7 @@ namespace io::sol {
                 }
             } catch (std::out_of_range) {
                 throw std::out_of_range(err::invalid_variable);
-            } catch {
+            } catch (...) {
                 throw std::invalid_argument(err::sol_body_format);
             }
         }
@@ -112,17 +112,15 @@ namespace io::sol {
         // the solution structure
         cnf::solution sol;
 
-        // variables needed for parsing
+        // needed for parsing
         std::string line;
-        cnf::variable max_var(0);
-        int clauses(0);
 
         // find and parse the solution line
-        while (istr.getline(line.begin(), line.max_size()).good()) {
+        while (std::getline(istr, line).good()) {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {
-                parse_solution_line(line, type, max_var, clauses);
+                check_solution_line(line, type, max_var, clauses);
                 break;
             }
         }
