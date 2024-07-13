@@ -7,12 +7,13 @@
 #include <istream>
 #include <ostream>
 #include <iostream>
-#include "cnf.hpp"
 #include "io.hpp"
 
-using std::abs;
+namespace cnf {
 
-class cnf_expr {
+    using std::abs;
+
+    class cnf_expr {
     public:
         // default constructor
         cnf_expr() = default;
@@ -78,3 +79,4 @@ class cnf_expr {
             }
         }
     }
+}
