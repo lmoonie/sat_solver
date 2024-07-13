@@ -47,11 +47,11 @@ namespace io::prob {
     // expression is not formatted correctly.
     inline void parse_expression(
         std::istream& istr,
-        cnf::cnf_expr& expr,
-        cnf::disjunctive_clause& dis_clause,
-        cnf::literal& lit,
-        cnf::variable& max_var,
-        cnf::clauses& clauses
+        cnf_expr& expr,
+        disjunctive_clause& dis_clause,
+        literal& lit,
+        variable& max_var,
+        clauses& clauses
     ) {
         do {
             // check for a comment line
@@ -94,15 +94,15 @@ namespace io::prob {
     // extract_cnf_problem accepts a CNF-formatted problem
     // specification via an input stream and returns a cnf_expr.
     // It throws exceptions if the provided input cannot be read.
-    cnf::cnf_expr extract_cnf_problem(std::istream& istr) {
+    cnf_expr extract_cnf_problem(std::istream& istr) {
         // cnf data structures
-        cnf::cnf_expr expr;
-        cnf::disjunctive_clause dis_clause;
-        cnf::literal lit;
+        cnf_expr expr;
+        disjunctive_clause dis_clause;
+        literal lit;
 
         // variables needed for parsing
         std::string line;
-        cnf::variable max_var(0);
+        variable max_var(0);
         int clauses(0);
 
         // find and parse the problem line
