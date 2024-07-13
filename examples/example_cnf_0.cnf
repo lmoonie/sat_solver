@@ -1,0 +1,7 @@
+c example_cnf_0.cnf
+
+p cnf 7 3
+
+-2 1 7 5 0
+2 3 4 -4 0
+1 0
