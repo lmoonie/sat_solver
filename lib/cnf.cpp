@@ -63,9 +63,9 @@ namespace cnf {
 
     private:
         // tracks which clauses a given literal is in
-        unordered_map<literal, cl_set> literals;
+        std::unordered_map<literal, cl_set> literals;
         // tracks which literals are in a given clause
-        unordered_map<clause, lit_set> clauses;
+        std::unordered_map<clause, lit_set> clauses;
 
         friend std::ostream& operator<<(std::ostream& ostr, const cnf_expr&) {
             auto clause_iter(clauses.begin());
@@ -78,5 +78,5 @@ namespace cnf {
                 clause_iter++;
             }
         }
-    }
+    };
 }
