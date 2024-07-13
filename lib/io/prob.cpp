@@ -25,14 +25,18 @@ namespace io::prob {
         int& clauses
     ) {
         // check problem format
-        if (str.substr(0, 6) != "p cnf ") {
-            throw std::invalid_argument(err::problem_format);
+        try {
+            if (str.substr(0, 6) != "p cnf ") {
+                throw std::invalid_argument(err::problem_format);
+            }
+        catch (std::out_of_range) {
+            throw std::out_of_range(err::problem_format);
         }
         // record number of clauses and variables
-        std::size_t* clause_idx;
+        std::size_t clause_idx;
         try {
-            max_var = std::stoi(str.substr(6), clause_idx);
-            clauses = std::stoi(str.substr(6 + *clause_idx));
+            max_var = std::stoi(str.substr(6), &clause_idx);
+            clauses = std::stoi(str.substr(6 + clause_idx));
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
         } catch (...) {
