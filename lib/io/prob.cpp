@@ -81,6 +81,7 @@ namespace io::prob {
                     expr.add_literal(lit, cl);
                 }
             }
+
         } while (istr.good());
 
         // ensure the correct number of clauses was provided
@@ -118,7 +119,7 @@ namespace io::prob {
         if (istr.bad()) {
             // likely an I/O error
             throw std::ios_base::failure(err::io_err);
-        } else if (!istr) {
+        } else if (!istr.eof()) {
             // likely an invalid expression
             throw std::invalid_argument(err::expression_format);
         }
