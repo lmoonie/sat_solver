@@ -130,28 +130,28 @@ namespace sol::io {
             // record the variable value
             try {
                 literal lit = std::stoi(line.substr(2));
-                if (std::abs(lit) > max_var) {
-                    // variable name is too large
-                    throw std::out_of_range(err::invalid_variable);
-                }
-                if (lit > 0) {
-                    // variable is true
-                    if (!sol.assign_variable(abs(lit), true)) {
-                        throw std::invalid_argument(err::repeat_var);
-                    }
-                } else if (lit < 0) {
-                    // variable is false
-                    if (!sol.assign_variable(abs(lit), false)) {
-                        throw std::invalid_argument(err::repeat_var);
-                    }
-                } else {
-                    // variable is zero (invalid)
-                    throw std::invalid_argument(err::sol_var_zero);
-                }
             } catch (std::out_of_range) {
                 throw std::out_of_range(err::invalid_variable);
             } catch (...) {
                 throw std::invalid_argument(err::sol_body_format);
+            }
+            if (std::abs(lit) > max_var) {
+                // variable name is too large
+                throw std::out_of_range(err::invalid_variable);
+            }
+            if (lit > 0) {
+                // variable is true
+                if (!sol.assign_variable(abs(lit), true)) {
+                    throw std::invalid_argument(err::repeat_var);
+                }
+            } else if (lit < 0) {
+                // variable is false
+                if (!sol.assign_variable(abs(lit), false)) {
+                    throw std::invalid_argument(err::repeat_var);
+                }
+            } else {
+                // variable is zero (invalid)
+                throw std::invalid_argument(err::sol_var_zero);
             }
         }
     }
