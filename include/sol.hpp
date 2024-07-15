@@ -13,6 +13,7 @@
 namespace sol {
 
     // forward declaration
+    class solution;
     namespace io {
         solution& io::extract_solution(solution&, std::istream&);
     }
