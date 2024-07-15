@@ -23,12 +23,12 @@ namespace sol {
 
     // assign a variable
     void solution::assign_variable(variable var, bool val) {
-        variables.insert(std::make_pair(variable, val));
+        variables.insert(std::pair{var, val});
     }
 
     // unassign a variable
-    void solution::unassign_variable(variable, bool) {
-        variables.erase(variable);
+    void solution::unassign_variable(variable var) {
+        variables.erase(var);
     }
 
     // give the number of assigned variables
@@ -121,7 +121,7 @@ namespace sol::io {
                     sol.assign_variable(abs(lit), true);
                 } else if (lit < 0) {
                     // variable is false
-                    sol.assign_variable(std::abs(lit), false);
+                    sol.assign_variable(abs(lit), false);
                 } else {
                     // variable is zero (invalid)
                     throw std::invalid_argument(err::sol_var_zero);
