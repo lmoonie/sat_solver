@@ -86,7 +86,7 @@ namespace sol::io {
                 throw std::invalid_argument(err::solution_format);
             }
             // solution must claim to be valid
-            if (str.at(6) != 1) {
+            if (str.at(6) - '0' != 1) {
                 throw std::invalid_argument(err::solution_invalid);
             }
         } catch (...) {
