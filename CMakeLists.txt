@@ -22,8 +22,8 @@ include(Sanitizers.cmake)
 # endif()
 
 # Define libraries
-add_library(cnf cnf.cpp)
-add_library(sol sol.cpp)
+add_library(cnf lib/cnf.cpp)
+add_library(sol lib/sol.cpp)
 
 # Set target language
 # set_target_properties(cnf PROPERTIES LINKER_LANGUAGE CXX)
