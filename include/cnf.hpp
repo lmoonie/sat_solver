@@ -17,7 +17,7 @@ namespace cnf {
     // forward declaration
     class cnf_expr;
     namespace io {
-        cnf_expr& io::extract_cnf_problem(cnf_expr&, std::istream&);
+        cnf_expr& extract_cnf_problem(cnf_expr&, std::istream&);
     }
 
     // a boolean variable; strictly positive

@@ -180,7 +180,7 @@ namespace cnf::io {
         }
 
         // parse the expression body
-        parse_expression(istr, expr, max_var, clauses);
+        parse_expression(istr, expr, expr.max_var, clauses);
         // ensure no errors occurred while reading expression
         if (istr.bad()) {
             // likely an I/O error

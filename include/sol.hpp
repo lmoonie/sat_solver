@@ -15,7 +15,7 @@ namespace sol {
     // forward declaration
     class solution;
     namespace io {
-        solution& io::extract_solution(solution&, std::istream&);
+        solution& extract_solution(solution&, std::istream&);
     }
 
     // used to specify the problem format
