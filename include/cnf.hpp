@@ -14,6 +14,11 @@
 // a collection of types used to store CNF problems
 namespace cnf {
 
+    // forward declaration
+    namespace io {
+        cnf_expr& io::extract_cnf_problem(cnf_expr&, std::istream&);
+    }
+
     // a boolean variable; strictly positive
     using variable = int;
 
