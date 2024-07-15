@@ -12,9 +12,6 @@
 // a collection of types used to store CNF problems
 namespace sol {
 
-    // forward declaration
-    namespace io;
-
     // used to specify the problem format
     enum ProblemType: bool {
         CNF = true,

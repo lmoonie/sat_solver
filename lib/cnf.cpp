@@ -109,7 +109,7 @@ namespace cnf::io {
         } catch (...) {
             throw std::invalid_argument(err::problem_format);
         }
-        if (expr.num_clauses <= 0 || expr.max_var <= 0) {
+        if (clauses <= 0 || max_var <= 0) {
             throw std::invalid_argument(err::num_clauses_vars);
         }
     }

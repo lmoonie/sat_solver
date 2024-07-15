@@ -14,9 +14,6 @@
 // a collection of types used to store CNF problems
 namespace cnf {
 
-    // forward declaration
-    namespace io;
-
     // a boolean variable; strictly positive
     using variable = int;
 
