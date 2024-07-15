@@ -14,6 +14,9 @@
 // a collection of types used to store CNF problems
 namespace cnf {
 
+    // forward declaration
+    namespace io;
+
     // a boolean variable; strictly positive
     using variable = int;
 
@@ -64,10 +67,10 @@ namespace cnf {
         std::unordered_map<clause, lit_set> clauses;
         // maximum variable value
         variable max_var;
-        // number of initial clauses
-        clause num_clauses;
         // used to print cnf_expr
         friend std::ostream& operator<<(std::ostream&, const cnf_expr&);
+        // used to build problem from input stream
+        friend cnf_expr& io::extract_cnf_problem(cnf_expr&, std::istream&);
     };
 
 }

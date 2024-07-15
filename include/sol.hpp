@@ -12,6 +12,9 @@
 // a collection of types used to store CNF problems
 namespace sol {
 
+    // forward declaration
+    namespace io;
+
     // used to specify the problem format
     enum ProblemType: bool {
         CNF = true,
@@ -55,6 +58,8 @@ namespace sol {
         ProblemType type;
         // used to print solution
         friend std::ostream& operator<<(std::ostream&, const solution&);
+        // used to build solution from input stream
+        friend solution& io::extract_solution(solution&, std::istream&);
     };
 
 }

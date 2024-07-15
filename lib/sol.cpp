@@ -9,9 +9,6 @@
 
 namespace sol {
 
-    // forward declaration
-    inline solution& io::extract_solution(solution&, std::istream&);
-
     // will need abs frequently
     using std::abs;
 
@@ -48,7 +45,9 @@ namespace sol::io {
     // exceptions if the line is not formatted correctly.
     inline void parse_solution_line(
         const std::string& str,
-        solution& sol
+        solution& sol,
+        variable& max_var,
+        clause& clauses
     ) {
         // must indicate solution line
         if (str.at(0) != 's') {
@@ -73,8 +72,8 @@ namespace sol::io {
         // set the number of variables and clauses
         std::size_t clause_idx;
         try {
-            sol.max_var = (std::stoi(str.substr(8), &clause_idx));
-            sol.num_clauses = std::stoi(str.substr(8 + clause_idx));
+            max_var = (std::stoi(str.substr(8), &clause_idx));
+            clauses = std::stoi(str.substr(8 + clause_idx));
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
         } catch (...) {
@@ -87,7 +86,8 @@ namespace sol::io {
     // the solution body is not formatted correctly.
     inline void parse_solution_body(
         std::istream& istr,
-        solution& sol
+        solution& sol,
+        variable& max_var
     ) {
         // a string to hold the current line
         std::string line;
@@ -107,7 +107,7 @@ namespace sol::io {
             // record the variable value
             try {
                 literal lit = std::stoi(line.substr(2));
-                if (std::abs(lit) > sol.max_var) {
+                if (std::abs(lit) > max_var) {
                     // variable name is too large
                     throw std::out_of_range(err::invalid_variable);
                 }
@@ -132,7 +132,7 @@ namespace sol::io {
     // extract_solution accepts a SOL-formatted suspected solution
     // specification via an input stream and returns a solution object.
     // It throws exceptions if the provided input cannot be read.
-    inline solution& extract_solution(solution& sol, std::istream& istr) {
+    solution& extract_solution(solution& sol, std::istream& istr) {
         // needed for parsing
         std::string line;
 
@@ -141,7 +141,7 @@ namespace sol::io {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {
-                parse_solution_line(line, sol);
+                parse_solution_line(line, sol, sol.max_var, sol.clauses);
                 break;
             }
         }
@@ -151,7 +151,7 @@ namespace sol::io {
         }
 
         // parse the solution body
-        parse_solution_body(istr, sol);
+        parse_solution_body(istr, sol, sol.max_var);
         // ensure no errors occurred while reading expression
         if (!istr) {
             throw std::ios_base::failure(err::io_err);

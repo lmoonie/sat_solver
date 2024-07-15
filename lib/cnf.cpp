@@ -16,9 +16,6 @@
 
 namespace cnf {
 
-    // forward declaration
-    inline cnf_expr& io::extract_cnf_problem(cnf_expr&, std::istream&);
-
     // will need abs frequently
     using std::abs;
 
@@ -90,7 +87,9 @@ namespace cnf::io {
     // exceptions if the line is not formatted correctly.
     inline void parse_problem_line(
         const std::string& str,
-        cnf_expr expr&
+        cnf_expr& expr,
+        variable& max_var,
+        std::size_t& clauses
     ) {
         // check problem format
         try {
@@ -103,8 +102,8 @@ namespace cnf::io {
         // record number of clauses and variables
         std::size_t clause_idx;
         try {
-            expr.max_var = std::stoi(str.substr(6), &clause_idx);
-            expr.num_clauses = std::stoi(str.substr(6 + clause_idx));
+            max_var = std::stoi(str.substr(6), &clause_idx);
+            clauses = std::stoi(str.substr(6 + clause_idx));
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
         } catch (...) {
@@ -120,7 +119,9 @@ namespace cnf::io {
     // expression is not formatted correctly.
     inline void parse_expression(
         std::istream& istr,
-        cnf_expr& expr
+        cnf_expr& expr,
+        variable& max_var,
+        const std::size_t& clauses
     ) {
         literal lit;
         clause cl(0);
@@ -136,7 +137,7 @@ namespace cnf::io {
             }
             // check that literal is an integer
             if (istr >> lit) {
-                if (std::abs(lit) > expr.max_var) {
+                if (std::abs(lit) > max_var) {
                     // not a valid literal
                     throw std::invalid_argument(err::invalid_variable);
                 } else if (lit == 0) {
@@ -151,7 +152,7 @@ namespace cnf::io {
         } while (istr.good());
 
         // ensure the correct number of clauses was provided
-        if (cl != expr.num_clauses) {
+        if (cl != clauses) {
             throw std::invalid_argument(err::wrong_number_clauses);
         }
     }
@@ -159,16 +160,17 @@ namespace cnf::io {
     // extract_cnf_problem accepts a CNF-formatted problem
     // specification via an input stream and returns a cnf_expr.
     // It throws exceptions if the provided input cannot be read.
-    inline cnf_expr& extract_cnf_problem(cnf_expr& expr, std::istream& istr) {
+    cnf_expr& extract_cnf_problem(cnf_expr& expr, std::istream& istr) {
         // needed for parsing
         std::string line;
+        std::size_t clauses;
 
         // find and parse the problem line
         while (std::getline(istr, line).good()) {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {
-                parse_problem_line(line, expr);
+                parse_problem_line(line, expr, expr.max_var, clauses);
                 break;
             }
         }
@@ -178,7 +180,7 @@ namespace cnf::io {
         }
 
         // parse the expression body
-        parse_expression(istr, expr);
+        parse_expression(istr, expr, max_var, clauses);
         // ensure no errors occurred while reading expression
         if (istr.bad()) {
             // likely an I/O error
