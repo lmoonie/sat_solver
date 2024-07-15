@@ -50,6 +50,9 @@ namespace err {
     const std::string sol_var_zero(
         "0 is not a valid variable name."
     );
+    const std::string repeat_var(
+        "A variable appears more than once in the solution."
+    );
 
 }
 

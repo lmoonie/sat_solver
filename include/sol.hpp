@@ -49,9 +49,9 @@ namespace sol {
         solution& operator=(const solution&) = delete;
         solution& operator=(solution&&) = delete;
         // assign a variable
-        void assign_variable(variable, bool);
+        bool assign_variable(variable, bool);
         // unassign a variable
-        void unassign_variable(variable);
+        bool unassign_variable(variable);
         // set status flag
         void set_valid(bool is_valid) {
             valid = is_valid;
