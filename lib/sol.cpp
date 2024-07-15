@@ -78,17 +78,17 @@ namespace sol::io {
         }
         try {
             // set solution type
-            if (str.substr(2, 5) == std::string("cnf")) {
+            if (str.substr(2, 6) == std::string("cnf ")) {
                 type = ProblemType::CNF;
-            } else if (str.substr(2, 5) == std::string("sat")) {
+            } else if (str.substr(2, 6) == std::string("sat ")) {
                 type = ProblemType::SAT;
             } else {
                 throw std::invalid_argument(err::solution_format);
             }
-            // solution must claim to be valid
-            if (str.at(6) - '0' != 1) {
-                throw std::invalid_argument(err::solution_invalid);
-            }
+            // // solution must claim to be valid
+            // if (str.at(6) - '0' != 1) {
+            //     throw std::invalid_argument(err::solution_invalid);
+            // }
         } catch (...) {
             throw std::invalid_argument(err::solution_format);
         }
