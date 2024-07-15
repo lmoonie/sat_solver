@@ -78,9 +78,9 @@ namespace sol::io {
         }
         try {
             // set solution type
-            if (str.substr(2, 6) == std::string("cnf ")) {
+            if (str.substr(1, 5) == std::string(" cnf ")) {
                 type = ProblemType::CNF;
-            } else if (str.substr(2, 6) == std::string("sat ")) {
+            } else if (str.substr(1, 5) == std::string(" sat ")) {
                 type = ProblemType::SAT;
             } else {
                 throw std::invalid_argument(err::solution_format);
