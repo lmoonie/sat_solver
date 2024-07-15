@@ -52,17 +52,26 @@ namespace sol {
         void assign_variable(variable, bool);
         // unassign a variable
         void unassign_variable(variable);
+        // set status flag
+        void set_valid(bool is_valid) {
+            valid = is_valid;
+        }
         // give the number of assigned variable
-        std::size_t size();
+        std::size_t size() const;
+
     private:
         // tracks variable assignments
         std::map<variable, bool> variables;
+        // store statistics
+        std::map<std::string, std::string> stats;
         // largest variable
         variable max_var;
         // number of clauses
         clause clauses;
         // problem type
         ProblemType type;
+        // valid flag
+        bool valid;
         // used to print solution
         friend std::ostream& operator<<(std::ostream&, const solution&);
         // used to build solution from input stream

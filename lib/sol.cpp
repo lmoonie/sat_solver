@@ -32,12 +32,30 @@ namespace sol {
     }
 
     // give the number of assigned variables
-    std::size_t solution::size() {
+    std::size_t solution::size() const {
         return variables.size();
     }
 
     // used to print solution
-    std::ostream& operator<<(std::ostream&, const solution&);
+    std::ostream& operator<<(std::ostream& ostr, const solution& sol) {
+        // print solution line
+        ostr << std::format(
+            "s {} {} {} {}",
+            sol.type == ProblemType::CNF ? "cnf" : "sat",
+            sol.valid == true ? 1 : 0,
+            sol.max_var,
+            sol.type == ProblemType::CNF ? sol.clauses : ""
+        ) << std::endl;
+        // print statistics lines
+        for (const auto& [key, val] : sol.stats) {
+            ostr << std::format("t {} {}", key, val) << std::endl;
+        }
+        // print variable lines
+        for (const auto& [var, val] : sol.variables) {
+            ostr << std::format("v {}", val ? var : -var) << std::endl;
+        }
+        return ostr;
+    }
 
 }
 

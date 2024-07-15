@@ -9,6 +9,7 @@
 int main() {
     try {
         sol::solution sol(std::cin);
+        sol.set_valid(true);
         std::cout << sol;
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

@@ -55,12 +55,12 @@ namespace cnf {
     }
 
     // give the number of active clauses
-    std::size_t cnf_expr::num_clauses() {
+    std::size_t cnf_expr::num_clauses() const {
         return clauses.size();
     }
 
     // give the number of active variables
-    std::size_t cnf_expr::num_variables() {
+    std::size_t cnf_expr::num_variables() const {
         return literals.size()/2;
     }
 

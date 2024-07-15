@@ -60,9 +60,9 @@ namespace cnf {
         // remove an entire clause
         void remove_clause(clause);
         // give the number of active clauses
-        std::size_t num_clauses();
+        std::size_t num_clauses() const;
         // give the number of active variables
-        std::size_t num_variables();
+        std::size_t num_variables() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;
