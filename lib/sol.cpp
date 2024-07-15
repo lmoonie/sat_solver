@@ -1,3 +1,6 @@
+// sol.cpp
+// Logan Moonie
+// Jul 15, 2024
 
 #include <map>
 #include <istream>
@@ -6,6 +9,7 @@
 #include <stdexcept>
 #include <format>
 #include "sol.hpp"
+#include "err.hpp"
 
 namespace sol {
 

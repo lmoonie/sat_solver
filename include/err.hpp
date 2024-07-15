@@ -2,8 +2,8 @@
 // Logan Moonie
 // Jul 12, 2024
 
-#ifndef INC_IO
-#define INC_IO
+#ifndef INC_ERR
+#define INC_ERR
 
 // a collection of error messages related to I/O processing
 namespace err {
