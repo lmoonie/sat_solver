@@ -176,7 +176,7 @@ namespace sol::io {
         // parse the solution body
         parse_solution_body(istr, sol, sol.max_var);
         // ensure no errors occurred while reading expression
-        if (!istr) {
+        if (!istr.eof()) {
             throw std::ios_base::failure(err::io_err);
         }
 
