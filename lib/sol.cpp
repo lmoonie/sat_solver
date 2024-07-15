@@ -44,7 +44,7 @@ namespace sol {
             sol.type == ProblemType::CNF ? "cnf" : "sat",
             sol.valid == true ? 1 : 0,
             sol.max_var,
-            sol.type == ProblemType::CNF ? sol.clauses : ""
+            sol.type == ProblemType::CNF ? std::to_string(sol.clauses) : ""
         ) << std::endl;
         // print statistics lines
         for (const auto& [key, val] : sol.stats) {
