@@ -28,7 +28,7 @@ namespace sol {
 
     // unassign a variable
     bool solution::unassign_variable(variable var) {
-        return variables.erase(var).second;
+        return variables.erase(var) == 1;
     }
 
     // give the number of assigned variables
