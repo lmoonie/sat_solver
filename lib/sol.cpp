@@ -23,7 +23,7 @@ namespace sol {
 
     // assign a variable
     void solution::assign_variable(variable var, bool val) {
-        variables.insert({variable, val});
+        variables.insert(std::make_pair(variable, val));
     }
 
     // unassign a variable
@@ -50,6 +50,7 @@ namespace sol::io {
     inline void parse_solution_line(
         const std::string& str,
         solution& sol,
+        ProblemType& type,
         variable& max_var,
         clause& clauses
     ) {
@@ -60,9 +61,9 @@ namespace sol::io {
         try {
             // set solution type
             if (str.substr(2, 5) == std::string("cnf")) {
-                sol.type = ProblemType::CNF;
+                type = ProblemType::CNF;
             } else if (str.substr(2, 5) == std::string("sat")) {
-                sol.type = ProblemType::SAT;
+                type = ProblemType::SAT;
             } else {
                 throw std::invalid_argument(err::solution_format);
             }
@@ -145,7 +146,7 @@ namespace sol::io {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {
-                parse_solution_line(line, sol, sol.max_var, sol.clauses);
+                parse_solution_line(line, sol, sol.type, sol.max_var, sol.clauses);
                 break;
             }
         }

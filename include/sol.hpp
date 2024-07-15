@@ -30,6 +30,10 @@ namespace sol {
      // a disjunctive clause; strictly positive
     using clause = int;
 
+    // a boolean literal; negative values indicate negation
+    // is never zero
+    using literal = int;
+
     // a complete boolean CNF expression
     class solution {
     public:
@@ -56,7 +60,7 @@ namespace sol {
         // largest variable
         variable max_var;
         // number of clauses
-        clause num_clauses;
+        clause clauses;
         // problem type
         ProblemType type;
         // used to print solution
