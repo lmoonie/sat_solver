@@ -128,8 +128,9 @@ namespace sol::io {
                 throw std::invalid_argument(err::sol_body_format);
             }
             // record the variable value
+            literal lit;
             try {
-                literal lit = std::stoi(line.substr(2));
+                lit = std::stoi(line.substr(2));
             } catch (std::out_of_range) {
                 throw std::out_of_range(err::invalid_variable);
             } catch (...) {
