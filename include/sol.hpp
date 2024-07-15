@@ -51,7 +51,7 @@ namespace sol {
         // assign a variable
         void assign_variable(variable, bool);
         // unassign a variable
-        void unassign_variable(variable, bool);
+        void unassign_variable(variable);
         // give the number of assigned variable
         std::size_t size();
     private:
