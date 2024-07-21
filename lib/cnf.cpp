@@ -68,12 +68,12 @@ namespace cnf {
     }
 
     // give the maximum variable key
-    variable max_var() const {
+    variable cnf_expr::get_max_var() const {
         return max_var;
     }
 
     // evaluate the expression
-    bool eval(const std::map<variable, bool>& assigns) const {
+    bool cnf_expr::eval(const std::map<variable, bool>& assigns) const {
         for (auto const& [key, cl]: clauses) {
             bool clause_is_true(false);
             for (auto const& lit : cl) {

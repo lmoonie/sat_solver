@@ -64,7 +64,7 @@ namespace cnf {
         // give the number of active variables
         std::size_t num_variables() const;
         // give the maximum variable key
-        variable max_var() const;
+        variable get_max_var() const;
         // evaluate the expression
         bool eval(const std::map<variable, bool>& assigns) const;
     private:

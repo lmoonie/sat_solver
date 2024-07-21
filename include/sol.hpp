@@ -59,7 +59,7 @@ namespace sol {
         // provide variable assignments
         const std::map<variable, bool>& map() const;
         // give maximum variable key
-        variable max_var() const;
+        variable get_max_var() const;
         // give number of clauses
         clause num_clauses() const;
         // give problem type

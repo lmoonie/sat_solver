@@ -29,7 +29,7 @@ namespace verify {
         if (sol.num_clauses() != cnf.num_clauses()) {
             throw std::invalid_argument(err::solution_clauses);
         }
-        if (sol.max_var() != cnf.max_var()) {
+        if (sol.get_max_var() != cnf.get_max_var()) {
             throw std::invalid_argument(solution_vars);
         }
         return cnf.eval(sol.map());

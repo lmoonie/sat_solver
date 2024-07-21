@@ -32,7 +32,7 @@ namespace sol {
     }
 
     // set status flag
-    void set_valid(bool is_valid) {
+    void solution::set_valid(bool is_valid) {
         valid = is_valid;
     }
 
@@ -42,22 +42,22 @@ namespace sol {
     }
 
     // provide variable assignments
-    const std::map<variable, bool>& map() const {
+    const std::map<variable, bool>& solution::map() const {
         return variables;
     }
 
     // give maximum variable key
-    variable max_var() const {
+    variable solution::get_max_var() const {
         return max_var;
     }
 
     // give number of clauses
-    clause num_clauses() const {
+    clause solution::num_clauses() const {
         return clauses;
     }
 
     // give problem type
-    ProblemType type() const {
+    ProblemType solution::type() const {
         return type;
     }
 
