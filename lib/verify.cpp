@@ -12,7 +12,9 @@
 namespace verify {
 
     // forward declaration
-    inline void cli::extract_program_options(program_interface&, int, char**);
+    namespace cli {
+        void extract_program_options(program_interface&, int, char**);
+    }
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
@@ -30,20 +32,35 @@ namespace verify {
             throw std::invalid_argument(err::solution_clauses);
         }
         if (sol.get_max_var() != cnf.get_max_var()) {
-            throw std::invalid_argument(solution_vars);
+            throw std::invalid_argument(err::solution_vars);
         }
         return cnf.eval(sol.map());
     }
 
     namespace cli {
 
+        namespace flag_desc {
+            const std::string help(
+                ""
+            );
+            const std::string available_formats(
+                ""
+            );
+            const std::string solution(
+                ""
+            );
+            const std::string quiet(
+                ""
+            );
+        }
+
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
             pif.desc.add_options()
-                ("help,h", cli::help)
-                ("available-formats,f", cli::available_formats)
-                ("solution,s", opts::value<std::string>(), cli::solution)
-                ("quiet,q", cli::quiet);
+                ("help,h", flag_desc::help)
+                ("available-formats,f", flag_desc::available_formats)
+                ("solution,s", opts::value<std::string>(), flag_desc::solution)
+                ("quiet,q", flag_desc::quiet);
 
             // a value without corresponding flag is assumed to be the solution file
             pif.pos.add("solution", -1);
@@ -70,7 +87,7 @@ namespace verify {
                 pif.quiet = true;
             }
             if (pif.var_map.count("solution") == 1) {
-                pif.solstr = std::fstream(pif.var_map[solution].as<std::string>());
+                pif.sol_str = std::fstream(pif.var_map["solution"].as<std::string>());
             } else if (pif.var_map.count("solution") > 1) {
                 throw std::invalid_argument(err::too_many_solutions);
             } else {

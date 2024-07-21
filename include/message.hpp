@@ -5,15 +5,6 @@
 #ifndef INC_ERR
 #define INC_ERR
 
-// cli option descriptions
-namespace cli {
-
-    const std::string help(
-        ""
-    );
-
-}
-
 // error messages
 namespace err {
 
