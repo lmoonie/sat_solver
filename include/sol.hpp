@@ -63,7 +63,7 @@ namespace sol {
         // give number of clauses
         clause num_clauses() const;
         // give problem type
-        ProblemType type() const;
+        ProblemType get_type() const;
 
     private:
         // tracks variable assignments
