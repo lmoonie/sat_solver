@@ -7,6 +7,8 @@
 
 #include <fstream>
 #include <string>
+#include "sol.hpp"
+#include "cnf.hpp"
 
 namespace verify {
 
@@ -39,7 +41,7 @@ namespace verify {
         opts::options_description desc;
         opts::positional_options_description pos;
         opts::variables_map var_map;
-    }
+    };
 
 
 
