@@ -49,7 +49,7 @@ add_executable(sat_verify app/sat_verify.cpp)
 # Link the libraries
 target_link_libraries(test_cnf_input PRIVATE cnf)
 target_link_libraries(test_sol_io PRIVATE sol)
-target_link_libraries(sat_verify PRIVATE verify sol cnf message)
+target_link_libraries(sat_verify PRIVATE verify sol cnf message Boost)
 
 # Generate coverage report
 # if(ENABLE_COVERAGE)
