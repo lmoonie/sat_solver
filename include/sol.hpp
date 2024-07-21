@@ -8,6 +8,10 @@
 #include <map>
 #include <istream>
 #include <ostream>
+#include <ios>
+#include <stdexcept>
+#include <format>
+#include "message.hpp"
 
 // a collection of types used to store CNF problems
 namespace sol {

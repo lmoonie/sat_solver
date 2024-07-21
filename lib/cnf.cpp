@@ -2,17 +2,7 @@
 // Logan Moonie
 // Jul 12, 2024
 
-#include <unordered_map>
-#include <unordered_set>
-#include <istream>
-#include <ostream>
-#include <iostream>
-#include <ios>
-#include <string>
-#include <stdexcept>
-#include <format>
 #include "cnf.hpp"
-#include "message.hpp"
 
 namespace cnf {
 

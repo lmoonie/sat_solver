@@ -10,6 +10,11 @@
 #include <unordered_set>
 #include <istream>
 #include <ostream>
+#include <ios>
+#include <string>
+#include <stdexcept>
+#include <format>
+#include "message.hpp"
 
 // a collection of types used to store CNF problems
 namespace cnf {

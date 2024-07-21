@@ -13,7 +13,7 @@ int main(int argc, char** argv) try {
     verify::program_interface pif(argc, argv);
     sol::solution sol(pif.sol_str);
     sol.set_valid(true);
-    if (sol.type() != sol::ProblemType::CNF) {
+    if (sol.get_type() != sol::ProblemType::CNF) {
         throw std::invalid_argument(err::solution_type);
     }
     return verify::verify_solution(sol, expr) ? 0 : 1;

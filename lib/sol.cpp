@@ -2,14 +2,7 @@
 // Logan Moonie
 // Jul 15, 2024
 
-#include <map>
-#include <istream>
-#include <ostream>
-#include <ios>
-#include <stdexcept>
-#include <format>
 #include "sol.hpp"
-#include "message.hpp"
 
 namespace sol {
 

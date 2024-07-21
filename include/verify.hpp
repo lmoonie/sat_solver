@@ -5,10 +5,12 @@
 #ifndef INC_VERIFY
 #define INC_VERIFY
 
+#include <boost/program_options.hpp>
 #include <fstream>
 #include <string>
 #include "sol.hpp"
 #include "cnf.hpp"
+#include "message.hpp"
 
 namespace verify {
 
