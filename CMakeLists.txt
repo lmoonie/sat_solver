@@ -38,7 +38,7 @@ target_include_directories(verify PUBLIC include)
 
 # Enable external libraries
 # find_package(Catch2 3 REQUIRED)
-find_package(Boost 1.54.0 REQUIRED COMPONENTS)
+find_package(Boost 1.54.0 REQUIRED COMPONENTS program_options)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Define executables
@@ -49,7 +49,7 @@ add_executable(sat_verify app/sat_verify.cpp)
 # Link the libraries
 target_link_libraries(test_cnf_input PRIVATE cnf)
 target_link_libraries(test_sol_io PRIVATE sol)
-target_link_libraries(sat_verify PRIVATE verify sol cnf message Boost)
+target_link_libraries(sat_verify PRIVATE verify sol cnf message Boost::program_options)
 
 # Generate coverage report
 # if(ENABLE_COVERAGE)
