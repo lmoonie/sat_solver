@@ -2,7 +2,7 @@
 // Logan Moonie
 // Jul 15, 2024
 
-#include <boost/program_options>
+#include <boost/program_options.hpp>
 #include <fstream>
 #include <string>
 #include <filesystem>
