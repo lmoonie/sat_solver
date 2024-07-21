@@ -57,10 +57,10 @@ namespace verify {
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
             pif.desc.add_options()
-                ("help,h", flag_desc::help.cstr())
-                ("available-formats,f", flag_desc::available_formats.cstr())
-                ("solution,s", opts::value<std::string>(), flag_desc::solution.cstr())
-                ("quiet,q", flag_desc::quiet.cstr());
+                ("help,h", flag_desc::help.c_str())
+                ("available-formats,f", flag_desc::available_formats.c_str())
+                ("solution,s", opts::value<std::string>(), flag_desc::solution.c_str())
+                ("quiet,q", flag_desc::quiet.c_str());
 
             // a value without corresponding flag is assumed to be the solution file
             pif.pos.add("solution", -1);
