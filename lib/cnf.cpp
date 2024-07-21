@@ -19,6 +19,9 @@ namespace cnf {
     // will need abs frequently
     using std::abs;
 
+    // a boolean variable; strictly positive
+    using variable = int;
+
     // input stream constructor
     cnf_expr::cnf_expr(std::istream& istr) {
         io::extract_cnf_problem(*this, istr);
@@ -62,6 +65,29 @@ namespace cnf {
     // give the number of active variables
     std::size_t cnf_expr::num_variables() const {
         return literals.size()/2;
+    }
+
+    // give the maximum variable key
+    variable max_var() const {
+        return max_var;
+    }
+
+    // evaluate the expression
+    bool eval(const std::map<variable, bool>& assigns) const {
+        for (auto const& [key, cl]: clauses) {
+            bool clause_is_true(false);
+            for (auto const& lit : cl) {
+                if (
+                    lit > 0 && assigns[abs(lit)] ||
+                    lit < 0 && !assigns[abs(lit)]
+                ) {
+                    clause_is_true = true;
+                    break;
+                }
+            }
+            if (!clause_is_true) return false;
+        }
+        return true;
     }
 
     // used to print cnf_expr

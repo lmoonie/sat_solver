@@ -53,11 +53,17 @@ namespace sol {
         // unassign a variable
         bool unassign_variable(variable);
         // set status flag
-        void set_valid(bool is_valid) {
-            valid = is_valid;
-        }
-        // give the number of assigned variable
+        void set_valid(bool);
+        // give the number of assigned variables
         std::size_t size() const;
+        // provide variable assignments
+        const std::map<variable, bool>& map() const;
+        // give maximum variable key
+        variable max_var() const;
+        // give number of clauses
+        clause num_clauses() const;
+        // give problem type
+        ProblemType type() const;
 
     private:
         // tracks variable assignments

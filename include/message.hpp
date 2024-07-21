@@ -1,11 +1,20 @@
-// err.hpp
+// message.hpp
 // Logan Moonie
 // Jul 12, 2024
 
 #ifndef INC_ERR
 #define INC_ERR
 
-// a collection of error messages related to I/O processing
+// cli option descriptions
+namespace cli {
+
+    const std::string help(
+        ""
+    );
+
+}
+
+// error messages
 namespace err {
 
     const std::string problem_format(
@@ -53,6 +62,16 @@ namespace err {
     const std::string repeat_var(
         "A variable appears more than once in the solution."
     );
+    const std::string too_many_solutions(
+        "Only one solution may be checked."
+    );
+    const std::string need_solution(
+        "Please provide a path to a SOL file."
+    );
+    const std::string not_open_file(
+        "Could not open solution file."
+    );
+
 
 }
 

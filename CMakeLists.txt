@@ -24,28 +24,32 @@ include(Sanitizers.cmake)
 # Define libraries
 add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
+add_library(message include/message.hpp)
+add_library(verify lib/verify.cpp)
 
 # Set target language
-# set_target_properties(cnf PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(message PROPERTIES LINKER_LANGUAGE CXX)
 
 # Include directories
 target_include_directories(cnf PUBLIC include)
 target_include_directories(sol PUBLIC include)
+target_include_directories(message PUBLIC include)
+target_include_directories(verify PUBLIC include)
 
 # Enable external libraries
 # find_package(Catch2 3 REQUIRED)
 find_package(Boost 1.54.0 REQUIRED COMPONENTS)
+include_directories(${Boost_INCLUDE_DIRS})
 
 # Define executables
 add_executable(test_cnf_input app/test_cnf_input.cpp)
 add_executable(test_sol_io app/test_sol_io.cpp)
-# add_executable(sat_solve app/sat_solve.cpp)
+add_executable(sat_verify app/sat_verify.cpp)
 
 # Link the libraries
 target_link_libraries(test_cnf_input PRIVATE cnf)
 target_link_libraries(test_sol_io PRIVATE sol)
-# target_link_libraries(sat_verify PRIVATE lib_ex)
-# target_link_libraries(sat_solve PRIVATE lib_ex)
+target_link_libraries(sat_verify PRIVATE verify sol cnf message)
 
 # Generate coverage report
 # if(ENABLE_COVERAGE)

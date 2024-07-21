@@ -31,9 +31,34 @@ namespace sol {
         return variables.erase(var) == 1;
     }
 
+    // set status flag
+    void set_valid(bool is_valid) {
+        valid = is_valid;
+    }
+
     // give the number of assigned variables
     std::size_t solution::size() const {
         return variables.size();
+    }
+
+    // provide variable assignments
+    const std::map<variable, bool>& map() const {
+        return variables;
+    }
+
+    // give maximum variable key
+    variable max_var() const {
+        return max_var;
+    }
+
+    // give number of clauses
+    clause num_clauses() const {
+        return clauses;
+    }
+
+    // give problem type
+    ProblemType type() const {
+        return type;
     }
 
     // used to print solution

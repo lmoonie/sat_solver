@@ -63,6 +63,10 @@ namespace cnf {
         std::size_t num_clauses() const;
         // give the number of active variables
         std::size_t num_variables() const;
+        // give the maximum variable key
+        variable max_var() const;
+        // evaluate the expression
+        bool eval(const std::map<variable, bool>& assigns) const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;
