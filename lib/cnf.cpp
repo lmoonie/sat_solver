@@ -78,8 +78,8 @@ namespace cnf {
             bool clause_is_true(false);
             for (auto const& lit : cl) {
                 if (
-                    lit > 0 && assigns[abs(lit)] ||
-                    lit < 0 && !assigns[abs(lit)]
+                    lit > 0 && assigns.at(abs(lit)) ||
+                    lit < 0 && !assigns.at(abs(lit))
                 ) {
                     clause_is_true = true;
                     break;
