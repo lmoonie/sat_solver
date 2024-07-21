@@ -60,7 +60,7 @@ namespace err {
         "Please provide a path to a SOL file."
     );
     const std::string not_open_file(
-        "Could not open solution file."
+        "Could not open solution file. Please check that the file path is correct."
     );
 
 

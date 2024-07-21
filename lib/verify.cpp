@@ -57,10 +57,10 @@ namespace verify {
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
             pif.desc.add_options()
-                ("help,h", flag_desc::help)
-                ("available-formats,f", flag_desc::available_formats)
-                ("solution,s", opts::value<std::string>(), flag_desc::solution)
-                ("quiet,q", flag_desc::quiet);
+                ("help,h", flag_desc::help.cstr())
+                ("available-formats,f", flag_desc::available_formats.cstr())
+                ("solution,s", opts::value<std::string>(), flag_desc::solution.cstr())
+                ("quiet,q", flag_desc::quiet.cstr());
 
             // a value without corresponding flag is assumed to be the solution file
             pif.pos.add("solution", -1);
@@ -93,8 +93,8 @@ namespace verify {
             } else {
                 throw std::invalid_argument(err::need_solution);
             }
-            if (!pif.solstr) {
-                throw std::filesystem::filesystem_error(err::not_open_file);
+            if (!pif.sol_str) {
+                throw std::invalid_argument(err::not_open_file);
             }
 
         }
