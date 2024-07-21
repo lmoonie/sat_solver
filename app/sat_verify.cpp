@@ -6,6 +6,7 @@
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "verify.hpp"
+#include "message.hpp"
 
 int main(int argc, char** argv) try {
     cnf::cnf_expr expr(std::cin);

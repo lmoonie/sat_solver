@@ -12,7 +12,7 @@
 #include <stdexcept>
 #include <format>
 #include "cnf.hpp"
-#include "err.hpp"
+#include "message.hpp"
 
 namespace cnf {
 

@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <format>
 #include "sol.hpp"
-#include "err.hpp"
+#include "message.hpp"
 
 namespace sol {
 

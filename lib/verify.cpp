@@ -7,6 +7,7 @@
 #include <string>
 #include <filesystem>
 #include "verify.hpp"
+#include "message.hpp"
 
 namespace verify {
 
