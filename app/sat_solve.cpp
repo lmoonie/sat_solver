@@ -4,10 +4,7 @@
 
 #include <iostream>
 #include <format>
-#include "sol.hpp"
-#include "cnf.hpp"
 #include "solve.hpp"
-#include "message.hpp"
 
 int main(int argc, char** argv) try {
     // configure program from CLI
