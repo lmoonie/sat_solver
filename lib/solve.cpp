@@ -7,7 +7,7 @@
 namespace solve {
 
     // solve the problem
-    bool run_portfolio(const program_interface& pif, const std::istream& istr, const std::ostream& ostr) {
+    bool run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         cnf::cnf_expr expr(istr);
         sol::solution sol;
         sol.set_type(sol::ProblemType::CNF);
