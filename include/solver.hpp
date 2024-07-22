@@ -36,7 +36,7 @@ namespace solver {
         solver& operator=(const solver&) = default;
         solver& operator=(solver&&) = default;
         virtual sol::solution operator()();
-    private:
+    protected:
         cnf::cnf_expr expr;
         sol::solution sol;
     };
