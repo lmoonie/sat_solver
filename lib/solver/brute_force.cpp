@@ -8,7 +8,7 @@ namespace solver {
 
     // problem constructor
     brute_force::brute_force(const cnf::cnf_expr& prob):
-        solver(prob)
+        basic_solver(prob)
     {
         for (const auto& var : expr.variables()) {
             sol.assign_variable(var, false);
