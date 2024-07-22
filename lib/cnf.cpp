@@ -48,7 +48,7 @@ namespace cnf {
     }
 
     // give the number of active clauses
-    std::size_t cnf_expr::num_clauses() const {
+    std::size_t cnf_expr::get_num_clauses() const {
         return clauses.size();
     }
 
@@ -78,6 +78,17 @@ namespace cnf {
             if (!clause_is_true) return false;
         }
         return true;
+    }
+
+    // return a set of the expression's variables
+    std::set<variable> cnf_expr::variables() const {
+        std::set<variable> var_set;
+        for (auto const& [lit, cl] : literals) {
+            if (lit > 0) {
+                var_set.insert(lit);
+            }
+        }
+        return var_set;
     }
 
     // used to print cnf_expr

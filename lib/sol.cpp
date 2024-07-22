@@ -24,6 +24,12 @@ namespace sol {
         return variables.erase(var) == 1;
     }
 
+    // reassign a variable
+    void solution::reassign_variable(variable var, bool val) {
+        solution::unassign_variable(var);
+        solution::assign_variable(var, val);
+    }
+
     // set status flag
     void solution::set_valid(bool is_valid) {
         valid = is_valid;
@@ -45,13 +51,28 @@ namespace sol {
     }
 
     // give number of clauses
-    clause solution::num_clauses() const {
+    clause solution::get_num_clauses() const {
         return clauses;
     }
 
     // give problem type
     ProblemType solution::get_type() const {
         return type;
+    }
+
+    // set maximum variable key
+    variable solution::set_max_var(variable var) {
+        max_var = var;
+    }
+
+    // set number of clauses
+    clause solution::set_num_clauses(clause cl) {
+        num_clauses = cl;
+    }
+
+    // set problem type
+    ProblemType solution::set_type(ProblemType ptype) {
+        type = ptype;
     }
 
     // used to print solution

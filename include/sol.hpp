@@ -56,6 +56,8 @@ namespace sol {
         bool assign_variable(variable, bool);
         // unassign a variable
         bool unassign_variable(variable);
+        // reassign a variable
+        void reassign_variable(variable, bool);
         // set status flag
         void set_valid(bool);
         // give the number of assigned variables
@@ -65,9 +67,15 @@ namespace sol {
         // give maximum variable key
         variable get_max_var() const;
         // give number of clauses
-        clause num_clauses() const;
+        clause get_num_clauses() const;
         // give problem type
         ProblemType get_type() const;
+        // set maximum variable key
+        variable set_max_var(variable);
+        // set number of clauses
+        clause set_num_clauses(clause);
+        // set problem type
+        ProblemType set_type(ProblemType);
 
     private:
         // tracks variable assignments

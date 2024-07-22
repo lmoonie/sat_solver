@@ -8,6 +8,7 @@
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
 #include <istream>
 #include <ostream>
 #include <ios>
@@ -65,13 +66,15 @@ namespace cnf {
         // remove an entire clause
         void remove_clause(clause);
         // give the number of active clauses
-        std::size_t num_clauses() const;
+        std::size_t get_num_clauses() const;
         // give the number of active variables
         std::size_t num_variables() const;
         // give the maximum variable key
         variable get_max_var() const;
         // evaluate the expression
         bool eval(const std::map<variable, bool>& assigns) const;
+        // return a set of the expression's variables
+        std::set<variable> variables() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;

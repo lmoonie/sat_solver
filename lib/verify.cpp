@@ -24,7 +24,7 @@ namespace verify {
         const sol::solution& sol,
         const cnf::cnf_expr& cnf
     ) {
-        if (sol.num_clauses() != cnf.num_clauses()) {
+        if (sol.get_num_clauses() != cnf.get_num_clauses()) {
             throw std::invalid_argument(err::solution_clauses);
         }
         if (sol.get_max_var() != cnf.get_max_var()) {
