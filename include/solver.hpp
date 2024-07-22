@@ -5,8 +5,8 @@
 #ifndef INC_SOLVER
 #define INC_SOLVER
 
-#include "cnf"
-#include "sol"
+#include "cnf.hpp"
+#include "sol.hpp"
 
 namespace solver {
 
