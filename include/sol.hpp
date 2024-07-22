@@ -49,9 +49,9 @@ namespace sol {
         solution(const solution&) = default;
         // move constructor
         solution(solution&&) = default;
-        // no assignment permitted
-        solution& operator=(const solution&) = delete;
-        solution& operator=(solution&&) = delete;
+        // assignment
+        solution& operator=(const solution&) = default;
+        solution& operator=(solution&&) = default;
         // assign a variable
         bool assign_variable(variable, bool);
         // unassign a variable
@@ -60,6 +60,8 @@ namespace sol {
         void reassign_variable(variable, bool);
         // set status flag
         void set_valid(bool);
+        // get status flag
+        bool is_valid();
         // give the number of assigned variables
         std::size_t size() const;
         // provide variable assignments

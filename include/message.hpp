@@ -62,6 +62,15 @@ namespace err {
     const std::string not_open_file(
         "Could not open solution file. Please check that the file path is correct."
     );
+    const std::string repeat_options(
+        "One or more program options appears more than once."
+    );
+    const std::string verbosity(
+        "Valid verbosity settings are 0, 1, or 2."
+    );
+    const std::string invalid_solver(
+        "The requested solver does not exist."
+    );
 
 
 }

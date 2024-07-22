@@ -9,8 +9,8 @@
 #include "message.hpp"
 
 int main(int argc, char** argv) try {
-    cnf::cnf_expr expr(std::cin);
     verify::program_interface pif(argc, argv);
+    cnf::cnf_expr expr(std::cin);
     sol::solution sol(pif.sol_str);
     sol.set_valid(true);
     if (sol.get_type() != sol::ProblemType::CNF) {

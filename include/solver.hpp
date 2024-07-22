@@ -10,7 +10,13 @@
 
 namespace solver {
 
+    // ProblemType enum
     using ProblemType = sol::ProblemType;
+
+    enum SolverType: ushort {
+        All = 0;
+        BruteForce = 1;
+    }
 
     // a boolean variable; strictly positive
     using variable = int;

@@ -4,7 +4,6 @@
 
 #include "verify.hpp"
 
-
 namespace verify {
 
     // forward declaration

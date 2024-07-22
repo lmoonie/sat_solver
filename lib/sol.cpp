@@ -35,6 +35,11 @@ namespace sol {
         valid = is_valid;
     }
 
+    // get status flag
+    bool solution::is_valid() {
+        return valid;
+    }
+
     // give the number of assigned variables
     std::size_t solution::size() const {
         return variables.size();
