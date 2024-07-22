@@ -26,12 +26,11 @@ add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
 add_library(message include/message.hpp)
 add_library(verify lib/verify.cpp)
-add_library(solver include/solver.hpp lib/solver/brute_force.cpp)
+add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp)
 add_library(solve lib/solve.cpp)
 
 # Set target language
 set_target_properties(message PROPERTIES LINKER_LANGUAGE CXX)
-set_target_properties(solver PROPERTIES LINKER_LANGUAGE CXX)
 
 # Include directories
 target_include_directories(cnf PUBLIC include)
