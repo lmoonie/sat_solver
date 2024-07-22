@@ -87,9 +87,9 @@ namespace solve {
                 ("solver,s", opts::value<std::string>(), flag_desc::solver.c_str())
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
-                ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<std::chrono::duration<int64_t>>(), flag_desc::duration.c_str())
-                ("memory,m", opts::value<unsigned long long int>(), flag_desc::memory.c_str());
+                ; // ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
+                // ("duration,d", opts::value<std::chrono::duration<int64_t>>(), flag_desc::duration.c_str())
+                // ("memory,m", opts::value<unsigned long long int>(), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
