@@ -18,11 +18,11 @@ namespace solver {
     // run the algorithm
     sol::solution brute_force::operator()() {
         while (!expr.eval(sol.map())) {
-            auto iter(sol.begin());
-            while (iter != sol.end() && iter->second) {
+            auto iter(sol.map().begin());
+            while (iter != sol.map().end() && iter->second) {
                 sol.reassign_variable((iter++)->first, false);
             }
-            if (iter != sol.end()) {
+            if (iter != sol.map().end()) {
                 sol.reassign_variable(iter->first, true);
             } else break;
         }
