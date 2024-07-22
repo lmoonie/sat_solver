@@ -78,8 +78,6 @@ namespace sol {
         void set_num_clauses(clause);
         // set problem type
         void set_type(ProblemType);
-        // get problem type
-        ProblemType get_type() const;
 
     private:
         // tracks variable assignments
