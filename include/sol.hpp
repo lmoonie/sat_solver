@@ -71,11 +71,11 @@ namespace sol {
         // give problem type
         ProblemType get_type() const;
         // set maximum variable key
-        variable set_max_var(variable);
+        void set_max_var(variable);
         // set number of clauses
-        clause set_num_clauses(clause);
+        void set_num_clauses(clause);
         // set problem type
-        ProblemType set_type(ProblemType);
+        void set_type(ProblemType);
 
     private:
         // tracks variable assignments

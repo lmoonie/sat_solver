@@ -61,17 +61,17 @@ namespace sol {
     }
 
     // set maximum variable key
-    variable solution::set_max_var(variable var) {
+    void solution::set_max_var(variable var) {
         max_var = var;
     }
 
     // set number of clauses
-    clause solution::set_num_clauses(clause cl) {
-        num_clauses = cl;
+    void solution::set_num_clauses(clause cl) {
+        clauses = cl;
     }
 
     // set problem type
-    ProblemType solution::set_type(ProblemType ptype) {
+    void solution::set_type(ProblemType ptype) {
         type = ptype;
     }
 
