@@ -41,7 +41,8 @@ namespace solver {
         // assignment
         basic_solver& operator=(const basic_solver&) = default;
         basic_solver& operator=(basic_solver&&) = default;
-        virtual sol::solution operator()();
+        // run the solver
+        virtual sol::solution operator()() = 0;
     protected:
         cnf::cnf_expr expr;
         sol::solution sol;
