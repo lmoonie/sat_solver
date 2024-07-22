@@ -95,8 +95,10 @@ namespace sol {
             ostr << std::format("t {} {}", key, val) << std::endl;
         }
         // print variable lines
-        for (const auto& [var, val] : sol.variables) {
-            ostr << std::format("v {}", val ? var : -var) << std::endl;
+        if (sol.valid) {
+            for (const auto& [var, val] : sol.variables) {
+                ostr << std::format("v {}", val ? var : -var) << std::endl;
+            }
         }
         return ostr;
     }
