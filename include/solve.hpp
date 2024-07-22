@@ -52,7 +52,7 @@ namespace solve {
     };
 
     // solve the problem
-    bool run_portfolio(const std::istream&, const std::ostream&);
+    bool run_portfolio(const program_interface&, std::istream&, std::ostream&);
 
 
 
