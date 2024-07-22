@@ -29,16 +29,16 @@ namespace solver {
     class solver {
     public:
         // no default constructor
-        brute_force() = delete;
+        solver() = delete;
         // problem constructor
-        brute_force(const cnf::cnf_expr&);
+        solver(const cnf::cnf_expr&);
         // copy constructor
-        brute_force(const brute_force&) = default;
+        solver(const solver&) = default;
         // move constructor
-        brute_force(brute_force&&) = default;
+        solver(solver&&) = default;
         // assignment
-        brute_force& operator=(const brute_force&) = default;
-        brute_force& operator=(brute_force&&) = default;
+        solver& operator=(const solver&) = default;
+        solver& operator=(solver&&) = default;
         virtual sol::solution operator()();
     private:
         cnf::cnf_expr expr;
