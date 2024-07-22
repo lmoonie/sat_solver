@@ -10,11 +10,7 @@
 
 namespace solver {
 
-    // used to specify the problem format
-    enum ProblemType: bool {
-        CNF = true,
-        SAT = false
-    };
+    using ProblemType = sol::ProblemType;
 
     // a boolean variable; strictly positive
     using variable = int;
