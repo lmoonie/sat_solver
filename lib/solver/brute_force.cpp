@@ -4,7 +4,7 @@
 
 #include "solver.hpp"
 
-namespace solvers{
+namespace solver {
 
     // problem constructor
     brute_force::brute_force(const cnf::cnf_expr& prob):
