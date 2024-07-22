@@ -1,4 +1,4 @@
-// solvers.hpp
+// solver.hpp
 // Logan Moonie
 // Jul 22, 2024
 

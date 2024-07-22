@@ -26,6 +26,7 @@ add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
 add_library(message include/message.hpp)
 add_library(verify lib/verify.cpp)
+add_library(solver lib/solver/brute_force.cpp)
 
 # Set target language
 set_target_properties(message PROPERTIES LINKER_LANGUAGE CXX)
@@ -35,6 +36,7 @@ target_include_directories(cnf PUBLIC include)
 target_include_directories(sol PUBLIC include)
 target_include_directories(message PUBLIC include)
 target_include_directories(verify PUBLIC include)
+target_include_directories(solver PUBLIC include)
 
 # Enable external libraries
 # find_package(Catch2 3 REQUIRED)
