@@ -2,6 +2,9 @@
 // Logan Moonie
 // Jul 22, 2024
 
+#ifndef INC_SOLVER
+#define INC_SOLVER
+
 #include "cnf"
 #include "sol"
 
@@ -61,3 +64,5 @@ namespace solver {
     }
 
 }
+
+#endif

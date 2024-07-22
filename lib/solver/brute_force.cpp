@@ -2,6 +2,8 @@
 // Logan Moonie
 // Jul 22, 2024
 
+#include "solver.hpp"
+
 namespace solvers{
 
     // problem constructor
