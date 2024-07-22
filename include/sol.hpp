@@ -61,7 +61,7 @@ namespace sol {
         // set status flag
         void set_valid(bool);
         // get status flag
-        bool is_valid();
+        bool is_valid() const;
         // give the number of assigned variables
         std::size_t size() const;
         // provide variable assignments
@@ -78,6 +78,8 @@ namespace sol {
         void set_num_clauses(clause);
         // set problem type
         void set_type(ProblemType);
+        // get problem type
+        ProblemType get_type() const;
 
     private:
         // tracks variable assignments

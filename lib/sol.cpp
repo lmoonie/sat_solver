@@ -36,7 +36,7 @@ namespace sol {
     }
 
     // get status flag
-    bool solution::is_valid() {
+    bool solution::is_valid() const {
         return valid;
     }
 
@@ -78,6 +78,11 @@ namespace sol {
     // set problem type
     void solution::set_type(ProblemType ptype) {
         type = ptype;
+    }
+
+    // get problem type
+    ProblemType get_type() const {
+        return type;
     }
 
     // used to print solution

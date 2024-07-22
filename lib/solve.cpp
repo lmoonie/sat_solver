@@ -20,7 +20,7 @@ namespace solve {
         } catch (...) {
             ostr << std::format(
                 "s {} {} {} {}",
-                sol.type == ProblemType::CNF ? "cnf" : "sat",
+                sol.get_type() == sol::ProblemType::CNF ? "cnf" : "sat",
                 "-1",
                 std::to_string(expr.get_max_var()),
                 std::to_string(expr.get_num_clauses())
@@ -89,7 +89,7 @@ namespace solve {
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
                 ("duration,d", opts::value<std::chrono::duration<int64_t>>(), flag_desc::duration.c_str())
-                ("memory,m", opts::value<unsigned long long int>(), flag_desc::memory.c_str())
+                ("memory,m", opts::value<unsigned long long int>(), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
