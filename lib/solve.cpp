@@ -141,24 +141,24 @@ namespace solve {
             if (pif.var_map.count("incomplete")) {
                 pif.incomplete = true;
             }
-            // set threads
-            if (pif.var_map.count("threads") == 1) {
-                pif.threads = pif.var_map["threads"].as<uint>();
-            } else if (pif.var_map.count("threads") > 1) {
-                throw std::invalid_argument(err::repeat_options);
-            }
-            // set duration
-            if (pif.var_map.count("duration") == 1) {
-                pif.duration = pif.var_map["duration"].as<std::chrono::duration<int64_t>>();
-            } else if (pif.var_map.count("duration") > 1) {
-                throw std::invalid_argument(err::repeat_options);
-            }
-            // set memory
-            if (pif.var_map.count("memory") == 1) {
-                pif.memory = pif.var_map["memory"].as<unsigned long long int>();
-            } else if (pif.var_map.count("memory") > 1) {
-                throw std::invalid_argument(err::repeat_options);
-            }
+            // // set threads
+            // if (pif.var_map.count("threads") == 1) {
+            //     pif.threads = pif.var_map["threads"].as<uint>();
+            // } else if (pif.var_map.count("threads") > 1) {
+            //     throw std::invalid_argument(err::repeat_options);
+            // }
+            // // set duration
+            // if (pif.var_map.count("duration") == 1) {
+            //     pif.duration = pif.var_map["duration"].as<std::chrono::duration<int64_t>>();
+            // } else if (pif.var_map.count("duration") > 1) {
+            //     throw std::invalid_argument(err::repeat_options);
+            // }
+            // // set memory
+            // if (pif.var_map.count("memory") == 1) {
+            //     pif.memory = pif.var_map["memory"].as<unsigned long long int>();
+            // } else if (pif.var_map.count("memory") > 1) {
+            //     throw std::invalid_argument(err::repeat_options);
+            // }
 
         }
 
