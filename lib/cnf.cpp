@@ -70,10 +70,12 @@ namespace cnf {
 
     // return an iterator to a unit clause
     std::unordered_map<clause, lit_set>::const_iterator cnf_expr::unit_clause() const {
-        for (auto iter(clauses.begin()); iter != clauses.end(); iter++) {
+        auto iter(clauses.begin());
+        while (iter != clauses.end()) {
             if (iter->second.size() == 1) {
                 return iter;
             }
+            iter++;
         }
         return iter;
     }
