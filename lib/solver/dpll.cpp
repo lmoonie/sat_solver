@@ -36,7 +36,17 @@ namespace solver {
         }
 
         // find the solution to the reduced problem
-        return sub_dpll({expr, sol});
+        auto final_sol = sub_dpll({expr, sol});
+
+        // assign arbitrary values to the remaining variables
+        for (auto const& var : expr.variables()) {
+            if (!final_sol.map().contains(var)) {
+                final_sol.assign_variable(var, true);
+            }
+        }
+
+        // return the complete solution
+        return final_sol;
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {
