@@ -8,8 +8,6 @@ namespace solver {
 
     using std::abs;
 
-    const pick_random_literal_prob = 0.2;
-
     // problem constructor
     local_search::local_search(const cnf::cnf_expr& prob):
         basic_solver(prob),
@@ -18,13 +16,15 @@ namespace solver {
 
     // a stochastic local search algorithm implementing WalkSAT
     sol::solution local_search::operator()() {
+        const double pick_random_literal_prob = 0.2;
+
         // record problem parameters
         sol.set_num_clauses(expr.get_num_clauses());
         sol.set_max_var(expr.get_max_var());
 
         // a functor to provide a random bool value
         std::uniform_int_distribution<ushort> bit_dist(0, 1);
-        auto rand_bool = [&rand, &bit_dist]() -> bool {
+        auto rand_bool = [&]() -> bool {
             return bit_dist(rand) == 1 ? true : false;
         };
 
@@ -36,7 +36,7 @@ namespace solver {
         // while the solution is invalid
         while (!expr.eval(sol.map())) {
             // pick a clause
-            auto unsat_clauses = expr.unsatisfied_clauses(sol);
+            auto unsat_clauses = expr.unsatisfied_clauses(sol.map());
             std::discrete_distribution<clause> cl_dist(
                 unsat_clauses.begin(),
                 unsat_clauses.end()
@@ -102,8 +102,8 @@ namespace solver {
             } else {
                 // randomly select a literal
                 std::discrete_distribution<literal> lit_dist(
-                    target_cl.begin(),
-                    target_cl.end()
+                    expr.get_clause(target_cl).begin(),
+                    expr.get_clause(target_cl).end()
                 );
                 literal target_lit = lit_dist(rand);
 
