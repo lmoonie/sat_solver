@@ -6,6 +6,8 @@
 #define INC_SOLVER
 
 #include <utility>
+#include <random>
+#include <climits>
 #include "cnf.hpp"
 #include "sol.hpp"
 
@@ -66,6 +68,16 @@ namespace solver {
         sol::solution operator()();
         // find the solution for a reduced problem
         static sol::solution sub_dpll(std::pair<cnf::cnf_expr, sol::solution>);
+    };
+
+    class local_search : public basic_solver {
+    public:
+        // problem constructor
+        local_search(const cnf::cnf_expr&);
+        // run the algorithm
+        sol::solution operator()();
+    private:
+        std::mt19937_64 rand;
     };
 
 

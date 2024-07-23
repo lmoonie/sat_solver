@@ -84,10 +84,14 @@ namespace cnf {
         bool eval(const std::map<variable, bool>& assigns) const;
         // return a set of the expression's variables
         std::set<variable> variables() const;
+        // return a set of unsatisfied clauses
+        std::set<clause> unsatisfied_clauses(const std::map<variable, bool>&) const;
         // check for empty clauses
         bool empty_clause() const;
-        // return an active variable
-        variable pick_var() const;
+        // return a reference to the requested clause
+        const lit_set& get_clause(clause) const;
+        // return a reference to the clause list of the requested literal
+        const cl_set& get_literal(literal) const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;

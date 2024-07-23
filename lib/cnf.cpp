@@ -159,6 +159,27 @@ namespace cnf {
         return var_set;
     }
 
+    // return a set of unsatisfied clauses
+    std::set<clause> unsatisfied_clauses(const std::map<variable, bool>& assigns) const {
+        std::set<clause> unsat_clauses;
+        for (auto const& [key, cl]: clauses) {
+            bool clause_is_true(false);
+            for (auto const& lit : cl) {
+                if (
+                    lit > 0 && assigns.at(abs(lit)) ||
+                    lit < 0 && !assigns.at(abs(lit))
+                ) {
+                    clause_is_true = true;
+                    break;
+                }
+            }
+            if (!clause_is_true) {
+                unsat_clauses.insert(cl);
+            };
+        }
+        return unsat_clauses;
+    }
+
     // check for empty clauses
     bool cnf_expr::empty_clause() const {
         for (auto const& [cl, lset] : clauses) {
@@ -172,6 +193,16 @@ namespace cnf {
     // return an active variable
     variable cnf_expr::pick_var() const {
         return abs(*(clauses.begin()->second.begin()));
+    }
+
+    // return a reference to the requested clause
+    const lit_set& get_clause(clause cl) const {
+        return clauses.at(cl);
+    }
+
+    // return a reference to the clause list of the requested literal
+    const cl_set& get_literal(literal lit) const {
+        return literals.at(lit);
     }
 
     // used to print cnf_expr

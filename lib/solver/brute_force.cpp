@@ -17,6 +17,10 @@ namespace solver {
 
     // run the algorithm
     sol::solution brute_force::operator()() {
+        // record problem parameters
+        sol.set_num_clauses(expr.get_num_clauses());
+        sol.set_max_var(expr.get_max_var());
+        
         while (!expr.eval(sol.map())) {
             auto iter(sol.map().begin());
             while (iter != sol.map().end() && iter->second) {

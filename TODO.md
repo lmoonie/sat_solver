@@ -1,7 +1,7 @@
 # Admin
 - Notify of changes from proposal
 
-# `sat_verify`
+# sat_verify
 - Implement remaining CLI
 - output false clause
 - implement ctrl+c
@@ -10,11 +10,14 @@
 - add statistics
 - unit test
 
-# `sat_solve`
+# dpll
+- add statistics
+- unit test
+
+# sat_solve
 - implement remaining CLI
     - including custom parsers
 - implement ctrl+c
 - memory watching
 - time watching
 
-#
