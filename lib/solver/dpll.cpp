@@ -63,7 +63,7 @@ namespace solver {
     }
 
     // find the solution for a reduced problem
-    sol::solution sub_dpll(problem prob) {
+    sol::solution dpll::sub_dpll(problem prob) {
         auto& sub_expr = prob.first;
         auto& curr_sol = prob.second;
 
