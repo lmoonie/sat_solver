@@ -13,6 +13,7 @@
 # dpll
 - add statistics
 - unit test
+- may need to expand the stack
 
 # sat_solve
 - implement remaining CLI

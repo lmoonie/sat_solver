@@ -192,6 +192,11 @@ namespace cnf {
         return false;
     }
 
+    // return an active variable
+    variable cnf_expr::pick_var() const {
+        return abs(*(clauses.begin()->second.begin()));
+    }
+
     // return a reference to the requested clause
     const lit_set& cnf_expr::get_clause(clause cl) const {
         return clauses.at(cl);

@@ -92,6 +92,8 @@ namespace cnf {
         const lit_set& get_clause(clause) const;
         // return a reference to the clause list of the requested literal
         const cl_set& get_literal(literal) const;
+        // return an active variable
+        variable pick_var() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;

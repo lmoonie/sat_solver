@@ -94,7 +94,7 @@ namespace solver {
         }
 
         // pick a branch variable
-        variable branch_var = sub_expr.pick_var(); // need to write
+        variable branch_var = sub_expr.pick_var();
 
         // branch left
         auto sol_left = sub_dpll(reduce_problem(prob, branch_var, false));
