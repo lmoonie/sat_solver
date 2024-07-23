@@ -52,7 +52,7 @@ namespace solver {
         }
 
         // perform pure literal deletion
-        for (literal plit(sub_expr.pure_literal); plit != 0; plit = sub_expr.pure_literal()) {
+        for (literal plit(sub_expr.pure_literal()); plit != 0; plit = sub_expr.pure_literal()) {
             bool pure_val = plit > 0 ? true : false;
             curr_sol.assign_variable(abs(plit), pure_val);
             sub_expr.assign_and_simplify(abs(plit), pure_val);
@@ -91,6 +91,8 @@ namespace solver {
         // branch right
         auto sol_right = sub_dpll(reduce_problem(prob, branch_var, true));
         if (sol_right.is_valid()) return sol_right;
+
+        return curr_sol;
     }
 
 }
