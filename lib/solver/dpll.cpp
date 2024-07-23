@@ -16,6 +16,10 @@ namespace solver {
     {}
 
     sol::solution dpll::operator()() {
+        // record problem parameters
+        sol.set_num_clauses(expr.get_num_clauses());
+        sol.set_max_var(expr.get_max_var());
+
         // perform unit propagation
         for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
             literal unit_lit = *((ucl->second).begin());
@@ -70,8 +74,6 @@ namespace solver {
         // check for empty expression
         if (sub_expr.get_num_clauses() == 0) {
             curr_sol.set_valid(true);
-            curr_sol.set_num_clauses(sub_expr.get_num_clauses());
-            curr_sol.set_max_var(sub_expr.get_max_var());
             return curr_sol;
         }
 
