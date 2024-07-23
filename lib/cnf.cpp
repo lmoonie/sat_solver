@@ -160,7 +160,7 @@ namespace cnf {
     }
 
     // return a set of unsatisfied clauses
-    std::set<clause> cnf_expr::unsatisfied_clauses(
+    cl_set cnf_expr::unsatisfied_clauses(
         const std::map<variable, bool>& assigns
     ) const {
         cl_set unsat_clauses;
