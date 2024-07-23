@@ -41,7 +41,7 @@ namespace sol {
     // a complete boolean CNF expression
     class solution {
     public:
-        // no default constructor
+        // default constructor
         solution() = default;
         // stream constructor
         solution(std::istream&);

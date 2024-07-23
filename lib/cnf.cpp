@@ -34,9 +34,6 @@ namespace cnf {
     void cnf_expr::remove_literal(literal lit, clause cl) {
         literals[lit].erase(cl);
         clauses[cl].erase(lit);
-        if (clauses[cl].empty()) {
-            clauses.erase(cl);
-        }
     }
 
     // remove an entire clause
@@ -45,6 +42,62 @@ namespace cnf {
             literals[lit].erase(cl);
         }
         clauses.erase(cl);
+    }
+
+    // assign a variable and simplify the expression
+    void cnf_expr::assign_and_simplify(variable var, bool val) {
+        // for each clause in which the positive literal appears
+        for (auto const& cl : literals.at(var)) {
+            if (val) {
+                // literal is true; can delete the clause
+                remove_clause(cl);
+            } else {
+                // literal is false; can remove literal from clause
+                remove_literal(var, cl);
+            }
+        }
+        // for each clause in which the negative literal appears
+        for (auto const& cl : literals.at(-var)) {
+            if (!val) {
+                // literal is true; can delete the clause
+                remove_clause(cl);
+            } else {
+                // literal is false; can remove literal from clause
+                remove_literal(-var, cl);
+            }
+        }
+        return false;
+    }
+
+    // return an iterator to a unit clause
+    std::unordered_map<clause, lit_set>::const_iterator cnf_expr::unit_clause() const {
+        for (auto iter(clauses.begin()); iter != clauses.end(); iter++) {
+            if (iter->size() == 1) {
+                return iter;
+            }
+        }
+        return iter;
+    }
+
+    // return a pure literal
+    literal cnf_expr::pure_literal() const {
+        for (auto const& var : variables()) {
+            if (!literals.at(var).empty() && literals.at(-var).empty()) {
+                return var;
+            }
+            if (!literals.at(-var).empty() && literals.at(var).empty()) {
+                return -var;
+            }
+        }
+        return 0;
+    }
+
+    // end iterators for the maps
+    std::unordered_map<literal, cl_set>::const_iterator cnf_expr::literals_end() const {
+        return literals.end();
+    }
+    std::unordered_map<clause, lit_set>::const_iterator cnf_expr::clauses_end() const {
+        return clauses.end();
     }
 
     // give the number of active clauses
@@ -89,6 +142,21 @@ namespace cnf {
             }
         }
         return var_set;
+    }
+
+    // check for empty clauses
+    bool cnf_expr::empty_clause() const {
+        for (auto const& [cl, lset] : clauses) {
+            if (lset.empty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // return an active variable
+    variable pick_var() const {
+        return abs(*(clauses.begin()->second.begin()));
     }
 
     // used to print cnf_expr

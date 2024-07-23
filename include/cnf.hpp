@@ -65,6 +65,15 @@ namespace cnf {
         void remove_literal(literal, clause);
         // remove an entire clause
         void remove_clause(clause);
+        // assign a variable and simplify the expression
+        void assign_and_simplify(variable, bool);
+        // return an iterator to a unit clause
+        std::unordered_map<clause, lit_set>::const_iterator unit_clause() const;
+        // return a pure literal
+        literal pure_literal() const;
+        // end iterators for the maps
+        std::unordered_map<literal, cl_set>::const_iterator literals_end() const;
+        std::unordered_map<clause, lit_set>::const_iterator clauses_end() const;
         // give the number of active clauses
         std::size_t get_num_clauses() const;
         // give the number of active variables
@@ -75,6 +84,10 @@ namespace cnf {
         bool eval(const std::map<variable, bool>& assigns) const;
         // return a set of the expression's variables
         std::set<variable> variables() const;
+        // check for empty clauses
+        bool empty_clause() const;
+        // return an active variable
+        variable pick_var() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;

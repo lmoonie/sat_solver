@@ -5,6 +5,7 @@
 #ifndef INC_SOLVER
 #define INC_SOLVER
 
+#include <utility>
 #include "cnf.hpp"
 #include "sol.hpp"
 
@@ -55,6 +56,17 @@ namespace solver {
         // run the algorithm
         sol::solution operator()();
     };
+
+    class dpll : public basic_solver {
+    public:
+        // problem constructor
+        dpll(const cnf::cnf_expr&);
+        // run the algorithm
+        sol::solution operator()();
+        // find the solution for a reduced problem
+        static sol::solution sub_dpll(std::pair<cnf::cnf_expr, sol::solution>);
+    };
+
 
 }
 
