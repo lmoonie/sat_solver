@@ -85,7 +85,7 @@ namespace cnf {
         // return a set of the expression's variables
         std::set<variable> variables() const;
         // return a set of unsatisfied clauses
-        cl_set unsatisfied_clauses(const std::map<variable, bool>&) const;
+        std::set<clause> unsatisfied_clauses(const std::map<variable, bool>&) const;
         // check for empty clauses
         bool empty_clause() const;
         // return a reference to the requested clause

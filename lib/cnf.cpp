@@ -160,10 +160,10 @@ namespace cnf {
     }
 
     // return a set of unsatisfied clauses
-    cl_set cnf_expr::unsatisfied_clauses(
+    std::set<clause> cnf_expr::unsatisfied_clauses(
         const std::map<variable, bool>& assigns
     ) const {
-        cl_set unsat_clauses;
+        std::set<clause> unsat_clauses;
         for (auto const& [key, cl]: clauses) {
             bool clause_is_true(false);
             for (auto const& lit : cl) {
@@ -176,7 +176,7 @@ namespace cnf {
                 }
             }
             if (!clause_is_true) {
-                unsat_clauses.insert(cl);
+                unsat_clauses.insert(key);
             };
         }
         return unsat_clauses;
