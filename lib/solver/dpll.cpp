@@ -25,7 +25,7 @@ namespace solver {
         }
 
         // perform pure literal deletion
-        for (literal plit(expr.pure_literal); plit != 0; plit = expr.pure_literal()) {
+        for (literal plit(expr.pure_literal()); plit != 0; plit = expr.pure_literal()) {
             bool pure_val = plit > 0 ? true : false;
             sol.assign_variable(abs(plit), pure_val);
             expr.assign_and_simplify(abs(plit), pure_val);
@@ -36,8 +36,8 @@ namespace solver {
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {
-        auto& sub_expr = problem.first;
-        auto& curr_sol = problem.second;
+        auto& sub_expr = prob.first;
+        auto& curr_sol = prob.second;
 
         // assign the value to the provided variable
         curr_sol.assign_variable(var, val);
@@ -64,8 +64,8 @@ namespace solver {
 
     // find the solution for a reduced problem
     sol::solution sub_dpll(problem prob) {
-        auto& sub_expr = problem.first;
-        auto& curr_sol = problem.second;
+        auto& sub_expr = prob.first;
+        auto& curr_sol = prob.second;
 
         // check for empty expression
         if (sub_expr.get_num_clauses() == 0) {
