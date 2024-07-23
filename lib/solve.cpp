@@ -13,8 +13,12 @@ namespace solve {
         sol.set_type(sol::ProblemType::CNF);
 
         try {
-            if (pif.solver == solver::SolverType::BruteForce || pif.solver == solver::SolverType::All) {
+            if (pif.solver == solver::SolverType::BruteForce) {
                 sol = solver::brute_force(expr)();
+            } else if (pif.solver == solver::SolverType::DPLL) {
+                sol = solver::dpll(expr)();
+            } else {
+                sol = solver::dpll(expr)();
             }
             ostr << sol;
         } catch (...) {
@@ -127,6 +131,8 @@ namespace solve {
                 std::string solver = pif.var_map["solver"].as<std::string>();
                 if (solver == std::string("brute_force")) {
                     pif.solver = solver::SolverType::BruteForce;
+                } else if (solver == std::string("dpll")) {
+                    pif.solver = solver::SolverType::DPLL;
                 } else {
                     throw std::invalid_argument(err::invalid_solver);
                 }
