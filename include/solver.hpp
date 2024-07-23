@@ -19,7 +19,8 @@ namespace solver {
     enum SolverType: ushort {
         All = 0,
         BruteForce = 1,
-        DPLL = 2
+        DPLL = 2,
+        LocalSearch = 3
     };
 
     // a boolean variable; strictly positive

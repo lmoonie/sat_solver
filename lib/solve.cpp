@@ -17,8 +17,10 @@ namespace solve {
                 sol = solver::brute_force(expr)();
             } else if (pif.solver == solver::SolverType::DPLL) {
                 sol = solver::dpll(expr)();
+            } else if (pif.solver == solver::SolverType::LocalSearch) {
+                sol = solver::local_search(expr)();
             } else {
-                sol = solver::dpll(expr)();
+                sol = solver::local_search(expr)();
             }
             ostr << sol;
         } catch (...) {
@@ -133,6 +135,8 @@ namespace solve {
                     pif.solver = solver::SolverType::BruteForce;
                 } else if (solver == std::string("dpll")) {
                     pif.solver = solver::SolverType::DPLL;
+                } else if (solver == std::string("local_search")) {
+                    pif.solver = solver::SolverType::LocalSearch;
                 } else {
                     throw std::invalid_argument(err::invalid_solver);
                 }
