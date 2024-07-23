@@ -66,13 +66,12 @@ namespace cnf {
                 remove_literal(-var, cl);
             }
         }
-        return false;
     }
 
     // return an iterator to a unit clause
     std::unordered_map<clause, lit_set>::const_iterator cnf_expr::unit_clause() const {
         for (auto iter(clauses.begin()); iter != clauses.end(); iter++) {
-            if (iter->size() == 1) {
+            if (iter->second.size() == 1) {
                 return iter;
             }
         }
@@ -155,7 +154,7 @@ namespace cnf {
     }
 
     // return an active variable
-    variable pick_var() const {
+    variable cnf_expr::pick_var() const {
         return abs(*(clauses.begin()->second.begin()));
     }
 
