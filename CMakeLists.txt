@@ -26,7 +26,7 @@ add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
 add_library(message include/message.hpp)
 add_library(verify lib/verify.cpp)
-add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp)
+add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp)
 add_library(solve lib/solve.cpp)
 
 # Set target language
