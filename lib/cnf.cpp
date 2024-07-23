@@ -163,7 +163,7 @@ namespace cnf {
     std::set<clause> cnf_expr::unsatisfied_clauses(
         const std::map<variable, bool>& assigns
     ) const {
-        std::set<clause> unsat_clauses;
+        cl_set unsat_clauses;
         for (auto const& [key, cl]: clauses) {
             bool clause_is_true(false);
             for (auto const& lit : cl) {
