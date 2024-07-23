@@ -57,7 +57,7 @@ namespace cnf {
                 clauses_to_delete.insert(cl);
             } else {
                 // literal is false; can remove literal from clause
-                literals_to_delete.insert(var, cl);
+                literals_to_delete.insert({var, cl});
             }
         }
 
@@ -68,7 +68,7 @@ namespace cnf {
                 clauses_to_delete.insert(cl);
             } else {
                 // literal is false; can remove literal from clause
-                literals_to_delete.insert(-var, cl);
+                literals_to_delete.insert({-var, cl});
             }
         }
         
