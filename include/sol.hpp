@@ -42,7 +42,7 @@ namespace sol {
     class solution {
     public:
         // default constructor
-        solution() = default;
+        solution(): valid(false) {};
         // stream constructor
         solution(std::istream&);
         // copy constructor
