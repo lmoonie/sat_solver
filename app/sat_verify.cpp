@@ -10,8 +10,8 @@
 
 int main(int argc, char** argv) try {
     verify::program_interface pif(argc, argv);
-    cnf::cnf_expr expr(std::cin);
-    sol::solution sol(pif.sol_str);
+    cnf::cnf_expr expr(pif.pstr);
+    sol::solution sol(std::cin);
     sol.set_valid(true);
     if (sol.get_type() != sol::ProblemType::CNF) {
         throw std::invalid_argument(err::solution_type);

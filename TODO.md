@@ -1,5 +1,6 @@
 # Admin
 - Notify of changes from proposal
+    - swapped inputs for sat_verify
 
 # sat_verify
 - Implement remaining CLI

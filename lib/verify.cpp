@@ -54,11 +54,11 @@ namespace verify {
             pif.desc.add_options()
                 ("help,h", flag_desc::help.c_str())
                 ("available-formats,f", flag_desc::available_formats.c_str())
-                ("solution,s", opts::value<std::string>(), flag_desc::solution.c_str())
+                ("problem,p", opts::value<std::string>(), flag_desc::solution.c_str())
                 ("quiet,q", flag_desc::quiet.c_str());
 
             // a value without corresponding flag is assumed to be the solution file
-            pif.pos.add("solution", -1);
+            pif.pos.add("problem", -1);
 
             // parse command line options
             opts::store(
@@ -81,9 +81,9 @@ namespace verify {
             if (pif.var_map.count("quiet")) {
                 pif.quiet = true;
             }
-            if (pif.var_map.count("solution") == 1) {
-                pif.sol_str = std::fstream(pif.var_map["solution"].as<std::string>());
-            } else if (pif.var_map.count("solution") > 1) {
+            if (pif.var_map.count("problem") == 1) {
+                pif.pstr = std::fstream(pif.var_map["problem"].as<std::string>());
+            } else if (pif.var_map.count("problem") > 1) {
                 throw std::invalid_argument(err::too_many_solutions);
             } else {
                 throw std::invalid_argument(err::need_solution);

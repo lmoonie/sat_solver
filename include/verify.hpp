@@ -37,7 +37,7 @@ namespace verify {
         bool quiet;
         bool print_help;
         bool print_formats;
-        std::fstream sol_str;
+        std::fstream pstr;
 
         // Boost program options
         opts::options_description desc;
