@@ -75,7 +75,7 @@ namespace solver {
     // a stochastic local search algorithm implementing WalkSAT
     sol::solution local_search::operator()() {
         const double RAND_LIT_PROB = 0.2;
-        const uint MAX_RAND_ADVANCE = 20;
+        const std::size_t MAX_RAND_ADVANCE = 20;
 
         // record problem parameters
         sol.set_num_clauses(expr.get_num_clauses());
