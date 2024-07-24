@@ -12,12 +12,12 @@ int main(int argc, char** argv) try {
     verify::program_interface pif(argc, argv);
     cnf::cnf_expr expr;
     sol::solution sol;
-    if (pif.pstr) {
+    if (pif.var_map.count("problem") > 0) {
         expr = pif.pstr;
     } else {
         expr = std::cin;
     }
-    if (pif.sstr) {
+    if (pif.var_map.count("solution") > 0) {
         sol = pif.sstr;
     } else {
         sol = std::cin;
