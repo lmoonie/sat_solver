@@ -96,7 +96,7 @@ namespace solver {
             auto unsat_clauses = expr.unsatisfied_clauses(sol.map());
             clause target_cl = std::advance(
                 unsat_clauses.begin(),
-                std::uniform_int_distribution(
+                std::uniform_int_distribution<std::size_t>(
                     0,
                     std::min(MAX_RAND_ADVANCE, unsat_clauses.size()-1)
                 )(rand)
@@ -112,7 +112,7 @@ namespace solver {
                 // randomly select a literal
                 literal target_lit = std::advance(
                     expr.get_clause(target_cl).begin(),
-                    std::uniform_int_distribution(
+                    std::uniform_int_distribution<std::size_t>(
                         0,
                         std::min(MAX_RAND_ADVANCE, expr.get_clause(target_cl).size()-1)
                     )(rand)
