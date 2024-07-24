@@ -35,7 +35,7 @@ namespace err {
     const std::string solution_type(
         "The solution type does not match the problem type."
     );
-    const std::string solution_invalid(
+    const std::string invalid_solution(
         "The proposed solution does not claim to be valid."
     );
     const std::string solution_vars(
