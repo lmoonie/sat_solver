@@ -90,6 +90,7 @@ namespace solver {
         // check for empty clauses
         if (sub_expr.empty_clause()) {
             // return an invalid solution
+            curr_sol.set_valid(false);
             return curr_sol;
         }
 
