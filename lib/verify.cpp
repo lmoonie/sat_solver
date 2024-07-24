@@ -91,7 +91,7 @@ namespace verify {
                     throw std::invalid_argument(err::not_open_file);
                 }
             } else if (pif.var_map.count("problem") > 1) {
-                throw std::invalid_argument(err::too_many_solutions);
+                throw std::invalid_argument(err::too_many_problems);
             }
             if (pif.var_map.count("solution") == 1) {
                 pif.pstr = std::fstream(pif.var_map["solution"].as<std::string>());
@@ -99,7 +99,7 @@ namespace verify {
                     throw std::invalid_argument(err::not_open_file);
                 }
             } else if (pif.var_map.count("solution") > 1) {
-                throw std::invalid_argument(err::too_many_problems);
+                throw std::invalid_argument(err::too_many_solutions);
             }
             if (pif.var_map.count("problem") + pif.var_map.count("solution") == 0) {
                 throw std::invalid_argument(err::need_file);

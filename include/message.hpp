@@ -56,7 +56,7 @@ namespace err {
     const std::string too_many_solutions(
         "Only one solution may be checked."
     );
-    const std::string too_many_solutions(
+    const std::string too_many_problems(
         "Only one problem may be checked."
     );
     const std::string need_file(
