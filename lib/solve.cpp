@@ -20,7 +20,7 @@ namespace solve {
             } else if (pif.solver == solver::SolverType::LocalSearch) {
                 sol = solver::local_search(expr)();
             } else {
-                sol = solver::local_search(expr)();
+                sol = solver::dpll(expr)();
             }
             ostr << sol;
         } catch (...) {
