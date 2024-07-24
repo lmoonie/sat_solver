@@ -56,11 +56,14 @@ namespace err {
     const std::string too_many_solutions(
         "Only one solution may be checked."
     );
-    const std::string need_solution(
-        "Please provide a path to a SOL file."
+    const std::string too_many_solutions(
+        "Only one problem may be checked."
+    );
+    const std::string need_file(
+        "Please provide a path to a solution or problem file."
     );
     const std::string not_open_file(
-        "Could not open solution file. Please check that the file path is correct."
+        "Could not open file. Please check that the file path is correct."
     );
     const std::string repeat_options(
         "One or more program options appears more than once."
