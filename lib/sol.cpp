@@ -132,7 +132,7 @@ namespace sol::io {
                 throw std::invalid_argument(err::solution_format);
             }
             // set solution validity
-            sol.set_valid(str.at(6) - '0' == 1 ? true : false);
+            sol.set_valid(str.at(6) - '0' == 1);
         } catch (...) {
             throw std::invalid_argument(err::solution_format);
         }

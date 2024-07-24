@@ -22,7 +22,6 @@ int main(int argc, char** argv) try {
     } else {
         sol = std::cin;
     }
-    sol.set_valid(true);
     if (sol.get_type() != sol::ProblemType::CNF) {
         throw std::invalid_argument(err::solution_type);
     }
