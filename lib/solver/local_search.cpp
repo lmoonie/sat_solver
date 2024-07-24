@@ -14,7 +14,11 @@ namespace solver {
         rand(std::random_device()())
     {}
 
-    inline literal select_optimal_literal(const cnf::cnf_expr& expr, const sol::solution& sol) {
+    inline literal select_optimal_literal(
+        const cnf::cnf_expr& expr,
+        const sol::solution& sol,
+        clause target_cl
+    ) {
         unsigned long int min_new_unsat = ULONG_MAX;
         literal target_lit;
         for (auto const& lit : expr.get_clause(target_cl)) {
@@ -101,7 +105,7 @@ namespace solver {
             std::uniform_real_distribution<double> real_dist(0, 1);
             if (real_dist(rand) > RAND_LIT_PROB) {
                 // select a literal carefully
-                literal target_lit = select_optimal_literal(expr, sol);
+                literal target_lit = select_optimal_literal(expr, sol, target_cl);
                 // flip the selected variable
                 sol.reassign_variable(abs(target_lit), !sol.map().at(abs(target_lit)));
             } else {
