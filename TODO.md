@@ -23,3 +23,5 @@
 - memory watching
 - time watching
 
+# cnf
+- consider not deleting all literals before deleting clause

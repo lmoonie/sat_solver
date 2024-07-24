@@ -48,7 +48,7 @@ namespace cnf {
     void cnf_expr::assign_and_simplify(variable var, bool val) {
         // keep a record of what to remove
         cl_set clauses_to_delete;
-        std::unordered_map<literal, clause> literals_to_delete;
+        std::unordered_multimap<literal, clause> literals_to_delete;
 
         // for each clause in which the positive literal appears
         for (auto const& cl : literals.at(var)) {
