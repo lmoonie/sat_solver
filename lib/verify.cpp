@@ -88,7 +88,7 @@ namespace verify {
             } else {
                 throw std::invalid_argument(err::need_solution);
             }
-            if (!pif.sol_str) {
+            if (!pif.pstr) {
                 throw std::invalid_argument(err::not_open_file);
             }
 
