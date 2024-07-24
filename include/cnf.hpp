@@ -56,9 +56,9 @@ namespace cnf {
         cnf_expr(const cnf_expr&) = default;
         // move constructor
         cnf_expr(cnf_expr&&) = default;
-        // no assignment permitted
-        cnf_expr& operator=(const cnf_expr&) = delete;
-        cnf_expr& operator=(cnf_expr&&) = delete;
+        // assignment
+        cnf_expr& operator=(const cnf_expr&) = default;
+        cnf_expr& operator=(cnf_expr&&) = default;
         // add a literal to a clause
         void add_literal(literal, clause);
         // remove a literal from a clause
