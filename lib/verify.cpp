@@ -94,7 +94,7 @@ namespace verify {
                 throw std::invalid_argument(err::too_many_problems);
             }
             if (pif.var_map.count("solution") == 1) {
-                pif.pstr = std::fstream(pif.var_map["solution"].as<std::string>());
+                pif.sstr = std::fstream(pif.var_map["solution"].as<std::string>());
                 if (!pif.sstr) {
                     throw std::invalid_argument(err::not_open_file);
                 }
