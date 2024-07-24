@@ -94,13 +94,15 @@ namespace solver {
         while (!expr.eval(sol.map())) {
             // pick a clause
             auto unsat_clauses = expr.unsatisfied_clauses(sol.map());
-            clause target_cl = std::advance(
-                unsat_clauses.begin(),
+            auto cl_iter = unsat_clauses.begin();
+            std::advance(
+                cl_iter,
                 std::uniform_int_distribution<std::size_t>(
                     0,
                     std::min(MAX_RAND_ADVANCE, unsat_clauses.size()-1)
                 )(rand)
             );
+            clause target_cl = *cl_iter;
             // pick a variable
             std::uniform_real_distribution<double> real_dist(0, 1);
             if (real_dist(rand) > RAND_LIT_PROB) {
@@ -110,13 +112,15 @@ namespace solver {
                 sol.reassign_variable(abs(target_lit), !sol.map().at(abs(target_lit)));
             } else {
                 // randomly select a literal
-                literal target_lit = std::advance(
-                    expr.get_clause(target_cl).begin(),
+                auto lit_iter = expr.get_clause(target_cl).begin();
+                std::advance(
+                    lit_iter,
                     std::uniform_int_distribution<std::size_t>(
                         0,
                         std::min(MAX_RAND_ADVANCE, expr.get_clause(target_cl).size()-1)
                     )(rand)
                 );
+                literal target_lit = *lit_iter;
                 // flip the selected variable
                 sol.reassign_variable(abs(target_lit), !sol.map().at(abs(target_lit)));
             }
