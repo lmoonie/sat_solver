@@ -23,13 +23,20 @@ namespace verify {
         const sol::solution& sol,
         const cnf::cnf_expr& cnf
     ) {
+        if (!sol.is_valid()) {
+            throw std::invalid_argument(err::invalid_solution);
+        }
         if (sol.get_num_clauses() != cnf.get_num_clauses()) {
             throw std::invalid_argument(err::solution_clauses);
         }
         if (sol.get_max_var() != cnf.get_max_var()) {
             throw std::invalid_argument(err::solution_vars);
         }
-        return cnf.eval(sol.map());
+        try {
+            return cnf.eval(sol.map());
+        } catch (...) {
+            throw std::invalid_argument(err::wrong_variables);
+        }
     }
 
     namespace cli {

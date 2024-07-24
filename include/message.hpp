@@ -47,6 +47,9 @@ namespace err {
     const std::string sol_body_format(
         "The solution body is not formatted correctly."
     );
+    const std::string wrong_variables(
+        "The list of variables given in the solution does not match the problem."
+    );
     const std::string sol_var_zero(
         "0 is not a valid variable name."
     );
