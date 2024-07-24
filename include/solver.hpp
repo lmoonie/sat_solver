@@ -8,6 +8,8 @@
 #include <utility>
 #include <random>
 #include <climits>
+#include <iterator>
+#include <algorithm>
 #include "cnf.hpp"
 #include "sol.hpp"
 
