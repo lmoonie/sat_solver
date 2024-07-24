@@ -131,10 +131,8 @@ namespace sol::io {
             } else {
                 throw std::invalid_argument(err::solution_format);
             }
-            // // solution must claim to be valid
-            // if (str.at(6) - '0' != 1) {
-            //     throw std::invalid_argument(err::solution_invalid);
-            // }
+            // set solution validity
+            sol.set_valid(str.at(6) - '0' == 1 ? true : false);
         } catch (...) {
             throw std::invalid_argument(err::solution_format);
         }
