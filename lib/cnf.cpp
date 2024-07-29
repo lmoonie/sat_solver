@@ -240,7 +240,7 @@ namespace cnf::sat {
                     negatives = 0;
                 }
                 clean_str.push_back(str.at(i));
-                i = str.find_first_not_of(" \t\n", i);
+                i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
                     parenth.push(true);
                     clean_str.append("( ");
@@ -419,14 +419,16 @@ namespace cnf::io {
                 std::string line;
                 std::getline(istr, line);
                 sat_str += line;
-
-                // convert the expression to be in conjunctive normal form
-                sat::convert_str_to_cnf(sat_str);
-
-                // assign the string to the cnf_expr
             }
 
         } while (istr.good());
+
+        if (type == ProblemType::SAT) {
+            // convert the expression to be in conjunctive normal form
+            sat::convert_str_to_cnf(sat_str);
+
+            // assign the string to the cnf_expr
+        }
 
         // ensure the correct number of clauses was provided
         if (cl != clauses) {
