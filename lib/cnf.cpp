@@ -277,6 +277,7 @@ namespace cnf::sat {
             i = str.find_first_not_of(" \t\n", i+1);
         }
         if (!parenth.empty()) throw std::invalid_argument(err::expression_format);
+        if (negatives > 0) throw std::invalid_argument(err::expression_format);
         str = clean_str;
     }
 
@@ -327,6 +328,8 @@ namespace cnf::sat {
                     str.insert(i, 1, '-');
                     while (std::isdigit(str.at(++i)));
                 }
+            } else if (str.at(i) == '(') {
+                open_clauses++;
             }
             i++;
         }
