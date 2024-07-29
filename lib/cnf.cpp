@@ -373,7 +373,7 @@ namespace cnf::io {
         } catch (...) {
             throw std::invalid_argument(err::problem_format);
         }
-        if (clauses <= 0 || (max_var <= 0 && type == ProblemType::CNF)) {
+        if ((clauses <= 0 && type == ProblemType::CNF) || (max_var <= 0)) {
             throw std::invalid_argument(err::num_clauses_vars);
         }
     }
