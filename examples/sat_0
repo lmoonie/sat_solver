@@ -1,0 +1,8 @@
+c sat_0
+
+p sat 11
+
+*(+(*(1 -3)2 7)
+c Formulas can be broken over multiple lines
+
+*(5-2))
