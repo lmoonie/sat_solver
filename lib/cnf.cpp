@@ -243,7 +243,7 @@ namespace cnf::sat {
                 i = str.find_first_not_of(" \t\n", i);
                 if (str.at(i) == '(') {
                     parenth.push(true);
-                    clean_str.append('( ');
+                    clean_str.append("( ");
                 } else {
                     throw std::invalid_argument(err::expression_format);
                 }

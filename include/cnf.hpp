@@ -48,7 +48,7 @@ namespace cnf {
     using solution = std::map<variable, bool>;
 
     // used to specify the problem format
-    inline enum ProblemType: bool {
+    enum ProblemType: bool {
         CNF = true,
         SAT = false
     };
