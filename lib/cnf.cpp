@@ -326,7 +326,8 @@ namespace cnf::sat {
                     str.insert(i, 1, '-');
                     while (std::isdigit(str.at(++i)));
                 }
-            } else if (str.at(i) == '(') {
+            }
+            if (str.at(i) == '(') {
                 open_clauses++;
             }
             i++;
