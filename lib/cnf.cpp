@@ -336,7 +336,8 @@ namespace cnf::sat {
         clean_sat_str(str);
         std::cout << str << std::endl;
         // move negation to leaves with Demorgan's Laws
-        //while (diminish_complement());
+        while (diminish_complement());
+        std::cout << str << std::endl;
     }
 
 }
