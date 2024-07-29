@@ -333,6 +333,7 @@ namespace cnf::sat {
             }
             i++;
         }
+        std::cout << str << std::endl;
         return true;
     }
 
@@ -342,7 +343,6 @@ namespace cnf::sat {
         std::cout << str << std::endl;
         // move negation to leaves with Demorgan's Laws
         while (diminish_complement(str));
-        std::cout << str << std::endl;
     }
 
 }
