@@ -310,6 +310,8 @@ namespace cnf::sat {
             // check for end of clause
             if (str.at(i) == ')') {
                 open_clauses--;
+            } else if (str.at(i) == '(') {
+                open_clauses++;
             }
             if (open_clauses == 1) {
                 if (
@@ -317,8 +319,7 @@ namespace cnf::sat {
                     str.at(i) == '+'
                 ) {
                     str.insert(i, 1, '-');
-                    open_clauses++;
-                    i += 2;
+                    i++;
                 } else if (str.at(i) == '-') {
                     str.erase(i, 1);
                     while (std::isdigit(str.at(i))) i++;
@@ -326,9 +327,6 @@ namespace cnf::sat {
                     str.insert(i, 1, '-');
                     while (std::isdigit(str.at(++i)));
                 }
-            }
-            if (str.at(i) == '(') {
-                open_clauses++;
             }
             i++;
         }
