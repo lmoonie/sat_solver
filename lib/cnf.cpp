@@ -269,7 +269,7 @@ namespace cnf::sat {
                 }
                 clean_str.append(str.substr(i, num_len));
                 clean_str.push_back(' ');
-                i += num_len;
+                i += num_len - 1;
             }
             i = str.find_first_not_of(" \t\n", i+1);
         }
