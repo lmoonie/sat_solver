@@ -21,13 +21,13 @@ namespace err {
         "All named variables must not exceed the provided maximum."
     );
     const std::string too_many_cl_var(
-        "The number of clauses and variables must not exceed the signed 32-bit integer."
+        "The number of clauses and/or variables must not exceed the signed 32-bit integer."
     );
     const std::string io_err(
         "An I/O Error was encountered while parsing input."
     );
     const std::string num_clauses_vars(
-        "The number of variables and clauses must be positive."
+        "The number of variables and/or clauses must be strictly positive."
     );
     const std::string solution_format(
         "The solution line is not formatted correctly."

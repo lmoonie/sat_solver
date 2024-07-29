@@ -15,6 +15,8 @@
 #include <string>
 #include <stdexcept>
 #include <format>
+#include <cctype>
+#include <stack>
 #include "message.hpp"
 
 // a collection of types used to store CNF problems
@@ -44,6 +46,12 @@ namespace cnf {
 
     // a map of variables to their proposed value
     using solution = std::map<variable, bool>;
+
+    // used to specify the problem format
+    inline enum ProblemType: bool {
+        CNF = true,
+        SAT = false
+    };
 
     // a complete boolean CNF expression
     class cnf_expr {
@@ -101,6 +109,8 @@ namespace cnf {
         std::unordered_map<clause, lit_set> clauses;
         // maximum variable value
         variable max_var;
+        // format of provided problem
+        ProblemType type;
         // used to print cnf_expr
         friend std::ostream& operator<<(std::ostream&, const cnf_expr&);
         // used to build problem from input stream
