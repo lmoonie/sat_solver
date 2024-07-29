@@ -447,7 +447,7 @@ namespace cnf::io {
             // first non-ignored line must be problem line
             // empty lines and comment lines are ignored
             if (line.size() != 0 && line.at(0) != 'c') {
-                parse_problem_line(line, expr, expr.max_var, expr.type, clauses);
+                parse_problem_line(line, expr.max_var, expr.type, clauses);
                 break;
             }
         }
