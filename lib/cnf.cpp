@@ -273,6 +273,7 @@ namespace cnf::sat {
             }
             i = str.find_first_not_of(" \t\n", i+1);
         }
+        if (!parenth.empty()) throw std::invalid_argument(err::expression_format);
         str = clean_str;
     }
 
