@@ -250,6 +250,9 @@ namespace cnf::sat {
             } else if (str.at(i) == '(') {
                 parenth.push(false);
             } else if (str.at(i) == ')') {
+                if (parenth.empty()) {
+                    throw std::invalid_argument(err::expression_format);
+                }
                 if (parenth.top()) {
                     clean_str.append(") ");
                 }
