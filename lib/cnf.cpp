@@ -320,6 +320,8 @@ namespace cnf::sat {
                     i += 2;
                 } else if (str.at(i) == '-') {
                     str.erase(i, 1);
+                    i++;
+                    while (std::isdigit(str.at(++i)));
                     continue;
                 } else if (std::isdigit(str.at(i))) {
                     str.insert(i, 1, '-');
@@ -336,7 +338,7 @@ namespace cnf::sat {
         clean_sat_str(str);
         std::cout << str << std::endl;
         // move negation to leaves with Demorgan's Laws
-        while (diminish_complement());
+        while (diminish_complement(str));
         std::cout << str << std::endl;
     }
 
