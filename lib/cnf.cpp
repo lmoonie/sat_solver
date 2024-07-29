@@ -271,7 +271,7 @@ namespace cnf::sat {
                 clean_str.push_back(' ');
                 i += num_len;
             }
-            i = str.find_first_not_of(" \t\n", i);
+            i = str.find_first_not_of(" \t\n", i+1);
         }
         str = clean_str;
     }
