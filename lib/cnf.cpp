@@ -322,7 +322,6 @@ namespace cnf::sat {
                 } else if (str.at(i) == '-') {
                     str.erase(i, 1);
                     while (std::isdigit(str.at(i))) i++;
-                    continue;
                 } else if (std::isdigit(str.at(i))) {
                     str.insert(i, 1, '-');
                     while (std::isdigit(str.at(++i)));
