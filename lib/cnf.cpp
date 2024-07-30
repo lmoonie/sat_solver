@@ -495,7 +495,7 @@ namespace cnf::sat {
         clean_sat_str(str);
         distribute(str);
         clean_sat_str(str);
-        distribute(str)
+        distribute(str);
     }
 
 }
