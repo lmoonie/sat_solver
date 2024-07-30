@@ -26,4 +26,5 @@
 # cnf
 - consider not deleting all literals before deleting clause
 - test SAT conversion
+    - DEBUG THIS
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS

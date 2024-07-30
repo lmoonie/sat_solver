@@ -335,6 +335,7 @@ namespace cnf::sat {
             str.push_back(clean_str.at(i));
             i++;
         }
+        std::cout << str << std::endl;
     }
 
     bool diminish_complement(std::string& str) {
