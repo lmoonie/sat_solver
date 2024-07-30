@@ -313,6 +313,7 @@ namespace cnf::sat {
                         }
                     }
                     if (num_elements > 1) break;
+                    j++;
                 }
                 if (num_elements > 1) {
                     str.push_back(clean_str.at(i++));
@@ -330,8 +331,6 @@ namespace cnf::sat {
                     i += 2;
                     continue;
                 }
-
-                parenth.pop();
             }
             str.push_back(clean_str.at(i));
             i++;
