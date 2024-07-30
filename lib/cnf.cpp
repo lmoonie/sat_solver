@@ -346,16 +346,19 @@ namespace cnf::sat {
     }
 
     bool distribute(std::string& str) {
-        // find literal-only conjunctive clauses
+        // find conjunctive clauses containing no nested conjunctive clauses
         // skip the first level
         std::size_t con_start(1);
         while (con_start < str.size()) {
             if (str.at(con_start) == '*') {
                 std::size_t i(con_start + 2 );
-                while(str.at(i) != '(' && str.at(i) != ')') {
+                std::size_t clause_depth(1);
+                while(clause_depth > 0 && clause_depth < 3) {
+                    if (str.at(i) == '(') clause_depth++;
+                    if (str.at(i) == ')') clause_depth--;
                     i++;
                 }
-                if (str.at(i) == ')') break;
+                if (clause_depth == 0) break;
                 else con_start = i;
             }
             con_start++;
@@ -443,8 +446,8 @@ namespace cnf::sat {
                 str.insert(i, ")");
                 i++;
             } else if (
-                // conjunction
-                str.at(i) == '*'
+                // disjunction
+                str.at(i) == '+'
             ) {
                 str.insert(i, "+( ");
                 i += 2;
