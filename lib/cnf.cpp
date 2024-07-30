@@ -255,7 +255,10 @@ namespace cnf::sat {
                         if (clause_depth == 1) {
                             if (str.at(j) == '*' || str.at(j) == '+') {
                                 num_elements++;
-                            } else if (str.at(j) == '-' || std::isdigit(str.at(j))) {
+                            } else if (
+                                std::isdigit(str.at(j)) ||
+                                str.at(j) == '-' && std::isdigit(str.at(j+1))
+                            ) {
                                 num_elements++;
                                 while (std::isdigit(str.at(++j)));
                             }
