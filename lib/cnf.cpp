@@ -394,6 +394,7 @@ namespace cnf::sat {
             val_start = con_start;
             // skip past conjunction
             while (str.at(val_start) != ')') val_start++;
+            val_start++;
             // search for literal or conjunction
             while (str.at(val_start) != ')') {
                 if (
