@@ -386,7 +386,6 @@ namespace cnf::sat {
             }
             i++;
         }
-        std::cout << str << std::endl;
         return true;
     }
 
@@ -520,27 +519,16 @@ namespace cnf::sat {
             }
             i++;
         }
-        std::cout << str << std::endl;
         return true;
     }
 
     inline void convert_str_to_cnf(std::string& str) {
         // clean string and check formatting
         clean_sat_str(str);
-        std::cout << str << std::endl;
         // move negation to leaves with Demorgan's Laws
         while (diminish_complement(str));
-        // remove unnecessary nesting
-        clean_sat_str(str);
-        std::cout << str << std::endl;
-        //while (distribute(str)) clean_sat_str(str);
-        distribute(str);
-        clean_sat_str(str);
-        std::cout << str << std::endl;
-        distribute(str);
-        clean_sat_str(str);
-        std::cout << str << std::endl;
-        distribute(str);
+        // distribute disjunctions over conjunctions
+        do clean_sat_str(str); while (distribute(str));
     }
 
 }
