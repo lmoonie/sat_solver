@@ -398,9 +398,9 @@ namespace cnf::sat {
             // skip past conjunction
             std::size_t clause_depth(1);
             while(clause_depth > 0) {
-                if (str.at(i) == '(') clause_depth++;
-                if (str.at(i) == ')') clause_depth--;
-                i++;
+                if (str.at(val_start) == '(') clause_depth++;
+                if (str.at(val_start) == ')') clause_depth--;
+                val_start++;
             }
             val_start++;
             // search for literal or conjunction
