@@ -417,12 +417,13 @@ namespace cnf::sat {
             }
         }
         // find the end of the value
-        std::size_t val_end(val_start + 1);
+        std::size_t val_end(val_start);
         std::string value;
         if (val_before || val_after) {
             if (std::isdigit(str.at(val_end))) {
                 while (std::isdigit(str.at(val_end))) val_end++;
             } else {
+                val_end++;
                 std::size_t clause_depth(1);
                 while(clause_depth > 0) {
                     if (str.at(val_end) == '(') clause_depth++;
