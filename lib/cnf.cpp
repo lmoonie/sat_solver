@@ -520,6 +520,7 @@ namespace cnf::sat {
             }
             i++;
         }
+        std::cout << str << std::endl;
         return true;
     }
 
