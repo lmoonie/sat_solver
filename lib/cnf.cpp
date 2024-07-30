@@ -245,38 +245,14 @@ namespace cnf::sat {
                 ) {
                     parenth.push(false);
                 } else {
-                    // confirm the clause has multiple elements
-                    std::size_t clause_depth(1);
-                    std::size_t j(i + 2);
-                    std::size_t num_elements(0);
-                    while(clause_depth > 0) {
-                        if (str.at(j) == '(') clause_depth++;
-                        if (str.at(j) == ')') clause_depth--;
-                        if (clause_depth == 1) {
-                            if (str.at(j) == '*' || str.at(j) == '+') {
-                                num_elements++;
-                            } else if (
-                                std::isdigit(str.at(j)) ||
-                                str.at(j) == '-' && std::isdigit(str.at(j+1))
-                            ) {
-                                num_elements++;
-                                while (std::isdigit(str.at(++j)));
-                            }
-                        }
-                        j++;
+                    if (negatives % 2 == 1) {
+                        clean_str.push_back('-');
+                        negatives = 0;
                     }
-                    if (num_elements <= 1) {
-                        parenth.push(false);
-                    } else {
-                        if (negatives % 2 == 1) {
-                            clean_str.push_back('-');
-                            negatives = 0;
-                        }
-                        in_conjunctive_clause.push(str.at(i) == '*');
-                        in_disjunctive_clause.push(str.at(i) == '+');
-                        clean_str.push_back(str.at(i));
-                        parenth.push(true);
-                    }
+                    in_conjunctive_clause.push(str.at(i) == '*');
+                    in_disjunctive_clause.push(str.at(i) == '+');
+                    clean_str.push_back(str.at(i));
+                    parenth.push(true);
                 }
                 i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
