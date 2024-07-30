@@ -293,7 +293,49 @@ namespace cnf::sat {
         }
         if (!parenth.empty()) throw std::invalid_argument(err::expression_format);
         if (negatives > 0) throw std::invalid_argument(err::expression_format);
-        str = clean_str;
+        // remove clauses containing only one element
+        i = 0;
+        str.clear();
+        while (i < clean_str.size()) {
+            if (clean_str.at(i) == '*' || clean_str.at(i) == '+') {
+                std::size_t num_elements(0);
+                std::size_t j(i + 2);
+                std::size_t clause_depth(1);
+                while (clause_depth > 0) {
+                    if (clean_str.at(j) == '(') clause_depth++;
+                    if (clean_str.at(j) == ')') clause_depth--;
+                    if (clause_depth == 1) {
+                        if (std::isdigit(clean_str.at(j))) {
+                            num_elements++;
+                            while (std::isdigit(clean_str.at(j))) j++;
+                        } else if (clean_str.at(j) == '(') {
+                            num_elements++;
+                        }
+                    }
+                    if (num_elements > 1) break;
+                }
+                if (num_elements > 1) {
+                    str.push_back(clean_str.at(i++));
+                    parenth.push(true);
+                } else {
+                    i += 3;
+                    parenth.push(false);
+                    continue;
+                }
+            } else if (clean_str.at(i) == ')') {
+                if (parenth.top()) {
+                    parenth.pop();
+                } else {
+                    parenth.pop();
+                    i += 2;
+                    continue;
+                }
+
+                parenth.pop();
+            }
+            str.push_back(clean_str.at(i));
+            i++;
+        }
     }
 
     bool diminish_complement(std::string& str) {
