@@ -405,6 +405,7 @@ namespace cnf::sat {
                     val_after = true;
                     break;
                 }
+                val_start++;
             }
         }
         // find the end of the value
