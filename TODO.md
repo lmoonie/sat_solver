@@ -25,3 +25,4 @@
 
 # cnf
 - consider not deleting all literals before deleting clause
+- test SAT conversion

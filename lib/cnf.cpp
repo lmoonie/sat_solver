@@ -227,23 +227,32 @@ namespace cnf {
 namespace cnf::sat {
 
     // Remove extra whitespace, add helpful whitespace, remove extra
-    // parentheses, etc.
+    // parentheses, remove extra formula nesting, etc.
     inline void clean_sat_str(std::string& str) {
         std::string clean_str;
         std::size_t i = str.find_first_not_of(" \t\n");
         std::stack<bool> parenth;
         int negatives(0);
+        bool in_conjunctive_clause(true);
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
-                if (negatives % 2 == 1) {
-                    clean_str.push_back('-');
-                    negatives = 0;
+                if (
+                    str.at(i) == '*' && in_conjunctive_clause ||
+                    str.at(i) == '+' && !in_conjunctive_clause
+                ) {
+                    parenth.push(false);
+                } else {
+                    if (negatives % 2 == 1) {
+                        clean_str.push_back('-');
+                        negatives = 0;
+                    }
+                    in_conjunctive_clause = str.at(i) == '*';
+                    clean_str.push_back(str.at(i));
+                    parenth.push(true);
                 }
-                clean_str.push_back(str.at(i));
                 i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
-                    parenth.push(true);
-                    clean_str.append("( ");
+                    if (parenth.top()) clean_str.append("( ");
                 } else {
                     throw std::invalid_argument(err::expression_format);
                 }
@@ -340,6 +349,10 @@ namespace cnf::sat {
         std::cout << str << std::endl;
         // move negation to leaves with Demorgan's Laws
         while (diminish_complement(str));
+        // remove unnecessary nesting
+        clean_sat_str(str);
+        std::cout << str << std::endl;
+        
     }
 
 }
