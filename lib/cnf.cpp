@@ -228,7 +228,7 @@ namespace cnf::sat {
 
     // Remove extra whitespace, add helpful whitespace, remove extra
     // parentheses, remove extra formula nesting, etc.
-    inline void clean_sat_str(std::string& str) {
+    void clean_sat_str(std::string& str) {
         std::string clean_str;
         std::size_t i = str.find_first_not_of(" \t\n");
         std::stack<bool> parenth;
@@ -292,7 +292,7 @@ namespace cnf::sat {
         str = clean_str;
     }
 
-    inline bool diminish_complement(std::string& str) {
+    bool diminish_complement(std::string& str) {
         // find the first negative sign not part of a literal
         std::size_t i(0);
         while (i < str.size()) {
@@ -345,6 +345,116 @@ namespace cnf::sat {
         return true;
     }
 
+    bool distribute(std::string& str) {
+        // find literal-only conjunctive clauses
+        // skip the first level
+        std::size_t con_start(1);
+        while (con_start < str.size()) {
+            if (str.at(con_start) == '*') {
+                std::size_t i(con_start);
+                while(str.at(i) != '(' && str.at(i) != ')') {
+                    i++;
+                }
+                if (str.at(i) == ')') break
+                else con_start = i;
+            }
+            con_start++;
+        }
+        if (con_start >= str.size()) return false;
+        // find start of parent disjunctive clause
+        std::size_t dis_start(con_start);
+        while (str.at(dis_start) != '+') i--;
+        // look for adjacent literal or conjunction
+        bool val_before(false);
+        bool val_after(false);
+        std::size_t val_start(con_start);
+        while (val_start > dis_start) {
+            // check for literal
+            if (std::isdigit(str.at(val_start))) {
+                val_before = true;
+                do val_start-- while (
+                    std::isdigit(str.at(val_start)) ||
+                    str.at(val_start) == '-'
+                );
+                val_start++;
+                break;
+            }
+            // check for conjunction
+            if (str.at(val_start) == ')') {
+                val_before = true;
+                do val_start-- while (
+                    str.at(val_start) != '*'
+                );
+                break;
+            }
+        }
+        // search after conjunction in disjunction
+        if (!val_before) {
+            val_start = con_start;
+            // skip past conjunction
+            while (str.at(val_start) != ')') val_start++;
+            // search for literal or conjunction
+            while (str.at(val_start) != ')') {
+                if (
+                    std::isdigit(str.at(val_start)) ||
+                    str.at(val_start) == '-' ||
+                    str.at(val_start) == '*'
+                ) {
+                    val_after = true;
+                    break;
+                }
+            }
+        }
+        // find the end of the value
+        std::size_t val_end(val_start + 1);
+        std::string value;
+        if (val_before || val_after) {
+            if (std::isdigit(str.at(val_end))) {
+                while (std::isdigit(str.at(val_end))) val_end++;
+            } else {
+                while (str.at(val_end) != ')') val_end++;
+                val_end++;
+            }
+            value = str.substr(val_start, val_end - val_start);
+            str.erase(val_start, val_end - val_start);
+            if (val_before) {
+                con_start -= val_end - val_start;
+            }
+        }
+        // distribute the value over the conjunction
+        std::size_t i(con_start);
+        while (str.at(i) != ')') {
+            if (
+                // literal
+                std::isdigit(str.at(i)) ||
+                str.at(i) == '-'
+            ) {
+
+                while (
+                    std::isdigit(str.at(i)) ||
+                    str.at(i) == '-'
+                ) i++;
+                str.insert(i, ")");
+                i++;
+            } else if (
+                // conjunction
+                str.at(i) == '*'
+            ) {
+                str.insert(i, "+( ");
+                i += 2;
+                str.insert(i, value);
+                i += val_end - val_start + 1;
+                while (
+                    str.at(i) != ')'
+                ) i++;
+                str.insert(i, ")");
+                i++;
+            }
+        }
+        std::cout << str << std::endl;
+        return true;
+    }
+
     inline void convert_str_to_cnf(std::string& str) {
         // clean string and check formatting
         clean_sat_str(str);
@@ -354,6 +464,7 @@ namespace cnf::sat {
         // remove unnecessary nesting
         clean_sat_str(str);
         std::cout << str << std::endl;
+        while (distribute(str)) clean_sat_str(str);
 
     }
 

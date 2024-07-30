@@ -1,6 +1,6 @@
 # Admin
-- Notify of changes from proposal
-    - swapped inputs for sat_verify
+- Review project spec
+- write README
 
 # sat_verify
 - Implement remaining CLI
@@ -26,3 +26,4 @@
 # cnf
 - consider not deleting all literals before deleting clause
 - test SAT conversion
+- CONSIDER +() AND \*() WHEN PROCESSING STRINGS
