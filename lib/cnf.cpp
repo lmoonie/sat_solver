@@ -453,6 +453,7 @@ namespace cnf::sat {
                 str.insert(i, ")");
                 i++;
             }
+            i++;
         }
         std::cout << str << std::endl;
         return true;
