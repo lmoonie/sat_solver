@@ -302,8 +302,6 @@ namespace cnf::sat {
                 std::size_t j(i + 2);
                 std::size_t clause_depth(1);
                 while (clause_depth > 0) {
-                    if (clean_str.at(j) == '(') clause_depth++;
-                    if (clean_str.at(j) == ')') clause_depth--;
                     if (clause_depth == 1) {
                         if (std::isdigit(clean_str.at(j))) {
                             num_elements++;
@@ -312,6 +310,8 @@ namespace cnf::sat {
                             num_elements++;
                         }
                     }
+                    if (clean_str.at(j) == '(') clause_depth++;
+                    if (clean_str.at(j) == ')') clause_depth--;
                     if (num_elements > 1) break;
                     j++;
                 }
