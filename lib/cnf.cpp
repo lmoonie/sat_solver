@@ -233,12 +233,13 @@ namespace cnf::sat {
         std::size_t i = str.find_first_not_of(" \t\n");
         std::stack<bool> parenth;
         int negatives(0);
-        bool in_conjunctive_clause(true);
+        bool in_conjunctive_clause(false);
+        bool in_disjunctive_clause(false);
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
                 if (
                     str.at(i) == '*' && in_conjunctive_clause ||
-                    str.at(i) == '+' && !in_conjunctive_clause
+                    str.at(i) == '+' && in_disjunctive_clause
                 ) {
                     parenth.push(false);
                 } else {
@@ -247,6 +248,7 @@ namespace cnf::sat {
                         negatives = 0;
                     }
                     in_conjunctive_clause = str.at(i) == '*';
+                    in_disjunctive_clause = str.at(i) == '+';
                     clean_str.push_back(str.at(i));
                     parenth.push(true);
                 }
@@ -352,7 +354,7 @@ namespace cnf::sat {
         // remove unnecessary nesting
         clean_sat_str(str);
         std::cout << str << std::endl;
-        
+
     }
 
 }
