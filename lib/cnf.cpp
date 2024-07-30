@@ -425,7 +425,7 @@ namespace cnf::sat {
             }
         }
         // distribute the value over the conjunction
-        std::size_t i(con_start);
+        std::size_t i(con_start + 2);
         while (str.at(i) != ')') {
             if (
                 // literal
