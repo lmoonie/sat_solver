@@ -268,6 +268,8 @@ namespace cnf::sat {
                     clean_str.append(") ");
                 }
                 parenth.pop();
+                in_conjunctive_clause =  false;
+                in_disjunctive_clause = false;
             } else if (str.at(i) == '-') {
                 negatives++;
             } else {
@@ -488,8 +490,12 @@ namespace cnf::sat {
         // remove unnecessary nesting
         clean_sat_str(str);
         std::cout << str << std::endl;
-        while (distribute(str)) clean_sat_str(str);
-
+        //while (distribute(str)) clean_sat_str(str);
+        distribute(str);
+        clean_sat_str(str);
+        distribute(str);
+        clean_sat_str(str);
+        distribute(str)
     }
 
 }
