@@ -438,6 +438,8 @@ namespace cnf::sat {
             }
         }
         // distribute the value over the conjunction
+        std::size_t i(con_start + 2);
+        std::size_t clause_depth(1);
         while (clause_depth > 0) {
             if (str.at(i) == '(') clause_depth++;
             if (str.at(i) == ')') clause_depth--;
