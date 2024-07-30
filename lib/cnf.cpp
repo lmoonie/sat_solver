@@ -355,7 +355,7 @@ namespace cnf::sat {
                 while(str.at(i) != '(' && str.at(i) != ')') {
                     i++;
                 }
-                if (str.at(i) == ')') break
+                if (str.at(i) == ')') break;
                 else con_start = i;
             }
             con_start++;
@@ -363,7 +363,7 @@ namespace cnf::sat {
         if (con_start >= str.size()) return false;
         // find start of parent disjunctive clause
         std::size_t dis_start(con_start);
-        while (str.at(dis_start) != '+') i--;
+        while (str.at(dis_start) != '+') dis_start--;
         // look for adjacent literal or conjunction
         bool val_before(false);
         bool val_after(false);
@@ -372,7 +372,7 @@ namespace cnf::sat {
             // check for literal
             if (std::isdigit(str.at(val_start))) {
                 val_before = true;
-                do val_start-- while (
+                do val_start--; while (
                     std::isdigit(str.at(val_start)) ||
                     str.at(val_start) == '-'
                 );
@@ -382,7 +382,7 @@ namespace cnf::sat {
             // check for conjunction
             if (str.at(val_start) == ')') {
                 val_before = true;
-                do val_start-- while (
+                do val_start--; while (
                     str.at(val_start) != '*'
                 );
                 break;
