@@ -396,7 +396,12 @@ namespace cnf::sat {
         if (!val_before) {
             val_start = con_start;
             // skip past conjunction
-            while (str.at(val_start) != ')') val_start++;
+            std::size_t clause_depth(1);
+            while(clause_depth > 0) {
+                if (str.at(i) == '(') clause_depth++;
+                if (str.at(i) == ')') clause_depth--;
+                i++;
+            }
             val_start++;
             // search for literal or conjunction
             while (str.at(val_start) != ')') {
@@ -418,7 +423,12 @@ namespace cnf::sat {
             if (std::isdigit(str.at(val_end))) {
                 while (std::isdigit(str.at(val_end))) val_end++;
             } else {
-                while (str.at(val_end) != ')') val_end++;
+                std::size_t clause_depth(1);
+                while(clause_depth > 0) {
+                    if (str.at(val_end) == '(') clause_depth++;
+                    if (str.at(val_end) == ')') clause_depth--;
+                    val_end++;
+                }
                 val_end++;
             }
             value = str.substr(val_start, val_end - val_start);
@@ -428,8 +438,9 @@ namespace cnf::sat {
             }
         }
         // distribute the value over the conjunction
-        std::size_t i(con_start + 2);
-        while (str.at(i) != ')') {
+        while (clause_depth > 0) {
+            if (str.at(i) == '(') clause_depth++;
+            if (str.at(i) == ')') clause_depth--;
             if (
                 // literal
                 std::isdigit(str.at(i)) ||
