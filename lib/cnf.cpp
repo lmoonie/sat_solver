@@ -387,6 +387,7 @@ namespace cnf::sat {
                 );
                 break;
             }
+            val_start--;
         }
         // search after conjunction in disjunction
         if (!val_before) {
