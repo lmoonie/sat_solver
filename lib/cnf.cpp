@@ -351,7 +351,7 @@ namespace cnf::sat {
         std::size_t con_start(1);
         while (con_start < str.size()) {
             if (str.at(con_start) == '*') {
-                std::size_t i(con_start);
+                std::size_t i(con_start + 2 );
                 while(str.at(i) != '(' && str.at(i) != ')') {
                     i++;
                 }
