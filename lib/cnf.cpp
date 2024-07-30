@@ -233,13 +233,13 @@ namespace cnf::sat {
         std::size_t i = str.find_first_not_of(" \t\n");
         std::stack<bool> parenth;
         int negatives(0);
-        bool in_conjunctive_clause(false);
-        bool in_disjunctive_clause(false);
+        std::stack<bool> in_conjunctive_clause{false};
+        std::stack<bool> in_disjunctive_clause{false};
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
                 if (
-                    str.at(i) == '*' && in_conjunctive_clause ||
-                    str.at(i) == '+' && in_disjunctive_clause
+                    str.at(i) == '*' && in_conjunctive_clause.top() ||
+                    str.at(i) == '+' && in_disjunctive_clause.top()
                 ) {
                     parenth.push(false);
                 } else {
@@ -247,8 +247,8 @@ namespace cnf::sat {
                         clean_str.push_back('-');
                         negatives = 0;
                     }
-                    in_conjunctive_clause = str.at(i) == '*';
-                    in_disjunctive_clause = str.at(i) == '+';
+                    in_conjunctive_clause.push(str.at(i) == '*');
+                    in_disjunctive_clause.push(str.at(i) == '+');
                     clean_str.push_back(str.at(i));
                     parenth.push(true);
                 }
@@ -266,10 +266,10 @@ namespace cnf::sat {
                 }
                 if (parenth.top()) {
                     clean_str.append(") ");
+                    in_conjunctive_clause.pop();
+                    in_disjunctive_clause.pop();
                 }
                 parenth.pop();
-                in_conjunctive_clause =  false;
-                in_disjunctive_clause = false;
             } else if (str.at(i) == '-') {
                 negatives++;
             } else {
