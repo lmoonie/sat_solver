@@ -536,8 +536,10 @@ namespace cnf::sat {
         //while (distribute(str)) clean_sat_str(str);
         distribute(str);
         clean_sat_str(str);
+        std::cout << str << std::endl;
         distribute(str);
         clean_sat_str(str);
+        std::cout << str << std::endl;
         distribute(str);
     }
 
