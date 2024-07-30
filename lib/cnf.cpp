@@ -394,7 +394,7 @@ namespace cnf::sat {
         }
         // search after conjunction in disjunction
         if (!val_before) {
-            val_start = con_start;
+            val_start = con_start + 2;
             // skip past conjunction
             std::size_t clause_depth(1);
             while(clause_depth > 0) {
