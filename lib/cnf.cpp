@@ -671,7 +671,7 @@ namespace cnf::io {
             sat::convert_str_to_cnf(sat_str);
             // assign the string to the cnf_expr
             // check that literal is an integer
-            std::sringstream ss(sat_str);
+            std::stringstream ss(sat_str);
             if (ss >> lit) {
                 if (std::abs(lit) > max_var) {
                     // not a valid literal
