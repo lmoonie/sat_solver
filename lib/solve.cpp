@@ -87,7 +87,7 @@ namespace solve {
         void validate(
             boost::any& v,
             const std::vector<std::string>& args,
-            std::chrono::duration<int64_t>* duration_t, int)
+            duration_t*, int)
         {
             // get the provided argument
             opts::validators::check_first_occurrence(v);
@@ -111,7 +111,7 @@ namespace solve {
         void validate(
             boost::any& v,
             const std::vector<std::string>& args,
-            unsigned long long* memory_t, int)
+            memory_t*, int)
         {
             // get the provided argument
             opts::validators::check_first_occurrence(v);
@@ -119,7 +119,7 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            unsigned long long mem = std::stoi(str, &unit_idx);
+            memory_t mem = std::stoi(str, &unit_idx);
             if (str.at(unit_idx) == 'k') {
                 v = mem * 1'000;
             } else if (str.at(unit_idx) == 'm') {
@@ -142,8 +142,8 @@ namespace solve {
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<std::chrono::duration<int64_t>>(), flag_desc::duration.c_str())
-                ("memory,m", opts::value<unsigned long long int>(), flag_desc::memory.c_str());
+                ("duration,d", opts::value<duration_t>(), flag_desc::duration.c_str())
+                ("memory,m", opts::value<memory_t>(), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
@@ -207,13 +207,13 @@ namespace solve {
             }
             // set duration
             if (pif.var_map.count("duration") == 1) {
-                pif.duration = pif.var_map["duration"].as<std::chrono::duration<int64_t>>();
+                pif.duration = pif.var_map["duration"].as<duration_t>();
             } else if (pif.var_map.count("duration") > 1) {
                 throw std::invalid_argument(err::repeat_options);
             }
             // set memory
             if (pif.var_map.count("memory") == 1) {
-                pif.memory = pif.var_map["memory"].as<unsigned long long>();
+                pif.memory = pif.var_map["memory"].as<memory_t>();
             } else if (pif.var_map.count("memory") > 1) {
                 throw std::invalid_argument(err::repeat_options);
             }

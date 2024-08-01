@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <istream>
 #include <ostream>
+#include <mutex>
+#include <condition_variable>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -20,6 +22,10 @@
 namespace solve {
 
     namespace opts = boost::program_options;
+    namespace cli {
+        using duration_t = std::chrono::duration<int64_t>;
+        using memory_t = unsigned long long int;
+    }
 
     class program_interface {
     public:
@@ -43,13 +49,36 @@ namespace solve {
         solver::SolverType solver;
         bool incomplete;
         uint threads;
-        std::chrono::duration<int64_t> duration;
-        unsigned long long int memory;
+        duration_t duration;
+        memory_t memory;
 
         // Boost program options
         opts::options_description desc;
         opts::variables_map var_map;
     };
+
+    class orchestrator {
+    public:
+        // no default constructor
+        orchestrator() = delete;
+        // constructor
+        orchestrator(const program_interface&);
+        // no copy constructor
+        orchestrator(const orchestrator&) = delete;
+        // no move constructor
+        orchestrator(orchestrator&&) = delete;
+        // no assignment
+        orchestrator& operator=(const orchestrator&) = delete;
+        orchestrator& operator=(orchestrator&&) = delete;
+        // run the solvers
+        bool operator()();
+    private:
+        std::vector<std::jthread> threads;
+        sol::solution sol;
+        const program_interface& pif;
+        std::mutex solution_lock;
+        std::condition_variable finished;
+    }
 
     // solve the problem
     bool run_portfolio(const program_interface&, std::istream&, std::ostream&);
