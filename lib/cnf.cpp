@@ -672,18 +672,20 @@ namespace cnf::io {
             // assign the string to the cnf_expr
             // check that literal is an integer
             std::stringstream ss(sat_str);
-            if (ss >> lit) {
-                if (std::abs(lit) > max_var) {
-                    // not a valid literal
-                    throw std::invalid_argument(err::invalid_variable);
-                } else if (lit == 0) {
-                    // increment clause counter
-                    cl++;
-                } else {
-                    // integer is a valid literal
-                    expr.add_literal(lit, cl);
+            do {
+                if (ss >> lit) {
+                    if (std::abs(lit) > max_var) {
+                        // not a valid literal
+                        throw std::invalid_argument(err::invalid_variable);
+                    } else if (lit == 0) {
+                        // increment clause counter
+                        cl++;
+                    } else {
+                        // integer is a valid literal
+                        expr.add_literal(lit, cl);
+                    }
                 }
-            }
+            } while (ss.good());
         }
 
         // ensure the correct number of clauses was provided

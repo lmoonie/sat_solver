@@ -10,7 +10,6 @@ namespace solve {
     bool run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         cnf::cnf_expr expr(istr);
         sol::solution sol;
-        sol.set_type(sol::ProblemType::CNF);
 
         try {
             if (pif.solver == solver::SolverType::BruteForce) {
@@ -29,7 +28,8 @@ namespace solve {
                 sol.get_type() == sol::ProblemType::CNF ? "cnf" : "sat",
                 "-1",
                 std::to_string(expr.get_max_var()),
-                std::to_string(expr.get_num_clauses())
+                sol.get_type() == sol::ProblemType::CNF ?
+                    std::to_string(expr.get_num_clauses()) : ""
             ) << std::endl;
             throw;
         }
