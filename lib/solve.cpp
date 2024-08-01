@@ -103,7 +103,7 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            long time_steps = std::stoi(str, &unit_idx);
+            long time_steps = std::stoull(str, &unit_idx);
             if (str.at(unit_idx) == 's') {
                 v = duration_t{std::chrono::seconds(time_steps)};
             } else if (str.at(unit_idx) == 'm') {
@@ -127,7 +127,7 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            unsigned long long mem = {std::stoi(str, &unit_idx)};
+            unsigned long long mem = {std::stoull(str, &unit_idx)};
             if (str.at(unit_idx) == 'k') {
                 v = memory_t{mem * 1'000};
             } else if (str.at(unit_idx) == 'm') {
