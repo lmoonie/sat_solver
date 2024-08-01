@@ -81,7 +81,7 @@ namespace sol {
     }
 
     // get problem type
-    bool solution::get_type() const {
+    ProblemType solution::get_type() const {
         return type;
     }
 

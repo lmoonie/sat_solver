@@ -79,7 +79,7 @@ namespace sol {
         // set problem type
         void set_type(ProblemType);
         // get problem type
-        bool get_type() const;
+        ProblemType get_type() const;
 
     private:
         // tracks variable assignments
