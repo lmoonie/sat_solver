@@ -533,7 +533,9 @@ namespace cnf::sat {
         // move negation to leaves with Demorgan's Laws
         while (diminish_complement(str));
         // distribute disjunctions over conjunctions
-        do {while(clean_sat_str(str))}; while (distribute(str));
+        do {
+            while(clean_sat_str(str))
+        } while (distribute(str));
     }
 
 }
