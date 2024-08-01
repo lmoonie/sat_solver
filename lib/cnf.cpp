@@ -534,7 +534,7 @@ namespace cnf::sat {
         while (diminish_complement(str));
         // distribute disjunctions over conjunctions
         do {
-            while(clean_sat_str(str))
+            while(clean_sat_str(str));
         } while (distribute(str));
     }
 
