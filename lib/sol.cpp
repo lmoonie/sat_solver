@@ -80,6 +80,11 @@ namespace sol {
         type = ptype;
     }
 
+    // get problem type
+    bool solution::get_type() const {
+        return type;
+    }
+
     // used to print solution
     std::ostream& operator<<(std::ostream& ostr, const solution& sol) {
         // print solution line

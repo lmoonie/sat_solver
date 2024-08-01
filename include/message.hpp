@@ -77,6 +77,9 @@ namespace err {
     const std::string invalid_solver(
         "The requested solver does not exist."
     );
+    const std::string type_mismatch(
+        "The type of the problem and solution must be the same."
+    );
 
 
 }

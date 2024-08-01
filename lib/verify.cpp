@@ -26,11 +26,16 @@ namespace verify {
         if (!sol.is_valid()) {
             throw std::invalid_argument(err::invalid_solution);
         }
-        if (sol.get_num_clauses() != cnf.get_num_clauses()) {
+        if (sol.get_num_clauses() != cnf.get_num_clauses() &&
+            sol.get_type() == sol::ProblemType::CNF
+        ) {
             throw std::invalid_argument(err::solution_clauses);
         }
         if (sol.get_max_var() != cnf.get_max_var()) {
             throw std::invalid_argument(err::solution_vars);
+        }
+        if (sol.get_type() != cnf.get_type()) {
+            throw std::invalid_argument(err::type_mismatch);
         }
         try {
             return cnf.eval(sol.map());
