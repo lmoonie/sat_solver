@@ -228,7 +228,7 @@ namespace cnf::sat {
 
     // Remove extra whitespace, add helpful whitespace, remove extra
     // parentheses, remove extra formula nesting, etc.
-    void clean_sat_str(std::string& str) {
+    bool clean_sat_str(std::string& str) {
         std::string clean_str;
         std::size_t i = str.find_first_not_of(" \t\n");
         std::stack<bool> parenth;
@@ -295,6 +295,7 @@ namespace cnf::sat {
         if (negatives > 0) throw std::invalid_argument(err::expression_format);
         // remove clauses containing only one element
         i = 0;
+        bool string_changed = str != clean_str;
         str.clear();
         while (i < clean_str.size()) {
             if (clean_str.at(i) == '*' || clean_str.at(i) == '+') {
@@ -321,6 +322,7 @@ namespace cnf::sat {
                 } else {
                     i += 3;
                     parenth.push(false);
+                    string_changed = true;
                     continue;
                 }
             } else if (clean_str.at(i) == ')') {
@@ -336,6 +338,7 @@ namespace cnf::sat {
             i++;
         }
         std::cout << str << std::endl;
+        return string_changed;
     }
 
     bool diminish_complement(std::string& str) {
@@ -412,7 +415,7 @@ namespace cnf::sat {
         // find start of parent disjunctive clause
         std::size_t dis_start(con_start);
         while (str.at(dis_start) != '+') dis_start--;
-        // look for adjacent literal or clause
+        // look for adjacent literal or conjunction
         bool val_before(false);
         bool val_after(false);
         std::size_t val_start(con_start);
@@ -427,12 +430,11 @@ namespace cnf::sat {
                 val_start++;
                 break;
             }
-            // check for clause
+            // check for conjunction
             if (str.at(val_start) == ')') {
                 val_before = true;
                 do val_start--; while (
-                    str.at(val_start) != '*' &&
-                    str.at(val_start) != '+'
+                    str.at(val_start) != '*'
                 );
                 break;
             }
@@ -454,8 +456,7 @@ namespace cnf::sat {
                 if (
                     std::isdigit(str.at(val_start)) ||
                     str.at(val_start) == '-' ||
-                    str.at(val_start) == '*' ||
-                    str.at(val_start) == '+'
+                    str.at(val_start) == '*'
                 ) {
                     val_after = true;
                     break;
@@ -528,11 +529,11 @@ namespace cnf::sat {
 
     inline void convert_str_to_cnf(std::string& str) {
         // clean string and check formatting
-        clean_sat_str(str);
+        while (clean_sat_str(str));
         // move negation to leaves with Demorgan's Laws
         while (diminish_complement(str));
         // distribute disjunctions over conjunctions
-        do clean_sat_str(str); while (distribute(str));
+        do {while(clean_sat_str(str))}; while (distribute(str));
     }
 
 }
