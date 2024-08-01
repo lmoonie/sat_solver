@@ -17,6 +17,7 @@
 #include <format>
 #include <cctype>
 #include <stack>
+#include <sstream>
 #include "message.hpp"
 
 // a collection of types used to store CNF problems

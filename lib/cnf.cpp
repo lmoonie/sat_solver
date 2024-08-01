@@ -683,6 +683,7 @@ namespace cnf::io {
                     // integer is a valid literal
                     expr.add_literal(lit, cl);
                 }
+            }
         }
 
         // ensure the correct number of clauses was provided
