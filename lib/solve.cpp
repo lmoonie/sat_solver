@@ -86,10 +86,10 @@ namespace solve {
         // needed to overload validate
         struct duration_t {
             std::chrono::duration<int64_t> val;
-        }
+        };
         struct memory_t {
             unsigned long long int val;
-        }
+        };
 
         // validator for duration argument
         void validate(
@@ -105,11 +105,11 @@ namespace solve {
             std::size_t unit_idx;
             long time_steps = std::stoi(str, &unit_idx);
             if (str.at(unit_idx) == 's') {
-                v.val = std::chrono::seconds(time_steps);
+                v = duration_t{std::chrono::seconds(time_steps)};
             } else if (str.at(unit_idx) == 'm') {
-                v.val = std::chrono::minutes(time_steps);
+                v = duration_t{std::chrono::minutes(time_steps)};
             } else if (str.at(unit_idx) == 'h') {
-                v.val = std::chrono::hours(time_steps);
+                v = duration_t{std::chrono::hours(time_steps)};
             } else {
                 throw std::invalid_argument(err::invalid_duration);
             }
@@ -127,13 +127,13 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            memory_t mem = std::stoi(str, &unit_idx);
+            unsigned long long mem = {std::stoi(str, &unit_idx)};
             if (str.at(unit_idx) == 'k') {
-                v.val = mem * 1'000;
+                v = memory_t{mem * 1'000};
             } else if (str.at(unit_idx) == 'm') {
-                v.val = mem * 1'000'000;
+                v = memory_t{mem * 1'000'000};
             } else if (str.at(unit_idx) == 'g') {
-                v.val = mem * 1'000'000'000;
+                v = memory_t{mem * 1'000'000'000};
             } else {
                 throw std::invalid_argument(err::invalid_memory);
             }
