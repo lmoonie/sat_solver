@@ -546,6 +546,23 @@ namespace cnf::sat {
         return true;
     }
 
+    void remove_operators(std::string& str) {
+        std::string cnf_str;
+        std::size_t i(2);
+        std::size_t clause_depth(1);
+        while(clause_depth > 0) {
+            if (str.at(i) == '(') clause_depth++;
+            if (str.at(i) == ')') {
+                if (clause_depth == 2) cnf_str.push_back('0');
+                clause_depth--;
+            }
+            if (clause_depth == 2) {
+                cnf_str.push_back(str.at(i));
+            }
+            i++;
+        }
+    }
+
     inline void convert_str_to_cnf(std::string& str) {
         // clean string and check formatting
         while (clean_sat_str(str));
@@ -555,6 +572,8 @@ namespace cnf::sat {
         do {
             while(clean_sat_str(str));
         } while (distribute(str));
+        remove_operators(str);
+        std::cout << str << std::endl;
     }
 
 }
@@ -648,8 +667,8 @@ namespace cnf::io {
         if (type == ProblemType::SAT) {
             // convert the expression to be in conjunctive normal form
             sat::convert_str_to_cnf(sat_str);
-
             // assign the string to the cnf_expr
+
         }
 
         // ensure the correct number of clauses was provided
