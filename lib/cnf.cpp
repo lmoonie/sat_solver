@@ -421,7 +421,7 @@ namespace cnf::sat {
                 if (clause_depth == 1) {
                     if (str.at(i) == '-' || std::isdigit(str.at(i))) {
                         str.insert(i, "+( ");
-                        i += 2;
+                        i += 3;
                         while (std::isdigit(str.at(++i)));
                         str.insert(i, " )");
                         i += 2;
