@@ -4,7 +4,7 @@
 
 # sat_verify
 - Implement remaining CLI
-- output false clause
+- output false clause?
 - implement ctrl+c
 
 # brute_force
@@ -26,8 +26,12 @@
 # cnf
 - consider not deleting all literals before deleting clause
 - test SAT conversion
-    - DEBUG THIS
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS
+    - replace with variables
+    - odd vars greater than max_var are false, even are true
+    - use cnf facilities to simplify
 
-# Current progress
-- To fix bug: try allowing any clause type to be the distributed value
+# Next steps
+- timing/mem. usage
+- concurrency
+- CDCL

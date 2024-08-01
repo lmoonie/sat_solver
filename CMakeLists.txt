@@ -24,24 +24,20 @@ include(Sanitizers.cmake)
 # Define libraries
 add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
-add_library(message include/message.hpp)
 add_library(verify lib/verify.cpp)
-add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp lib/solver/local_search.cpp)
 add_library(solve lib/solve.cpp)
-
-# Set target language
-set_target_properties(message PROPERTIES LINKER_LANGUAGE CXX)
+add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp lib/solver/local_search.cpp)
 
 # Include directories
 target_include_directories(cnf PUBLIC include)
 target_include_directories(sol PUBLIC include)
-target_include_directories(message PUBLIC include)
 target_include_directories(verify PUBLIC include)
-target_include_directories(solver PUBLIC include)
 target_include_directories(solve PUBLIC include)
+target_include_directories(solver PUBLIC include)
 
 # Enable external libraries
-# find_package(Catch2 3 REQUIRED)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads)
 find_package(Boost 1.54.0 REQUIRED COMPONENTS program_options)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -54,8 +50,8 @@ add_executable(sat_solve app/sat_solve.cpp)
 # Link the libraries
 target_link_libraries(test_cnf_input PRIVATE cnf)
 target_link_libraries(test_sol_io PRIVATE sol)
-target_link_libraries(sat_verify PRIVATE verify sol cnf message Boost::program_options)
-target_link_libraries(sat_solve PRIVATE solve solver sol cnf message Boost::program_options)
+target_link_libraries(sat_verify PRIVATE verify sol cnf Boost::program_options)
+target_link_libraries(sat_solve PRIVATE solve solver sol cnf Boost::program_options Threads::Threads)
 
 # Generate coverage report
 # if(ENABLE_COVERAGE)
