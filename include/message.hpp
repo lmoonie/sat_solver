@@ -80,6 +80,12 @@ namespace err {
     const std::string type_mismatch(
         "The type of the problem and solution must be the same."
     );
+    const std::string invalid_duration(
+        "The provided maximum duration is incorrectly formatted."
+    );
+    const std::string invalid_duration(
+        "The provided maximum memory usage is incorrectly formatted."
+    );
 
 
 }
