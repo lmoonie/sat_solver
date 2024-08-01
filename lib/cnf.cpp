@@ -411,7 +411,26 @@ namespace cnf::sat {
             }
             con_start++;
         }
-        if (con_start >= str.size()) return false;
+        // done distributing; will wrap lone literals in disjunctions
+        if (con_start >= str.size()) {
+            std:size_t i(2);
+            std::size_t clause_depth(1);
+            while(clause_depth > 0) {
+                if (str.at(i) == '(') clause_depth++;
+                if (str.at(i) == ')') clause_depth--;
+                if (clause_depth == 1) {
+                    if (str.at(i) == '-' || std::isdigit(str.at(i))) {
+                        str.insert(i, "+( ");
+                        i += 2;
+                        while (std::isdigit(str.at(++i)));
+                        str.insert(i, " )");
+                        i += 2;
+                    }
+                }
+                i++;
+            }
+            return false;
+        }
         // find start of parent disjunctive clause
         std::size_t dis_start(con_start);
         while (str.at(dis_start) != '+') dis_start--;
