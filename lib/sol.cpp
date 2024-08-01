@@ -140,7 +140,9 @@ namespace sol::io {
         std::size_t clause_idx;
         try {
             max_var = (std::stoi(str.substr(8), &clause_idx));
-            clauses = std::stoi(str.substr(8 + clause_idx));
+            if (type == ProblemType::CNF) {
+                clauses = std::stoi(str.substr(6 + clause_idx));
+            }
         } catch (std::out_of_range) {
             throw std::out_of_range(err::too_many_cl_var);
         } catch (...) {
