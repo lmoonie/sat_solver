@@ -2,7 +2,6 @@
 // Logan Moonie
 // Jul 12, 2024
 
-#include <iostream>
 #include "cnf.hpp"
 
 namespace cnf {
@@ -337,7 +336,6 @@ namespace cnf::sat {
             str.push_back(clean_str.at(i));
             i++;
         }
-        std::cout << str << std::endl;
         return string_changed;
     }
 
@@ -542,7 +540,6 @@ namespace cnf::sat {
             }
             i++;
         }
-        std::cout << str << std::endl;
         return true;
     }
 
@@ -575,7 +572,6 @@ namespace cnf::sat {
             while(clean_sat_str(str));
         } while (distribute(str));
         remove_operators(str);
-        std::cout << str << std::endl;
     }
 
 }
