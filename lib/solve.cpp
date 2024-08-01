@@ -82,6 +82,10 @@ namespace solve {
                 ""
             );
         }
+        
+        // needed to overload validate
+        using duration_t = std::chrono::duration<int64_t>;
+        using memory_t = unsigned long long int;
 
         // validator for duration argument
         void validate(

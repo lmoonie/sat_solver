@@ -14,6 +14,7 @@
 #include <ostream>
 #include <mutex>
 #include <condition_variable>
+#include <thread>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -22,10 +23,6 @@
 namespace solve {
 
     namespace opts = boost::program_options;
-    namespace cli {
-        using duration_t = std::chrono::duration<int64_t>;
-        using memory_t = unsigned long long int;
-    }
 
     class program_interface {
     public:
@@ -49,8 +46,8 @@ namespace solve {
         solver::SolverType solver;
         bool incomplete;
         uint threads;
-        duration_t duration;
-        memory_t memory;
+        std::chrono::duration<int64_t> duration;
+        unsigned long long int memory;
 
         // Boost program options
         opts::options_description desc;
@@ -78,7 +75,7 @@ namespace solve {
         const program_interface& pif;
         std::mutex solution_lock;
         std::condition_variable finished;
-    }
+    };
 
     // solve the problem
     bool run_portfolio(const program_interface&, std::istream&, std::ostream&);
