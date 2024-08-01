@@ -208,7 +208,7 @@ namespace cnf {
     }
 
     // get the problem type
-    ProblemType enf_expr::get_type() const {
+    ProblemType cnf_expr::get_type() const {
         return type;
     }
 
