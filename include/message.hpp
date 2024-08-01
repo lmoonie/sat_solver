@@ -83,7 +83,7 @@ namespace err {
     const std::string invalid_duration(
         "The provided maximum duration is incorrectly formatted."
     );
-    const std::string invalid_duration(
+    const std::string invalid_memory(
         "The provided maximum memory usage is incorrectly formatted."
     );
 
