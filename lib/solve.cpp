@@ -91,7 +91,7 @@ namespace solve {
         {
             // get the provided argument
             opts::validators::check_first_occurrence(v);
-            const string& str = opts::validators::get_single_string(args);
+            const std::string& str = opts::validators::get_single_string(args);
 
             // parse the value
             std::size_t unit_idx;
@@ -115,7 +115,7 @@ namespace solve {
         {
             // get the provided argument
             opts::validators::check_first_occurrence(v);
-            const string& str = opts::validators::get_single_string(args);
+            const std::string& str = opts::validators::get_single_string(args);
 
             // parse the value
             std::size_t unit_idx;
