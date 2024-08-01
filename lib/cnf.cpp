@@ -561,6 +561,7 @@ namespace cnf::sat {
             }
             i++;
         }
+        str = cnf_str;
     }
 
     inline void convert_str_to_cnf(std::string& str) {
