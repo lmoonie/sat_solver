@@ -207,6 +207,11 @@ namespace cnf {
         return literals.at(lit);
     }
 
+    // get the problem type
+    ProblemType get_type() const {
+        return type;
+    }
+
     // used to print cnf_expr
     std::ostream& operator<<(std::ostream& ostr, const cnf_expr& expr) {
         auto clause_iter(expr.clauses.begin());

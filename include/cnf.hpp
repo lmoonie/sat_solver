@@ -103,6 +103,8 @@ namespace cnf {
         const cl_set& get_literal(literal) const;
         // return an active variable
         variable pick_var() const;
+        // get the problem type
+        ProblemType get_type() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;
