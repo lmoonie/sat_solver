@@ -28,3 +28,6 @@
 - test SAT conversion
     - DEBUG THIS
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS
+
+# Current progress
+- To fix bug: try allowing any clause type to be the distributed value
