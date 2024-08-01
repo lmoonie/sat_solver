@@ -34,7 +34,9 @@ namespace verify {
         if (sol.get_max_var() != cnf.get_max_var()) {
             throw std::invalid_argument(err::solution_vars);
         }
-        if (sol.get_type() != cnf.get_type()) {
+        if (static_cast<bool>(sol.get_type()) !=
+            static_cast<bool>(cnf.get_type())
+        ) {
             throw std::invalid_argument(err::type_mismatch);
         }
         try {
