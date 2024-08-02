@@ -70,7 +70,7 @@ namespace solve {
 
     // send a message to the user
     void program_interface::message(int v, const std::string& m) {
-        if (v >= verbosity) {
+        if (v <= verbosity) {
             ostr << "c " << m << std::endl;
         }
     }
