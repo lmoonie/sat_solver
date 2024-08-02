@@ -4,6 +4,7 @@
 
 #include "orchestrator.hpp"
 #include "solve.hpp"
+#include "solver.hpp"
 
 namespace solve {
 
