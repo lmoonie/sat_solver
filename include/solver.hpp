@@ -74,6 +74,8 @@ namespace solver {
         void operator()(std::stop_token);
         // divide the problem
         std::vector<dpll> divide(uint);
+        // recurse
+        sol::solution sub_dpll(problem, std::stop_token&);
         // destructor
         ~dpll() {};
     };
