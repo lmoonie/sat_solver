@@ -17,8 +17,6 @@ namespace solver {
 
     // run the algorithm
     void brute_force::operator()(std::stop_token token) {
-        std::chrono::steady_clock time;
-        auto last_stop_check = time.now();
         while (!expr.eval(sol.map())) {
             auto iter(sol.map().begin());
             while (iter != sol.map().end() && iter->second) {

@@ -77,8 +77,6 @@ namespace solver {
         orc.pif.message(2, "Local search solver starting");
         const double RAND_LIT_PROB = 0.2;
         const std::size_t MAX_RAND_ADVANCE = 20;
-        std::chrono::steady_clock time;
-        auto last_stop_check = time.now();
 
         // a functor to provide a random bool value
         std::uniform_int_distribution<ushort> bit_dist(0, 1);

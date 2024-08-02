@@ -52,6 +52,8 @@ namespace solver {
         cnf::cnf_expr expr;
         sol::solution sol;
         solve::orchestrator& orc;
+        std::chrono::steady_clock time;
+        std::chrono::time_point<std::chrono::steady_clock> last_stop_check;
     };
 
     class brute_force : public basic_solver {

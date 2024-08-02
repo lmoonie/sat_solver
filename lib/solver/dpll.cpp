@@ -10,10 +10,6 @@ namespace solver {
     using problem = std::pair<cnf::cnf_expr, sol::solution>;
     inline sol::solution sub_dpll(problem, std::stop_token&);
 
-    // global timer
-    std::chrono::steady_clock time;
-    std::chrono::time_point<std::chrono::steady_clock> last_stop_check;
-
     // problem constructor
     dpll::dpll(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
         basic_solver(prob, orchestrator)
@@ -77,7 +73,7 @@ namespace solver {
     }
 
     // find the solution for a reduced problem
-    sol::solution sub_dpll(problem prob, std::stop_token& token) {
+    sol::solution dpll::sub_dpll(problem prob, std::stop_token& token) {
         auto& sub_expr = prob.first;
         auto& curr_sol = prob.second;
 

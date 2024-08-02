@@ -14,6 +14,7 @@ namespace solver {
         sol.set_max_var(expr.get_max_var());
         sol.set_num_clauses(expr.get_num_clauses());
         sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
+        last_stop_check = time.now();
     }
     
 }
