@@ -59,13 +59,12 @@ namespace solver {
         cnf::cnf_expr expr;
         sol::solution sol;
         solve::orchestrator& orc;
-
     };
 
     class brute_force : public basic_solver {
     public:
         // problem constructor
-        brute_force(const cnf::cnf_expr&);
+        brute_force(const cnf::cnf_expr&, solve::orchestrator&);
         // run the algorithm
         void operator()(std::stop_token);
         // destructor
@@ -75,7 +74,7 @@ namespace solver {
     class dpll : public basic_solver {
     public:
         // problem constructor
-        dpll(const cnf::cnf_expr&);
+        dpll(const cnf::cnf_expr&, solve::orchestrator&);
         // run the algorithm
         void operator()(std::stop_token);
         // divide the problem
@@ -87,7 +86,7 @@ namespace solver {
     class local_search : public basic_solver {
     public:
         // problem constructor
-        local_search(const cnf::cnf_expr&);
+        local_search(const cnf::cnf_expr&, solve::orchestrator&);
         // run the algorithm
         void operator()(std::stop_token);
         // destructor

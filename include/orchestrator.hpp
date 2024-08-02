@@ -48,6 +48,7 @@ namespace solve {
         Status status;
         const program_interface& pif;
         mutable std::mutex m;
+        friend class basic_solver;
     };
 
 }
