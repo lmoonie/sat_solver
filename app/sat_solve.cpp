@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv) try {
     // configure program from CLI
-    solve::program_interface pif(argc, argv);
+    solve::program_interface pif(argc, argv, std::out);
 
     // proceed with the indicated mode
     if (false) {

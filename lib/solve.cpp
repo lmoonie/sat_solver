@@ -37,20 +37,21 @@ namespace solve {
     }
 
     // CLI constructor
-    program_interface::program_interface(int argc, char** argv):
+    program_interface::program_interface(int argc, char** argv, std::ostream& ostream):
         desc("The following options are available:"),
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
-        threads(std::jthread::hardware_concurrency())
+        threads(std::jthread::hardware_concurrency()),
+        ostr(ostream)
     {
         cli::extract_program_options(*this, argc, argv);
         message(2, format("The verbosity is set to {}", verbosity));
-        message(2, format("The solver is set to {}",
+        message(2, "The solver is set to "s +
             solver == solver::SolverType::Auto        ? "auto"s         :
             solver == solver::SolverType::DPLL        ? "DPLL"s         :
             solver == solver::SolverType::LocalSearch ? "local_search"s :
             solver == solver::SolverType::BruteForce  ? "brute_force"s
-        ));
+        );
         message(2, format("The portfolio is set to use {} threads", threads));
         if (incomplete) {
             message(2, format("The portfolio is allowed to never prove unsatisfiability", threads));

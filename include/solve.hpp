@@ -15,6 +15,7 @@
 #include <thread>
 #include <format>
 #include <string>
+#include <ostream>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -40,7 +41,7 @@ namespace solve {
         // send a message to the user
         void message(int, const std::string&);
         // program parameters
-        std::istream& istr;
+        std::ostream& ostr;
         bool print_help;
         bool print_formats;
         bool print_solvers;
