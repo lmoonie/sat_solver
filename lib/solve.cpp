@@ -3,26 +3,19 @@
 // Jul 22, 2024
 
 #include "solve.hpp"
+#include "orchestrator.hpp"
 
 namespace solve {
 
     // solve the problem
-    bool run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
+    int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         cnf::cnf_expr expr(istr);
-        sol::solution sol;
-
-        try {
-            if (pif.solver == solver::SolverType::BruteForce) {
-                sol = solver::brute_force(expr)();
-            } else if (pif.solver == solver::SolverType::DPLL) {
-                sol = solver::dpll(expr)();
-            } else if (pif.solver == solver::SolverType::LocalSearch) {
-                sol = solver::local_search(expr)();
-            } else {
-                sol = solver::dpll(expr)();
-            }
+        orchestrator orc(pif);
+        auto result = orc(expr);
+        if (result.first == Status::Success) {
             ostr << sol;
-        } catch (...) {
+            return sol.is_valid() ? 0 : 1;
+        } else {
             ostr << std::format(
                 "s {} {} {} {}",
                 sol.get_type() == sol::ProblemType::CNF ? "cnf" : "sat",
@@ -31,7 +24,7 @@ namespace solve {
                 sol.get_type() == sol::ProblemType::CNF ?
                     std::to_string(expr.get_num_clauses()) : ""
             ) << std::endl;
-            throw;
+            return 2;
         }
         return sol.is_valid();
     }
@@ -43,7 +36,10 @@ namespace solve {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("The following options are available:")
+        desc("The following options are available:"),
+        duration(std::chrono::minutes(5)),
+        memory(2 * 1'000'000'000),
+        threads(std::jthread::hardware_concurrency)
     {
         cli::extract_program_options(*this, argc, argv);
     }

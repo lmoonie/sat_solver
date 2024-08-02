@@ -7,19 +7,19 @@
 namespace solver {
 
     using std::abs;
-
     using problem = std::pair<cnf::cnf_expr, sol::solution>;
+    inline sol::solution sub_dpll(problem);
+
+    // global timer
+    std::chrono::steady_clock time;
+    auto last_stop_check;
 
     // problem constructor
-    dpll::dpll(const cnf::cnf_expr& prob):
-        basic_solver(prob)
+    dpll::dpll(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
+        basic_solver(prob, orchestrator)
     {}
 
-    sol::solution dpll::operator()() {
-        // record problem parameters
-        sol.set_num_clauses(expr.get_num_clauses());
-        sol.set_max_var(expr.get_max_var());
-
+    inline void simplify(cnf::cnf_expr& expr, sol::solution& sol) {
         // perform unit propagation
         for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
             literal unit_lit = *((ucl->second).begin());
@@ -34,9 +34,20 @@ namespace solver {
             sol.assign_variable(abs(plit), pure_val);
             expr.assign_and_simplify(abs(plit), pure_val);
         }
+    }
+
+    void dpll::operator()(std::stop_token token) {
+        last_stop_check = time.now();
+
+        // apply heuristics
+        simplify(expr, sol);
 
         // find the solution to the reduced problem
         auto final_sol = sub_dpll({expr, sol});
+        if (token.stop_requested()) {
+            sol.set_valid(false);
+            return;
+        }
 
         // assign arbitrary values to the remaining variables
         for (auto const& var : expr.variables()) {
@@ -45,8 +56,10 @@ namespace solver {
             }
         }
 
-        // return the complete solution
-        return final_sol;
+        // report the solution
+        std::scoped_lock(orc.m);
+        orc.sol = sol;
+        orc.finished = true;
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {
@@ -57,27 +70,24 @@ namespace solver {
         curr_sol.assign_variable(var, val);
         sub_expr.assign_and_simplify(var, val);
 
-        // perform unit propagation
-        for (auto ucl(sub_expr.unit_clause()); ucl != sub_expr.clauses_end(); ucl = sub_expr.unit_clause()) {
-            literal unit_lit = *((ucl->second).begin());
-            bool unit_val = unit_lit > 0 ? true : false;
-            curr_sol.assign_variable(abs(unit_lit), unit_val);
-            sub_expr.assign_and_simplify(abs(unit_lit), unit_val);
-        }
-
-        // perform pure literal deletion
-        for (literal plit(sub_expr.pure_literal()); plit != 0; plit = sub_expr.pure_literal()) {
-            bool pure_val = plit > 0 ? true : false;
-            curr_sol.assign_variable(abs(plit), pure_val);
-            sub_expr.assign_and_simplify(abs(plit), pure_val);
-        }
+        // apply heuristics
+        simplify(sub_expr, curr_sol);
 
         // return the sub-problem
         return prob;
     }
 
     // find the solution for a reduced problem
-    sol::solution dpll::sub_dpll(problem prob) {
+    sol::solution sub_dpll(problem prob) {
+        // check for a stop signal
+        if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+            last_stop_check = time.now();
+            if (token.stop_requested()) {
+                sol.set_valid(true);
+                return sol;
+            }
+        }
+
         auto& sub_expr = prob.first;
         auto& curr_sol = prob.second;
 
@@ -105,6 +115,44 @@ namespace solver {
         if (sol_right.is_valid()) return sol_right;
 
         return curr_sol;
+    }
+
+    std::vector<basic_solver> dpll::divide(uint num_sub_problems) {
+        // sub problems to be found
+        std::vector<dpll> sub_probs;
+        // apply heuristics to full problem
+        simplify(expr, sol);
+        // divide the problem log_2(num_sub_problems) times
+        for (std::size_t(i); i < num_sub_problems; i++) {
+            sub_probs.push_back(*this);
+            auto& curr_prob = sub_probs[i];
+            auto& sub_expr = curr_prob.expr;
+            auto& curr_sol = curr_prob.sol;
+            uint j(i);
+            for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
+                // check for empty expression
+                if (sub_expr.get_num_clauses() == 0) {
+                    curr_sol.set_valid(true);
+                    break;
+                }
+                // check for empty clauses
+                if (sub_expr.empty_clause()) {
+                    // return an invalid solution
+                    break;
+                }
+                // pick a branch variable
+                variable branch_var = sub_expr.pick_var();
+                if (j % 2 == 0) {
+                    // branch left
+                    curr_prob = reduce_problem(prob, branch_var, false);
+                } else {
+                    // branch right
+                    curr_prob = reduce_problem(prob, branch_var, true);
+                }
+                j /= 2;
+            }
+        }
+        return sub_probs;
     }
 
 }

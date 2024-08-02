@@ -31,7 +31,12 @@
     - odd vars greater than max_var are false, even are true
     - use cnf facilities to simplify
 
+# solvers
+- catch errors and return ThreadPanic status
+
 # Next steps
+- cli
 - timing/mem. usage
 - concurrency
 - CDCL
+- video presentation

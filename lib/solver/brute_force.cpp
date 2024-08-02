@@ -7,8 +7,8 @@
 namespace solver {
 
     // problem constructor
-    brute_force::brute_force(const cnf::cnf_expr& prob):
-        basic_solver(prob)
+    brute_force::brute_force(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
+        basic_solver(prob, orchestrator)
     {
         for (const auto& var : expr.variables()) {
             sol.assign_variable(var, false);
@@ -16,11 +16,9 @@ namespace solver {
     }
 
     // run the algorithm
-    sol::solution brute_force::operator()() {
-        // record problem parameters
-        sol.set_num_clauses(expr.get_num_clauses());
-        sol.set_max_var(expr.get_max_var());
-        
+    void brute_force::operator()(std::stop_token token) {
+        std::chrono::steady_clock time;
+        auto last_stop_check = time.now();
         while (!expr.eval(sol.map())) {
             auto iter(sol.map().begin());
             while (iter != sol.map().end() && iter->second) {
@@ -29,9 +27,19 @@ namespace solver {
             if (iter != sol.map().end()) {
                 sol.reassign_variable(iter->first, true);
             } else break;
+            // check for a stop signal
+            if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                last_stop_check = time.now();
+                if (token.stop_requested()) {
+                    return;
+                }
+            }
         }
+        // report the solution
         sol.set_valid(expr.eval(sol.map()));
-        return sol;
+        std::scoped_lock(orc.m);
+        orc.sol = sol;
+        orc.finished = true;
     }
 
 }

@@ -12,9 +12,7 @@
 #include <cstdint>
 #include <istream>
 #include <ostream>
-#include <mutex>
-#include <condition_variable>
-#include <thread>
+#include <threads>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -54,31 +52,8 @@ namespace solve {
         opts::variables_map var_map;
     };
 
-    class orchestrator {
-    public:
-        // no default constructor
-        orchestrator() = delete;
-        // constructor
-        orchestrator(const program_interface&);
-        // no copy constructor
-        orchestrator(const orchestrator&) = delete;
-        // no move constructor
-        orchestrator(orchestrator&&) = delete;
-        // no assignment
-        orchestrator& operator=(const orchestrator&) = delete;
-        orchestrator& operator=(orchestrator&&) = delete;
-        // run the solvers
-        bool operator()();
-    private:
-        std::vector<std::jthread> threads;
-        sol::solution sol;
-        const program_interface& pif;
-        std::mutex solution_lock;
-        std::condition_variable finished;
-    };
-
     // solve the problem
-    bool run_portfolio(const program_interface&, std::istream&, std::ostream&);
+    int run_portfolio(const program_interface&, std::istream&, std::ostream&);
 
 
 

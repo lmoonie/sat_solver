@@ -10,8 +10,11 @@
 #include <climits>
 #include <iterator>
 #include <algorithm>
+#include <threads>
+#include <vector>
 #include "cnf.hpp"
 #include "sol.hpp"
+#include "orchestrator.hpp"
 
 namespace solver {
 
@@ -40,19 +43,23 @@ namespace solver {
         // no default constructor
         basic_solver() = delete;
         // problem constructor
-        basic_solver(const cnf::cnf_expr&);
+        basic_solver(const cnf::cnf_expr&, solve::orchestrator&);
         // copy constructor
         basic_solver(const basic_solver&) = default;
         // move constructor
         basic_solver(basic_solver&&) = default;
+        // virtual destructor
+        virtual ~basic_solver() = 0;
         // assignment
         basic_solver& operator=(const basic_solver&) = default;
         basic_solver& operator=(basic_solver&&) = default;
         // run the solver
-        virtual sol::solution operator()() = 0;
+        virtual void operator()(std::stop_token) = 0;
     protected:
         cnf::cnf_expr expr;
         sol::solution sol;
+        solve::orchestrator& orc;
+
     };
 
     class brute_force : public basic_solver {
@@ -60,7 +67,9 @@ namespace solver {
         // problem constructor
         brute_force(const cnf::cnf_expr&);
         // run the algorithm
-        sol::solution operator()();
+        void operator()(std::stop_token);
+        // destructor
+        ~brute_force() {};
     };
 
     class dpll : public basic_solver {
@@ -68,9 +77,11 @@ namespace solver {
         // problem constructor
         dpll(const cnf::cnf_expr&);
         // run the algorithm
-        sol::solution operator()();
-        // find the solution for a reduced problem
-        static sol::solution sub_dpll(std::pair<cnf::cnf_expr, sol::solution>);
+        void operator()(std::stop_token);
+        // divide the problem
+        std::vector<basic_solver> divide(uint);
+        // destructor
+        ~dpll() {};
     };
 
     class local_search : public basic_solver {
@@ -78,11 +89,12 @@ namespace solver {
         // problem constructor
         local_search(const cnf::cnf_expr&);
         // run the algorithm
-        sol::solution operator()();
+        void operator()(std::stop_token);
+        // destructor
+        ~local_search() {};
     private:
         std::mt19937_64 rand;
     };
-
 
 }
 

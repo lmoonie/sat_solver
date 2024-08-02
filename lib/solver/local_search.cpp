@@ -9,8 +9,8 @@ namespace solver {
     using std::abs;
 
     // problem constructor
-    local_search::local_search(const cnf::cnf_expr& prob):
-        basic_solver(prob),
+    local_search::local_search(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
+        basic_solver(prob, orchestrator),
         rand(std::random_device()())
     {}
 
@@ -73,13 +73,11 @@ namespace solver {
     }
 
     // a stochastic local search algorithm implementing WalkSAT
-    sol::solution local_search::operator()() {
+    void local_search::operator()(std::stop_token token) {
         const double RAND_LIT_PROB = 0.2;
         const std::size_t MAX_RAND_ADVANCE = 20;
-
-        // record problem parameters
-        sol.set_num_clauses(expr.get_num_clauses());
-        sol.set_max_var(expr.get_max_var());
+        std::chrono::steady_clock time;
+        auto last_stop_check = time.now();
 
         // a functor to provide a random bool value
         std::uniform_int_distribution<ushort> bit_dist(0, 1);
@@ -124,10 +122,19 @@ namespace solver {
                 // flip the selected variable
                 sol.reassign_variable(abs(target_lit), !sol.map().at(abs(target_lit)));
             }
+            // check for a stop signal
+            if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                last_stop_check = time.now();
+                if (token.stop_requested()) {
+                    return;
+                }
+            }
         }
-        // a solution was found
+        // report the solution
         sol.set_valid(true);
-        return sol;
+        std::scoped_lock(orc.m);
+        orc.sol = sol;
+        orc.finished = true;
     }
 
 }
