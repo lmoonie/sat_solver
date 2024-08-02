@@ -32,7 +32,7 @@ namespace solve {
         // no default constructor
         program_interface() = delete;
         // CLI constructor
-        program_interface(int, char**, std::ostream&);
+        program_interface(int, char**);
         // copy constructor
         program_interface(const program_interface&) = delete;
         // move constructor
@@ -43,7 +43,6 @@ namespace solve {
         // send a message to the user
         void message(int, const std::string&);
         // program parameters
-        mutable std::ostream& ostr;
         bool print_help;
         bool print_formats;
         bool print_solvers;

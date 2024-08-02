@@ -35,12 +35,11 @@ namespace solve {
     }
 
     // CLI constructor
-    program_interface::program_interface(int argc, char** argv, std::ostream& ostream):
+    program_interface::program_interface(int argc, char** argv):
         desc("The following options are available:"),
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
         threads(std::jthread::hardware_concurrency()),
-        ostr(ostream),
         verbosity(1),
         incomplete(false),
         print_help(false),
@@ -68,7 +67,7 @@ namespace solve {
     // send a message to the user
     void program_interface::message(int v, const std::string& m) {
         if (v <= verbosity) {
-            ostr << "c " << m << std::endl;
+            std::cout << "c " << m << std::endl;
         }
     }
 
