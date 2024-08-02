@@ -20,6 +20,17 @@
 #include "cnf.hpp"
 #include "message.hpp"
 
+namespace solver {
+
+    enum SolverType: ushort {
+        Auto = 0,
+        BruteForce = 1,
+        DPLL = 2,
+        LocalSearch = 3
+    };
+    
+}
+
 namespace solve {
 
     namespace opts = boost::program_options;
