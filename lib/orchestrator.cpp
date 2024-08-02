@@ -25,13 +25,13 @@ namespace solve {
 
         // divide the problem and distribute to complete solvers
         auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
-        pif.message(2, format("Starting {} complete solvers", comp_solvers));
+        pif.message(2, format("Starting {} complete solvers", num_comp_threads));
         for (auto& solver : comp_solvers) {
             threads.emplace_back(std::jthread(solver));
         }
 
         // start random solvers
-        pif.message(2, format("Starting {} incomplete solvers", inc_solvers));
+        pif.message(2, format("Starting {} incomplete solvers", num_inc_threads));
         for (std::size_t i(0); i < num_inc_threads; i++) {
             threads.emplace_back(std::jthread(solver::local_search(expr, *this)));
         }
