@@ -63,7 +63,7 @@ namespace solve {
     // send a message to the user
     void program_interface::message(int v, const std::string& m) {
         if (v >= verbosity) {
-            istr << "c " << m << std::endl;
+            ostr << "c " << m << std::endl;
         }
     }
 
@@ -169,8 +169,8 @@ namespace solve {
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<duration_t>()->default_value(std::chrono::minutes(5)), flag_desc::duration.c_str())
-                ("memory,m", opts::value<memory_t>()->default_value(2'000'000'000), flag_desc::memory.c_str());
+                ("duration,d", opts::value<duration_t>()->default_value(duration_t{std::chrono::minutes(5)}), flag_desc::duration.c_str())
+                ("memory,m", opts::value<memory_t>()->default_value(memory_t{2'000'000'000}), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(

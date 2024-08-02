@@ -30,7 +30,7 @@ namespace solve {
         // no default constructor
         program_interface() = delete;
         // CLI constructor
-        program_interface(int, char**);
+        program_interface(int, char**, std::ostream&);
         // copy constructor
         program_interface(const program_interface&) = delete;
         // move constructor
