@@ -3,6 +3,7 @@
 // Jul 22, 2024
 
 #include "solve.hpp"
+#include "solver.hpp"
 
 namespace solve {
 

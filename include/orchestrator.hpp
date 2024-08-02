@@ -14,6 +14,7 @@
 #include <utility>
 #include "sol.hpp"
 #include "cnf.hpp"
+#include "solve.hpp"
 
 namespace solve {
 

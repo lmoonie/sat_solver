@@ -19,7 +19,6 @@
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
-#include "solver.hpp"
 
 namespace solve {
 
