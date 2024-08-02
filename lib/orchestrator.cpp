@@ -27,8 +27,8 @@ namespace solve {
         // divide the problem and distribute to complete solvers
         auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
         pif.message(2, format("Starting {} complete solvers", num_comp_threads));
-        for (auto& solver : comp_solvers) {
-            threads.emplace_back(std::jthread(solver));
+        for (auto& comp_solver : comp_solvers) {
+            threads.emplace_back(std::jthread(comp_solver));
         }
 
         // start random solvers
