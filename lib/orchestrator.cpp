@@ -8,7 +8,7 @@
 namespace solve {
 
     // constructor
-    orchestrator::orchestrator(const program_interface& program_if):
+    orchestrator::orchestrator(program_interface& program_if):
         pif (program_if),
         finished(false)
     {

@@ -31,7 +31,7 @@ namespace solve {
         // no default constructor
         orchestrator() = delete;
         // constructor
-        orchestrator(const program_interface&);
+        orchestrator(program_interface&);
         // no copy constructor
         orchestrator(const orchestrator&) = delete;
         // no move constructor
@@ -48,7 +48,7 @@ namespace solve {
         sol::solution sol;
         bool finished;
         Status status;
-        const program_interface& pif;
+        program_interface& pif;
         mutable std::mutex m;
     };
 
