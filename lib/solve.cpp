@@ -237,13 +237,13 @@ namespace solve {
                 throw std::invalid_argument(err::repeat_options);
             }
             // set duration
-            if (pif.var_map.count("duration") <= 1) {
+            if (pif.var_map.count("duration") == 1) {
                 pif.duration = pif.var_map["duration"].as<duration_t>().val;
             } else if (pif.var_map.count("duration") > 1) {
                 throw std::invalid_argument(err::repeat_options);
             }
             // set memory
-            if (pif.var_map.count("memory") <= 1) {
+            if (pif.var_map.count("memory") == 1) {
                 pif.memory = pif.var_map["memory"].as<memory_t>().val;
             } else if (pif.var_map.count("memory") > 1) {
                 throw std::invalid_argument(err::repeat_options);
