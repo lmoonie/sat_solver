@@ -122,7 +122,7 @@ namespace solver {
         // apply heuristics to full problem
         simplify(expr, sol);
         // divide the problem log_2(num_sub_problems) times
-        for (std::size_t(i); i < num_sub_problems; i++) {
+        for (std::size_t i(0); i < num_sub_problems; i++) {
             sub_probs.push_back(*this);
             problem prob = { sub_probs[i].expr, sub_probs[i].sol };
             auto& sub_expr = prob.first;
