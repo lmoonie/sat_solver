@@ -35,11 +35,17 @@ namespace solver {
         orc.pif.message(2, "DPLL solver starting");
         last_stop_check = time.now();
 
+        // reduced problem to given branch
+        auto reduced_expr = expr;
+        for (const auto& [var, val] : sol.map()) {
+            reduced_expr.assign_and_simplify(var, val);
+        }
+
         // apply heuristics
-        simplify(expr, sol);
+        simplify(reduced_expr, sol);
 
         // find the solution to the reduced problem
-        auto final_sol = sub_dpll({expr, sol}, token);
+        auto final_sol = sub_dpll({reduced_expr, sol}, token);
         if (token.stop_requested()) {
             sol.set_valid(false);
             return;
@@ -112,43 +118,29 @@ namespace solver {
     }
 
     std::vector<dpll> dpll::divide(uint num_sub_problems) {
-        // sub problems to be found
-        std::vector<dpll> sub_probs;
-        // apply heuristics to full problem
-        simplify(expr, sol);
+        std::vector<dpll> reduced_solvers;
+        // variables in expression
+        auto var_list = expr.variables();
         // divide the problem log_2(num_sub_problems) times
         for (std::size_t i(0); i < num_sub_problems; i++) {
-            sub_probs.push_back(*this);
-            problem prob = { sub_probs[i].expr, sub_probs[i].sol };
-            auto& sub_expr = prob.first;
-            auto& curr_sol = prob.second;
+            auto solver_copy(*this);
+            auto& reduced_sol = solver_copy.sol;
             uint j(i);
+            auto var_iter = var_list.begin();
             for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
-                // check for empty expression
-                if (sub_expr.get_num_clauses() == 0) {
-                    curr_sol.set_valid(true);
-                    break;
-                }
-                // check for empty clauses
-                if (sub_expr.empty_clause()) {
-                    // return an invalid solution
-                    break;
-                }
-                // pick a branch variable
-                variable branch_var = sub_expr.pick_var();
                 if (j % 2 == 0) {
                     // branch left
-                    prob = reduce_problem(prob, branch_var, false);
+                    reduced_sol.assign_variable(*var_iter, false);
                 } else {
                     // branch right
-                    prob = reduce_problem(prob, branch_var, true);
+                    reduced_sol.assign_variable(*var_iter, true);
                 }
                 j /= 2;
+                if (++var_iter == var_list.end()) break;
             }
-            sub_probs[i].expr = sub_expr;
-            sub_probs[i].sol = curr_sol;
+            reduced_solvers.push_back(solver_copy);
         }
-        return sub_probs;
+        return reduced_solvers;
     }
 
 }
