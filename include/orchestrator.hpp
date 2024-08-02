@@ -48,7 +48,7 @@ namespace solve {
         sol::solution sol;
         bool finished;
         Status status;
-        program_interface& pif;
+        const program_interface& pif;
         mutable std::mutex m;
     };
 
