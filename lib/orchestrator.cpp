@@ -51,7 +51,7 @@ namespace solve {
             }
             if (finished) {
                 // tell running solvers to stop
-                pif.message(2, "Shutting down solvers");
+                pif.message(2, "Shutting down solvers"s);
                 for (auto& thread : threads) {
                     thread.request_stop();
                 }
@@ -63,7 +63,7 @@ namespace solve {
         for (auto& thread : threads) {
             thread.join();
         }
-        pif.message(2, "Solvers stopped");
+        pif.message(2, "Solvers stopped"s);
         return std::make_pair(status, sol);
     }
 
@@ -71,7 +71,7 @@ namespace solve {
     void orchestrator::report_solution(sol::solution&& proposed_sol) {
         std::scoped_lock lock(m);
         if (!finished) {
-            pif.message(2, "Solution found");
+            pif.message(2, "Solution found"s);
             sol = proposed_sol;
             finished = true;
             status = Status::Success;

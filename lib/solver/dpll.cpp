@@ -37,7 +37,7 @@ namespace solver {
     }
 
     void dpll::operator()(std::stop_token token) {
-        orc.pif.message("DPLL solver starting");
+        orc.pif.message(2, "DPLL solver starting"s);
         last_stop_check = time.now();
 
         // apply heuristics
