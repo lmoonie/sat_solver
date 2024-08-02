@@ -6,9 +6,6 @@
 
 namespace solve {
 
-    using std::format;
-    using namespace std::string_literals;
-
     // solve the problem
     int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         cnf::cnf_expr expr(istr);

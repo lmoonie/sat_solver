@@ -24,6 +24,8 @@
 namespace solve {
 
     namespace opts = boost::program_options;
+    using std::format;
+    using namespace std::string_literals;
 
     class program_interface {
     public:
