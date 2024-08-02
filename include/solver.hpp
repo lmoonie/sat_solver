@@ -49,7 +49,7 @@ namespace solver {
         // move constructor
         basic_solver(basic_solver&&) = default;
         // virtual destructor
-        virtual ~basic_solver() = 0;
+        virtual ~basic_solver() {};
         // assignment
         basic_solver& operator=(const basic_solver&) = default;
         basic_solver& operator=(basic_solver&&) = default;
