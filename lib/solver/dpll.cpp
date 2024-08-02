@@ -8,11 +8,11 @@ namespace solver {
 
     using std::abs;
     using problem = std::pair<cnf::cnf_expr, sol::solution>;
-    inline sol::solution sub_dpll(problem);
+    inline sol::solution sub_dpll(problem, std::stop_token&);
 
     // global timer
     std::chrono::steady_clock time;
-    auto last_stop_check;
+    std::chrono::time_point<std::chrono::steady_clock> last_stop_check;
 
     // problem constructor
     dpll::dpll(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
@@ -43,7 +43,7 @@ namespace solver {
         simplify(expr, sol);
 
         // find the solution to the reduced problem
-        auto final_sol = sub_dpll({expr, sol});
+        auto final_sol = sub_dpll({expr, sol}, token);
         if (token.stop_requested()) {
             sol.set_valid(false);
             return;
@@ -76,18 +76,18 @@ namespace solver {
     }
 
     // find the solution for a reduced problem
-    sol::solution sub_dpll(problem prob) {
+    sol::solution sub_dpll(problem prob, std::stop_token& token) {
+        auto& sub_expr = prob.first;
+        auto& curr_sol = prob.second;
+
         // check for a stop signal
         if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
             last_stop_check = time.now();
             if (token.stop_requested()) {
-                sol.set_valid(true);
-                return sol;
+                curr_sol.set_valid(true);
+                return curr_sol;
             }
         }
-
-        auto& sub_expr = prob.first;
-        auto& curr_sol = prob.second;
 
         // check for empty expression
         if (sub_expr.get_num_clauses() == 0) {
@@ -105,11 +105,11 @@ namespace solver {
         variable branch_var = sub_expr.pick_var();
 
         // branch left
-        auto sol_left = sub_dpll(reduce_problem(prob, branch_var, false));
+        auto sol_left = sub_dpll(reduce_problem(prob, branch_var, false), token);
         if (sol_left.is_valid()) return sol_left;
 
         // branch right
-        auto sol_right = sub_dpll(reduce_problem(prob, branch_var, true));
+        auto sol_right = sub_dpll(reduce_problem(prob, branch_var, true), token);
         if (sol_right.is_valid()) return sol_right;
 
         return curr_sol;
@@ -117,7 +117,7 @@ namespace solver {
 
     std::vector<basic_solver> dpll::divide(uint num_sub_problems) {
         // sub problems to be found
-        std::vector<dpll> sub_probs;
+        std::vector<basic_solver> sub_probs;
         // apply heuristics to full problem
         simplify(expr, sol);
         // divide the problem log_2(num_sub_problems) times
@@ -142,10 +142,10 @@ namespace solver {
                 variable branch_var = sub_expr.pick_var();
                 if (j % 2 == 0) {
                     // branch left
-                    curr_prob = reduce_problem(prob, branch_var, false);
+                    curr_prob = reduce_problem(curr_prob, branch_var, false);
                 } else {
                     // branch right
-                    curr_prob = reduce_problem(prob, branch_var, true);
+                    curr_prob = reduce_problem(curr_prob, branch_var, true);
                 }
                 j /= 2;
             }
