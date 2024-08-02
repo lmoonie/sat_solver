@@ -28,6 +28,8 @@ namespace solve {
 
     class orchestrator {
     public:
+        // hook to program interface
+        const program_interface& pif;
         // no default constructor
         orchestrator() = delete;
         // constructor
@@ -48,7 +50,6 @@ namespace solve {
         sol::solution sol;
         bool finished;
         Status status;
-        const program_interface& pif;
         mutable std::mutex m;
     };
 
