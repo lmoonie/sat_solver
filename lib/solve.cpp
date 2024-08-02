@@ -7,6 +7,7 @@
 namespace solve {
 
     using std::format;
+    using namespace std::string_literals;
 
     // solve the problem
     int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
@@ -46,12 +47,13 @@ namespace solve {
     {
         cli::extract_program_options(*this, argc, argv);
         message(2, format("The verbosity is set to {}", verbosity));
-        message(2, "The solver is set to "s +
+        message(2, "The solver is set to "s + (
             solver == solver::SolverType::Auto        ? "auto"s         :
             solver == solver::SolverType::DPLL        ? "DPLL"s         :
             solver == solver::SolverType::LocalSearch ? "local_search"s :
-            solver == solver::SolverType::BruteForce  ? "brute_force"s
-        );
+            solver == solver::SolverType::BruteForce  ? "brute_force"s  :
+                                                        "undefined"s
+        ));
         message(2, format("The portfolio is set to use {} threads", threads));
         if (incomplete) {
             message(2, format("The portfolio is allowed to never prove unsatisfiability", threads));
@@ -169,8 +171,8 @@ namespace solve {
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<duration_t>()->default_value(duration_t{std::chrono::minutes(5)}), flag_desc::duration.c_str())
-                ("memory,m", opts::value<memory_t>()->default_value(memory_t{2'000'000'000}), flag_desc::memory.c_str());
+                ("duration,d", opts::value<duration_t>()->default_value("5m"), flag_desc::duration.c_str())
+                ("memory,m", opts::value<memory_t>()->default_value("2g"), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
