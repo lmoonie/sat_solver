@@ -15,7 +15,7 @@
 #include <thread>
 #include <format>
 #include <string>
-#include <ostream>
+#include <iostream>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
