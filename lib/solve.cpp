@@ -43,7 +43,13 @@ namespace solve {
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
         threads(std::jthread::hardware_concurrency()),
-        ostr(ostream)
+        ostr(ostream),
+        verbosity(1),
+        incomplete(false),
+        print_help(false),
+        print_formats(false),
+        print_solvers(false),
+        solver(solver::SolverType::Auto)
     {
         cli::extract_program_options(*this, argc, argv);
         message(2, format("The verbosity is set to {}", verbosity));
@@ -165,7 +171,7 @@ namespace solve {
             pif.desc.add_options()
                 ("help,h", flag_desc::help.c_str())
                 ("available-formats,f", flag_desc::available_formats.c_str())
-                ("verbose,v", opts::value<ushort>()->default_value(2), flag_desc::verbose.c_str())
+                ("verbose,v", opts::value<ushort>(), flag_desc::verbose.c_str())
                 ("quiet,q", flag_desc::quiet.c_str())
                 ("solver,s", opts::value<std::string>(), flag_desc::solver.c_str())
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
@@ -194,7 +200,11 @@ namespace solve {
             }
             // set verbosity
             if (pif.var_map.count("verbose") == 1) {
-                pif.verbosity = pif.var_map["verbose"].as<ushort>();
+                if (pif.var_map.contains("verbose")) {
+                    pif.verbosity = pif.var_map["verbose"].as<ushort>();
+                } else {
+                    pif.verbosity = 2;
+                }
                 if (pif.verbosity > 2) {
                     throw std::invalid_argument(err::verbosity);
                 }
@@ -204,8 +214,6 @@ namespace solve {
                 pif.verbosity = 0;
             } else if (pif.var_map.count("quiet") > 1) {
                 throw std::invalid_argument(err::repeat_options);
-            } else if (pif.var_map.count("verbose") == 0) {
-                pif.verbosity = 1;
             }
             // set solver
             if (pif.var_map.count("solver") == 1) {
