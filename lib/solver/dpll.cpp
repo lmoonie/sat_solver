@@ -123,9 +123,9 @@ namespace solver {
         // divide the problem log_2(num_sub_problems) times
         for (std::size_t(i); i < num_sub_problems; i++) {
             sub_probs.push_back(*this);
-            auto& curr_prob = sub_probs[i];
-            auto& sub_expr = curr_prob.expr;
-            auto& curr_sol = curr_prob.sol;
+            problem prob = { sub_probs[i].expr, sub_probs[i].sol };
+            auto& sub_expr = prob.first;
+            auto& curr_sol = prob.second;
             uint j(i);
             for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
                 // check for empty expression
@@ -142,13 +142,15 @@ namespace solver {
                 variable branch_var = sub_expr.pick_var();
                 if (j % 2 == 0) {
                     // branch left
-                    curr_prob = reduce_problem(curr_prob, branch_var, false);
+                    prob = reduce_problem(prob, branch_var, false);
                 } else {
                     // branch right
-                    curr_prob = reduce_problem(curr_prob, branch_var, true);
+                    prob = reduce_problem(prob, branch_var, true);
                 }
                 j /= 2;
             }
+            sub_probs[i].expr = sub_expr;
+            sub_probs[i].sol = curr_sol;
         }
         return sub_probs;
     }
