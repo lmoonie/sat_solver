@@ -12,7 +12,7 @@
 #include <cstdint>
 #include <istream>
 #include <ostream>
-#include <threads>
+#include <thread>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"

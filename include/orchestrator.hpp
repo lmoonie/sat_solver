@@ -14,16 +14,17 @@
 #include <utility>
 #include "sol.hpp"
 #include "cnf.hpp"
-#include "solve.hpp"
 
 namespace solve {
+
+    class program_interface;
 
     enum Status: int {
         Success = 0,
         OutOfTime = 1,
         OutOfMemory = 2,
         ThreadPanic = 3
-    }
+    };
 
     class orchestrator {
     public:

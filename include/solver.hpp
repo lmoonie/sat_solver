@@ -10,7 +10,7 @@
 #include <climits>
 #include <iterator>
 #include <algorithm>
-#include <threads>
+#include <thread>
 #include <vector>
 #include "cnf.hpp"
 #include "sol.hpp"

@@ -3,7 +3,6 @@
 // Jul 22, 2024
 
 #include "solve.hpp"
-#include "orchestrator.hpp"
 
 namespace solve {
 
@@ -12,6 +11,7 @@ namespace solve {
         cnf::cnf_expr expr(istr);
         orchestrator orc(pif);
         auto result = orc(expr);
+        auto& sol = result.second;
         if (result.first == Status::Success) {
             ostr << sol;
             return sol.is_valid() ? 0 : 1;
@@ -39,7 +39,7 @@ namespace solve {
         desc("The following options are available:"),
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
-        threads(std::jthread::hardware_concurrency)
+        threads(std::jthread::hardware_concurrency())
     {
         cli::extract_program_options(*this, argc, argv);
     }

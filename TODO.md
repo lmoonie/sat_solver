@@ -9,11 +9,9 @@
 
 # brute_force
 - add statistics
-- unit test
 
 # dpll
 - add statistics
-- unit test
 - may need to expand the stack
 
 # sat_solve
