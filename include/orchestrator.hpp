@@ -18,9 +18,6 @@
 
 namespace solve {
 
-    class program_interface;
-    void program_interface::message(int, const std::string&) const;
-
     enum Status: int {
         Success = 0,
         OutOfTime = 1,
