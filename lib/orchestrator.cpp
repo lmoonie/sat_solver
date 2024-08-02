@@ -3,6 +3,7 @@
 // Aug 1, 2024
 
 #include "orchestrator.hpp"
+#include "solve.hpp"
 
 namespace solve {
 
@@ -14,7 +15,7 @@ namespace solve {
     }
 
     // run the solvers
-    std::pair<Status, sol::solution> operator()(const cnf::cnf_expr& expr) {
+    std::pair<Status, sol::solution> orchestrator::operator()(const cnf::cnf_expr& expr) {
         // set the number of threads used for complete solvers
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
@@ -62,11 +63,11 @@ namespace solve {
 
     // report solution
     void orchestrator::report_solution(sol::solution&& proposed_sol) {
-        std::scoped_lock(orc.m);
+        std::scoped_lock(m);
         if (!finished) {
             sol = proposed_sol;
             finished = true;
-            status = Status::success;
+            status = Status::Success;
         }
     }
 
