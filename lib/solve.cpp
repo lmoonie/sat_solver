@@ -65,7 +65,7 @@ namespace solve {
     }
 
     // send a message to the user
-    void program_interface::message(int v, const std::string& m) {
+    void program_interface::message(int v, const std::string& m) const {
         if (v <= verbosity) {
             std::cout << "c " << m << std::endl;
         }

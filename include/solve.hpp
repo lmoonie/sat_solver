@@ -41,7 +41,7 @@ namespace solve {
         program_interface& operator=(const program_interface&) = delete;
         program_interface& operator=(program_interface&&) = delete;
         // send a message to the user
-        void message(int, const std::string&);
+        void message(int, const std::string&) const;
         // program parameters
         bool print_help;
         bool print_formats;
