@@ -26,7 +26,6 @@ namespace solve {
     namespace opts = boost::program_options;
     using std::format;
     using namespace std::string_literals;
-    namespace solver {enum SolverType;}
 
     class program_interface {
     public:

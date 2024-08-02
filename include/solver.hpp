@@ -15,7 +15,6 @@
 #include "cnf.hpp"
 #include "sol.hpp"
 #include "orchestrator.hpp"
-#include "solve.hpp"
 
 namespace solver {
 
