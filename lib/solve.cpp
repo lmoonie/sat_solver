@@ -171,8 +171,8 @@ namespace solve {
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<duration_t>()->default_value("5m"), flag_desc::duration.c_str())
-                ("memory,m", opts::value<memory_t>()->default_value("2g"), flag_desc::memory.c_str());
+                ("duration,d", opts::value<duration_t>(), flag_desc::duration.c_str())
+                ("memory,m", opts::value<memory_t>(), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
