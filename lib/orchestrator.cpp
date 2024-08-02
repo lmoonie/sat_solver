@@ -70,7 +70,7 @@ namespace solve {
     void orchestrator::report_solution(sol::solution&& proposed_sol) {
         std::scoped_lock(m);
         if (!finished) {
-            pif.message(2, "Solution found")
+            pif.message(2, "Solution found");
             sol = proposed_sol;
             finished = true;
             status = Status::Success;
