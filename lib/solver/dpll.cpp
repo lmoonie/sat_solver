@@ -57,9 +57,7 @@ namespace solver {
         }
 
         // report the solution
-        std::scoped_lock(orc.m);
-        orc.sol = sol;
-        orc.finished = true;
+        orc.report_solution(std::move(sol));
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {

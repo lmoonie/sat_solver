@@ -132,9 +132,7 @@ namespace solver {
         }
         // report the solution
         sol.set_valid(true);
-        std::scoped_lock(orc.m);
-        orc.sol = sol;
-        orc.finished = true;
+        orc.report_solution(std::move(sol));
     }
 
 }

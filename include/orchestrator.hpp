@@ -41,6 +41,8 @@ namespace solve {
         orchestrator& operator=(orchestrator&&) = delete;
         // run the solvers
         std::pair<Status, sol::solution> operator()(const cnf::cnf_expr&);
+        // report solution
+        void report_solution(sol::solution&&);
     private:
         std::vector<std::jthread> threads;
         sol::solution sol;
@@ -48,7 +50,6 @@ namespace solve {
         Status status;
         const program_interface& pif;
         mutable std::mutex m;
-        friend class basic_solver;
     };
 
 }

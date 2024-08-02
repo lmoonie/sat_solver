@@ -60,5 +60,15 @@ namespace solve {
         return std::make_pair(status, sol);
     }
 
+    // report solution
+    void orchestrator::report_solution(sol::solution&& proposed_sol) {
+        std::scoped_lock(orc.m);
+        if (!finished) {
+            sol = proposed_sol;
+            finished = true;
+            status = Status::success;
+        }
+    }
+
 }
 
