@@ -18,6 +18,8 @@
 
 namespace solver {
 
+    using problem = std::pair<cnf::cnf_expr, sol::solution>;
+
     // ProblemType enum
     using ProblemType = sol::ProblemType;
 

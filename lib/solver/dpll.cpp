@@ -7,7 +7,6 @@
 namespace solver {
 
     using std::abs;
-    using problem = std::pair<cnf::cnf_expr, sol::solution>;
     inline sol::solution sub_dpll(problem, std::stop_token&);
 
     // problem constructor
