@@ -25,7 +25,7 @@ include(Sanitizers.cmake)
 add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
 add_library(verify lib/verify.cpp)
-add_library(solve lib/solve.cpp)
+add_library(solve lib/solve.cpp lib/orchestrator.cpp)
 add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp lib/solver/local_search.cpp)
 
 # Include directories
