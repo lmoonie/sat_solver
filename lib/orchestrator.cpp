@@ -9,7 +9,8 @@ namespace solve {
 
     // constructor
     orchestrator::orchestrator(const program_interface& program_if):
-        pif (program_if)
+        pif (program_if),
+        finished(false)
     {
         threads.reserve(pif.threads);
     }
