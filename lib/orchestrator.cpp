@@ -29,7 +29,7 @@ namespace solve {
         }
 
         // start random solvers
-        while (std::size_t i(0); i < num_inc_threads; i++) {
+        for (std::size_t i(0); i < num_inc_threads; i++) {
             threads.emplace_back(std::jthread(solver::local_search(expr, *this)));
         }
 
@@ -52,7 +52,7 @@ namespace solve {
                 }
                 break;
             }
-        } while true;
+        } while (true);
 
         // wait for threads to stop
         for (auto& thread : threads) {
