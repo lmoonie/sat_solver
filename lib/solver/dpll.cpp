@@ -115,9 +115,9 @@ namespace solver {
         return curr_sol;
     }
 
-    std::vector<basic_solver> dpll::divide(uint num_sub_problems) {
+    std::vector<dpll> dpll::divide(uint num_sub_problems) {
         // sub problems to be found
-        std::vector<basic_solver> sub_probs;
+        std::vector<dpll> sub_probs;
         // apply heuristics to full problem
         simplify(expr, sol);
         // divide the problem log_2(num_sub_problems) times

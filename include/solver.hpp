@@ -78,7 +78,7 @@ namespace solver {
         // run the algorithm
         void operator()(std::stop_token);
         // divide the problem
-        std::vector<basic_solver> divide(uint);
+        std::vector<dpll> divide(uint);
         // destructor
         ~dpll() {};
     };
