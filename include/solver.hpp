@@ -22,7 +22,7 @@ namespace solver {
     using ProblemType = sol::ProblemType;
 
     enum SolverType: ushort {
-        All = 0,
+        Auto = 0,
         BruteForce = 1,
         DPLL = 2,
         LocalSearch = 3

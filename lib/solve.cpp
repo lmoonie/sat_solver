@@ -6,6 +6,8 @@
 
 namespace solve {
 
+    using std::format;
+
     // solve the problem
     int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         cnf::cnf_expr expr(istr);
@@ -42,6 +44,26 @@ namespace solve {
         threads(std::jthread::hardware_concurrency())
     {
         cli::extract_program_options(*this, argc, argv);
+        message(2, format("The verbosity is set to {}", verbosity));
+        message(2, format("The solver is set to {}",
+            solver == solver::SolverType::Auto        ? "auto"s         :
+            solver == solver::SolverType::DPLL        ? "DPLL"s         :
+            solver == solver::SolverType::LocalSearch ? "local_search"s :
+            solver == solver::SolverType::BruteForce  ? "brute_force"s
+        ));
+        message(2, format("The portfolio is set to use {} threads", threads));
+        if (incomplete) {
+            message(2, format("The portfolio is allowed to never prove unsatisfiability", threads));
+        }
+        message(2, format("The portfolio has a time limit of {} seconds", duration.count()));
+        message(2, format("The portfolio has a memory limit of {}kB", memory / 1000));
+    }
+
+    // send a message to the user
+    void program_interface::message(int v, const std::string& m) {
+        if (v >= verbosity) {
+            istr << "c " << m << std::endl;
+        }
     }
 
     namespace cli {
@@ -140,14 +162,14 @@ namespace solve {
             pif.desc.add_options()
                 ("help,h", flag_desc::help.c_str())
                 ("available-formats,f", flag_desc::available_formats.c_str())
-                ("verbose,v", opts::value<ushort>(), flag_desc::verbose.c_str())
+                ("verbose,v", opts::value<ushort>()->default_value(2), flag_desc::verbose.c_str())
                 ("quiet,q", flag_desc::quiet.c_str())
                 ("solver,s", opts::value<std::string>(), flag_desc::solver.c_str())
                 ("list-solvers,l", flag_desc::list_solvers.c_str())
                 ("incomplete,i", flag_desc::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<duration_t>(), flag_desc::duration.c_str())
-                ("memory,m", opts::value<memory_t>(), flag_desc::memory.c_str());
+                ("duration,d", opts::value<duration_t>()->default_value(std::chrono::minutes(5)), flag_desc::duration.c_str())
+                ("memory,m", opts::value<memory_t>()->default_value(2'000'000'000), flag_desc::memory.c_str());
 
             // parse command line options
             opts::store(
@@ -179,6 +201,8 @@ namespace solve {
                 pif.verbosity = 0;
             } else if (pif.var_map.count("quiet") > 1) {
                 throw std::invalid_argument(err::repeat_options);
+            } else if (pif.var_map.count("verbose") == 0) {
+                pif.verbosity = 1;
             }
             // set solver
             if (pif.var_map.count("solver") == 1) {
@@ -210,13 +234,13 @@ namespace solve {
                 throw std::invalid_argument(err::repeat_options);
             }
             // set duration
-            if (pif.var_map.count("duration") == 1) {
+            if (pif.var_map.count("duration") <= 1) {
                 pif.duration = pif.var_map["duration"].as<duration_t>().val;
             } else if (pif.var_map.count("duration") > 1) {
                 throw std::invalid_argument(err::repeat_options);
             }
             // set memory
-            if (pif.var_map.count("memory") == 1) {
+            if (pif.var_map.count("memory") <= 1) {
                 pif.memory = pif.var_map["memory"].as<memory_t>().val;
             } else if (pif.var_map.count("memory") > 1) {
                 throw std::invalid_argument(err::repeat_options);

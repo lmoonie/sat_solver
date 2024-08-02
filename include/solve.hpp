@@ -13,6 +13,8 @@
 #include <istream>
 #include <ostream>
 #include <thread>
+#include <format>
+#include <string>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -35,8 +37,10 @@ namespace solve {
         // no assignment permitted
         program_interface& operator=(const program_interface&) = delete;
         program_interface& operator=(program_interface&&) = delete;
-
+        // send a message to the user
+        void message(int, const std::string&);
         // program parameters
+        std::istream& istr;
         bool print_help;
         bool print_formats;
         bool print_solvers;
