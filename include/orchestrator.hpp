@@ -31,7 +31,7 @@ namespace solve {
         // no default constructor
         orchestrator() = delete;
         // constructor
-        orchestrator(program_interface&);
+        orchestrator(const program_interface&);
         // no copy constructor
         orchestrator(const orchestrator&) = delete;
         // no move constructor

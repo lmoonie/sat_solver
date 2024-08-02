@@ -43,7 +43,7 @@ namespace solve {
         // send a message to the user
         void message(int, const std::string&);
         // program parameters
-        std::ostream& ostr;
+        mutable std::ostream& ostr;
         bool print_help;
         bool print_formats;
         bool print_solvers;
