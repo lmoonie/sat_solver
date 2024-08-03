@@ -22,22 +22,44 @@ namespace solve {
         // set the number of threads used for complete solvers
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
-        // set the number of threads used for incomplete solvers
-        uint num_inc_threads(pif.threads - num_comp_threads);
 
-        // divide the problem and distribute to complete solvers
-        auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
-        pif.message(2, format("Starting {} complete solvers", num_comp_threads));
-        active_divided_threads = num_comp_threads;
-        for (auto& comp_solver : comp_solvers) {
-            threads.emplace_back(std::jthread(comp_solver));
-        }
+        if (pif.solver == solver::SolverType::Auto) {
+            // set the number of threads used for incomplete solvers
+            uint num_inc_threads(pif.threads - num_comp_threads);
 
-        // start random solvers
-        pif.message(2, format("Starting {} incomplete solvers", num_inc_threads));
-        auto inc_solver = solver::local_search(expr, *this);
-        for (std::size_t i(0); i < num_inc_threads; i++) {
-            threads.emplace_back(std::jthread(inc_solver));
+            // divide the problem and distribute to complete solvers
+            auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
+            pif.message(2, format("Starting {} complete solvers", num_comp_threads));
+            active_divided_threads = num_comp_threads;
+            for (auto& comp_solver : comp_solvers) {
+                threads.emplace_back(std::jthread(comp_solver));
+            }
+
+            // start random solvers
+            pif.message(2, format("Starting {} incomplete solvers", num_inc_threads));
+            auto inc_solver = solver::local_search(expr, *this);
+            for (std::size_t i(0); i < num_inc_threads; i++) {
+                threads.emplace_back(std::jthread(inc_solver));
+            }
+        } else if (pif.solver == solver::SolverType::DPLL) {
+            // divide the problem and distribute to complete solvers
+            auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
+            pif.message(2, format("Starting {} complete solvers", num_comp_threads));
+            active_divided_threads = num_comp_threads;
+            for (auto& comp_solver : comp_solvers) {
+                threads.emplace_back(std::jthread(comp_solver));
+            }
+        } else if (pif.solver == solver::SolverType::LocalSearch) {
+            // start random solvers
+            pif.message(2, format("Starting {} incomplete solvers", pif.threads));
+            auto inc_solver = solver::local_search(expr, *this);
+            for (std::size_t i(0); i < pif.threads; i++) {
+                threads.emplace_back(std::jthread(inc_solver));
+            }
+        } else if (pif.solver == solver::SolverType::BruteForce) {
+            // start brute force solver
+            pif.message(2, "Starting brute force solver");
+            threads.emplace_back(std::jthread(solver::brute_force(expr, *this)));
         }
 
         // get current time
