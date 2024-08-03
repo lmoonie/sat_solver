@@ -44,8 +44,11 @@ namespace solve {
         std::pair<Status, sol::solution> operator()(const cnf::cnf_expr&);
         // report solution
         void report_solution(sol::solution&&);
+        // report no solution
+        void report_no_solution();
     private:
         std::vector<std::jthread> threads;
+        uint active_divided_threads;
         sol::solution sol;
         bool finished;
         Status status;

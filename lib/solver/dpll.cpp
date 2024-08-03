@@ -53,7 +53,11 @@ namespace solver {
         }
 
         // report the solution
-        orc.report_solution(std::move(sol));
+        if (final_sol.is_valid()) {
+            orc.report_solution(std::move(sol));
+        } else {
+            orc.report_no_solution();
+        }
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {
@@ -124,6 +128,7 @@ namespace solver {
             auto var_iter = var_list.begin();
             for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
                 if (var_iter == var_list.end()) break;
+                orc.pif.message(2, format("Dividing on variable {}", *var_iter));
                 if (j % 2 == 0) {
                     // branch left
                     reduced_sol.assign_variable(*var_iter, false);

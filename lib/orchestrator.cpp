@@ -11,7 +11,8 @@ namespace solve {
     // constructor
     orchestrator::orchestrator(const program_interface& program_if):
         pif (program_if),
-        finished(false)
+        finished(false),
+        active_divided_threads(0)
     {
         threads.reserve(pif.threads);
     }
@@ -27,6 +28,7 @@ namespace solve {
         // divide the problem and distribute to complete solvers
         auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
         pif.message(2, format("Starting {} complete solvers", num_comp_threads));
+        active_divided_threads = num_comp_threads;
         for (auto& comp_solver : comp_solvers) {
             threads.emplace_back(std::jthread(comp_solver));
         }
@@ -82,12 +84,20 @@ namespace solve {
             sol = proposed_sol;
             finished = true;
             status = Status::Success;
-            if (sol.is_valid()) {
-                pif.message(2, "Solution found"s);
-            } else {
-                pif.message(2, "No solution exists"s);
-            }
+            if (sol.is_valid())
+                pif.message(2, "Solution found");
         }
+    }
+
+    // report no solution
+    void report_no_solution() {
+        std::scoped_lock lock(m);
+        active_divided_threads--;
+        if (active_divided_threads == 0) {
+            finished = true;
+        }
+        status = Status::Success;
+        pif.message(2, "No solution exists");
     }
 
 }
