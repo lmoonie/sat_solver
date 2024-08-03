@@ -56,7 +56,6 @@ namespace solver {
 
         // report the solution
         if (final_sol.is_valid()) {
-            auto elapsed_time = time.now() - start_time;
             std::chrono::duration<double> elapsed_time = time.now() - start_time;
             sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
         } else {
