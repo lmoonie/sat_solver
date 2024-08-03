@@ -87,11 +87,11 @@ namespace solve {
             finished = true;
             status = Status::Success;
             if (sol.is_valid())
-                message(2, "A solution was found by " + (
-                    s == solver::SolverType::DPLL        ? "DPLL"         :
-                    s == solver::SolverType::LocalSearch ? "local_search" :
-                    s == solver::SolverType::BruteForce  ? "brute_force"  :
-                                                                "unknown"
+                message(2, "A solution was found by "s + (
+                    s == solver::SolverType::DPLL        ? "DPLL"s         :
+                    s == solver::SolverType::LocalSearch ? "local_search"s :
+                    s == solver::SolverType::BruteForce  ? "brute_force"s  :
+                                                                "unknown"s
                 ));
         }
     }
