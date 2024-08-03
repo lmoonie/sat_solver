@@ -128,7 +128,7 @@ namespace solver {
             auto var_iter = var_list.begin();
             for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
                 if (var_iter == var_list.end()) break;
-                orc.pif.message(2, format("Dividing on variable {}", *var_iter));
+                orc.pif.message(2, std::format("Dividing on variable {}", *var_iter));
                 if (j % 2 == 0) {
                     // branch left
                     reduced_sol.assign_variable(*var_iter, false);
