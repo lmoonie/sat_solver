@@ -36,10 +36,10 @@ namespace solver {
         last_stop_check = time.now();
 
         // apply heuristics
-        simplify(reduced_expr, sol);
+        simplify(expr, sol);
 
         // find the solution to the reduced problem
-        auto final_sol = sub_dpll({reduced_expr, sol}, token);
+        auto final_sol = sub_dpll({expr, sol}, token);
         if (token.stop_requested()) {
             sol.set_valid(false);
             return;
