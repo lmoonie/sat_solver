@@ -66,7 +66,7 @@ namespace solve {
         for (auto& thread : threads) {
             thread.join();
         }
-        pif.message(2, "Solvers stopped"s);
+        pif.message(2, "Solvers stopped");
 
         // assign arbitrary values to any remaining variables
         for (auto const& var : expr.variables()) {
