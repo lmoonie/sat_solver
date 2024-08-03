@@ -117,7 +117,7 @@ namespace solve {
             std::chrono::duration<int64_t> val;
         };
         struct memory_t {
-            unsigned long int val;
+            long int val;
         };
 
         // validator for duration argument

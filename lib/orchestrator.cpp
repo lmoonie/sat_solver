@@ -8,6 +8,7 @@
 #include <fstream>
 #include <limits>
 #include <stdexcept>
+#include <unistd.h>
 #include "message.hpp"
 
 namespace solve {
@@ -82,7 +83,7 @@ namespace solve {
                 finished = true;
                 pif.message(2, "Time limit reached");
             }
-            unsigned long mem_usage;
+            long int mem_usage;
             if (vmem_usage(mem_usage)) {
                 mem_warn_count = 0;
                 if (mem_usage >= pif.memory) {
@@ -159,10 +160,11 @@ namespace solve {
     bool vmem_usage(unsigned long& mem) {
             std::ifstream stat("/proc/self/stat");
             std::string str;
-            for (std::size_t i(0); i < 22; i++) {
+            for (std::size_t i(0); i < 23; i++) {
                 stat >> str;
             }
             stat >> mem;
+            mem *= std::abs(getpagesize());
             return !stat.bad();
     }
 
