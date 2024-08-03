@@ -72,6 +72,11 @@ namespace solve {
         }
     }
 
+    // send a warning to the user
+    void program_interface::warn(const std::string& w) const {
+        std::osyncstream(std::cerr) << "Warning: " << w << std::endl;
+    }
+
     namespace cli {
 
         namespace flag_desc {

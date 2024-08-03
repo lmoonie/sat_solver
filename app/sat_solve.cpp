@@ -18,7 +18,7 @@ int main(int argc, char** argv) try {
         return solve::run_portfolio(pif, std::cin, std::cout);
     }
 } catch (std::exception& e) {
-    std::cerr << e.what() << std::endl;
+    std::cerr << "Error: " << e.what() << std::endl;
     return 2;
 }
 
