@@ -89,6 +89,9 @@ namespace err {
     const std::string not_read_mem(
         "The virtual memory usage could not be read from \"/proc/self/stat/\"."
     );
+    const std::string mem_too_big(
+        "The virtual memory usage could not be read from \"/proc/self/stat/\"."
+    );
 
 
 }

@@ -132,14 +132,18 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            long time_steps = std::stoull(str, &unit_idx);
-            if (str.at(unit_idx) == 's') {
-                v = duration_t{std::chrono::seconds(time_steps)};
-            } else if (str.at(unit_idx) == 'm') {
-                v = duration_t{std::chrono::minutes(time_steps)};
-            } else if (str.at(unit_idx) == 'h') {
-                v = duration_t{std::chrono::hours(time_steps)};
-            } else {
+            try {
+                long time_steps = std::stoll(str, &unit_idx);
+                if (str.at(unit_idx) == 's') {
+                    v = duration_t{std::chrono::seconds(time_steps)};
+                } else if (str.at(unit_idx) == 'm') {
+                    v = duration_t{std::chrono::minutes(time_steps)};
+                } else if (str.at(unit_idx) == 'h') {
+                    v = duration_t{std::chrono::hours(time_steps)};
+                } else {
+                    throw std::invalid_argument(err::invalid_duration);
+                }
+            } catch (...) {
                 throw std::invalid_argument(err::invalid_duration);
             }
         }
@@ -156,14 +160,18 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            long int mem = {std::stol(str, &unit_idx)};
-            if (str.at(unit_idx) == 'k') {
-                v = memory_t{mem * 1'000};
-            } else if (str.at(unit_idx) == 'm') {
-                v = memory_t{mem * 1'000'000};
-            } else if (str.at(unit_idx) == 'g') {
-                v = memory_t{mem * 1'000'000'000};
-            } else {
+            try {
+                long int mem = {std::stol(str, &unit_idx)};
+                if (str.at(unit_idx) == 'k') {
+                    v = memory_t{mem * 1'000};
+                } else if (str.at(unit_idx) == 'm') {
+                    v = memory_t{mem * 1'000'000};
+                } else if (str.at(unit_idx) == 'g') {
+                    v = memory_t{mem * 1'000'000'000};
+                } else {
+                    throw std::invalid_argument(err::invalid_memory);
+                }
+            } catch (...) {
                 throw std::invalid_argument(err::invalid_memory);
             }
         }
