@@ -90,7 +90,7 @@ namespace solve {
     }
 
     // report no solution
-    void report_no_solution() {
+    void orchestrator::report_no_solution() {
         std::scoped_lock lock(m);
         active_divided_threads--;
         if (active_divided_threads == 0) {
