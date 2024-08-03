@@ -134,7 +134,7 @@ namespace solve {
         if (!finished) {
             sol = proposed_sol;
             std::string solver_name =
-                s == solver::SolverType::DPLL        ? "DPLL"s         :
+                s == solver::SolverType::DPLL        ? "dpll"s         :
                 s == solver::SolverType::LocalSearch ? "local_search"s :
                 s == solver::SolverType::BruteForce  ? "brute_force"s  :
                                                             "unknown"s ;
