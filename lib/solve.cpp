@@ -156,7 +156,7 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            long int mem = {std::stoull(str, &unit_idx)};
+            long int mem = {std::stol(str, &unit_idx)};
             if (str.at(unit_idx) == 'k') {
                 v = memory_t{mem * 1'000};
             } else if (str.at(unit_idx) == 'm') {

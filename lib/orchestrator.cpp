@@ -22,7 +22,7 @@ namespace solve {
         threads.reserve(pif.threads);
     }
 
-    inline bool vmem_usage(unsigned long&);
+    inline bool vmem_usage(long int&);
 
     // run the solvers
     std::pair<Status, sol::solution> orchestrator::operator()(const cnf::cnf_expr& expr) {
