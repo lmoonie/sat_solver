@@ -87,7 +87,7 @@ namespace solve {
             finished = true;
             status = Status::Success;
             if (sol.is_valid())
-                message(2, "A solution was found by "s + (
+                pif.message(2, "A solution was found by "s + (
                     s == solver::SolverType::DPLL        ? "DPLL"s         :
                     s == solver::SolverType::LocalSearch ? "local_search"s :
                     s == solver::SolverType::BruteForce  ? "brute_force"s  :
