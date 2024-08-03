@@ -157,7 +157,7 @@ namespace solve {
     }
 
     // get virtual memory usage from the system
-    bool vmem_usage(unsigned long& mem) {
+    bool vmem_usage(long int& mem) {
             std::ifstream stat("/proc/self/stat");
             std::string str;
             for (std::size_t i(0); i < 23; i++) {
