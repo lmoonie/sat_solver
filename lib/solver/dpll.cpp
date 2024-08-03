@@ -35,12 +35,6 @@ namespace solver {
         orc.pif.message(2, "DPLL solver starting");
         last_stop_check = time.now();
 
-        // reduced problem to given branch
-        auto reduced_expr = expr;
-        for (const auto& [var, val] : sol.map()) {
-            reduced_expr.assign_and_simplify(var, val);
-        }
-
         // apply heuristics
         simplify(reduced_expr, sol);
 
@@ -125,18 +119,23 @@ namespace solver {
         for (std::size_t i(0); i < num_sub_problems; i++) {
             auto solver_copy(*this);
             auto& reduced_sol = solver_copy.sol;
+            auto& reduced_expr = solver_copy.expr;
             uint j(i);
             auto var_iter = var_list.begin();
             for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
+                if (var_iter == var_list.end()) break;
                 if (j % 2 == 0) {
                     // branch left
                     reduced_sol.assign_variable(*var_iter, false);
+                    reduced_expr.assign_and_simplify(*var_iter, false);
+
                 } else {
                     // branch right
                     reduced_sol.assign_variable(*var_iter, true);
+                    reduced_expr.assign_and_simplify(*var_iter, true);
                 }
                 j /= 2;
-                if (++var_iter == var_list.end()) break;
+                var_iter++;
             }
             reduced_solvers.push_back(solver_copy);
         }

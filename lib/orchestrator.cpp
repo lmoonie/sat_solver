@@ -64,6 +64,14 @@ namespace solve {
             thread.join();
         }
         pif.message(2, "Solvers stopped"s);
+
+        // assign arbitrary values to any remaining variables
+        for (auto const& var : expr.variables()) {
+            if (!sol.map().contains(var)) {
+                sol.assign_variable(var, true);
+            }
+        }
+
         return std::make_pair(status, sol);
     }
 
@@ -71,10 +79,14 @@ namespace solve {
     void orchestrator::report_solution(sol::solution&& proposed_sol) {
         std::scoped_lock lock(m);
         if (!finished) {
-            pif.message(2, "Solution found"s);
             sol = proposed_sol;
             finished = true;
             status = Status::Success;
+            if (sol.is_valid()) {
+                pif.message(2, "Solution found"s);
+            } else {
+                pif.message(2, "No solution exists"s);
+            }
         }
     }
 
