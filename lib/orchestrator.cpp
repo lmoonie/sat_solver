@@ -7,7 +7,7 @@
 #include "solver.hpp"
 #include <fstream>
 #include <limits>
-#include <stexcept>
+#include <stdexcept>
 #include "message.hpp"
 
 namespace solve {
