@@ -5,6 +5,10 @@
 #include "orchestrator.hpp"
 #include "solve.hpp"
 #include "solver.hpp"
+#include <fstream>
+#include <limits>
+#include <stexcept>
+#include "message.hpp"
 
 namespace solve {
 
@@ -16,6 +20,8 @@ namespace solve {
     {
         threads.reserve(pif.threads);
     }
+
+    inline bool vmem_usage(unsigned long&);
 
     // run the solvers
     std::pair<Status, sol::solution> orchestrator::operator()(const cnf::cnf_expr& expr) {
@@ -67,6 +73,7 @@ namespace solve {
         auto start_time = time.now();
 
         // periodically monitor solvers
+        uint mem_warn_count(0);
         do {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             std::scoped_lock lock(m);
@@ -74,6 +81,25 @@ namespace solve {
                 status = Status::OutOfTime;
                 finished = true;
                 pif.message(2, "Time limit reached");
+            }
+            unsigned long mem_usage;
+            if (vmem_usage(mem_usage)) {
+                mem_warn_count = 0;
+                if (mem_usage >= pif.memory) {
+                    status = Status::OutOfMemory;
+                    finished = true;
+                    pif.message(2, "Memory limit reached");
+                }
+            } else {
+                mem_warn_count++;
+                if (mem_warn_count >= 5) {
+                    throw(std::runtime_error(err::not_read_mem));
+                } else {
+                    pif.warn(format(
+                        "Could not get memory usage from system; will try {} more times",
+                        5 - mem_warn_count
+                    ));
+                }
             }
             if (finished) {
                 // tell running solvers to stop
@@ -128,6 +154,18 @@ namespace solve {
             pif.message(2, "No solution exists");
         }
     }
+
+    // get virtual memory usage from the system
+    bool vmem_usage(unsigned long& mem) {
+            std::ifstream stat("/proc/self/stat");
+            std::string str;
+            for (std::size_t i(0); i < 22; i++) {
+                stat >> str;
+            }
+            stat >> mem;
+            return !stat.bad();
+    }
+
 
 }
 

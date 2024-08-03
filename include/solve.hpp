@@ -62,7 +62,7 @@ namespace solve {
         bool incomplete;
         uint threads;
         std::chrono::duration<int64_t> duration;
-        unsigned long long int memory;
+        unsigned long memory;
 
         // Boost program options
         opts::options_description desc;

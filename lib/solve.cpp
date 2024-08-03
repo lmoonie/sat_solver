@@ -112,7 +112,7 @@ namespace solve {
             std::chrono::duration<int64_t> val;
         };
         struct memory_t {
-            unsigned long long int val;
+            unsigned long int val;
         };
 
         // validator for duration argument
@@ -151,7 +151,7 @@ namespace solve {
 
             // parse the value
             std::size_t unit_idx;
-            unsigned long long mem = {std::stoull(str, &unit_idx)};
+            unsigned long mem = {std::stoull(str, &unit_idx)};
             if (str.at(unit_idx) == 'k') {
                 v = memory_t{mem * 1'000};
             } else if (str.at(unit_idx) == 'm') {

@@ -36,3 +36,7 @@
 - timing/mem. usage
 - CDCL
 - video presentation
+
+# Future plans
+- perf tuning
+    - random restarts on local_search
