@@ -147,12 +147,13 @@ namespace solve {
     }
 
     // report no solution
-    void orchestrator::report_no_solution() {
+    void orchestrator::report_no_solution(sol::solution&& proposed_sol) {
         std::scoped_lock lock(m);
         active_divided_threads--;
         if (active_divided_threads == 0 && !finished) {
             finished = true;
             status = Status::Success;
+            sol = proposed_sol;
             pif.message(2, "no solution exists");
         }
     }
