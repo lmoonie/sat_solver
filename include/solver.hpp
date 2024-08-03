@@ -53,7 +53,7 @@ namespace solver {
     protected:
         cnf::cnf_expr expr;
         sol::solution sol;
-        solve::orchestrator& orc;
+        solve::orchestrator* orc;
         std::chrono::steady_clock time;
         std::chrono::time_point<std::chrono::steady_clock> last_stop_check;
     };

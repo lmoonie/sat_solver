@@ -17,6 +17,7 @@ namespace solver {
 
     // run the algorithm
     void brute_force::operator()(std::stop_token token) {
+        orc->pif.message(2, "Brute force solver starting");
         while (!expr.eval(sol.map())) {
             auto iter(sol.map().begin());
             while (iter != sol.map().end() && iter->second) {
@@ -35,7 +36,7 @@ namespace solver {
         }
         // report the solution
         sol.set_valid(expr.eval(sol.map()));
-        orc.report_solution(std::move(sol));
+        orc->report_solution(std::move(sol));
     }
 
 }
