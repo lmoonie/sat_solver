@@ -217,7 +217,9 @@ namespace solve {
                     pif.solver = solver::SolverType::DPLL;
                 } else if (solver == std::string("local_search")) {
                     pif.solver = solver::SolverType::LocalSearch;
-                } else {
+                } else if (solver == std::string("auto")) {
+                    pif.solver = solver::SolverType::Auto;
+                } {
                     throw std::invalid_argument(err::invalid_solver);
                 }
             } else if (pif.var_map.count("solver") > 1) {
