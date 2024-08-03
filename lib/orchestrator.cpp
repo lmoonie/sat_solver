@@ -95,7 +95,7 @@ namespace solve {
     void orchestrator::report_no_solution() {
         std::scoped_lock lock(m);
         active_divided_threads--;
-        if (active_divided_threads == 0) {
+        if (active_divided_threads == 0 && !finished) {
             finished = true;
             status = Status::Success;
             pif.message(2, "No solution exists");
