@@ -18,7 +18,7 @@ namespace solver {
 
     // run the algorithm
     void brute_force::operator()(std::stop_token token) {
-        orc.pif.message(2, "Brute force solver starting");
+        orc.pif.message(2, "brute_force solver starting");
         auto start_time = time.now();
         while (!expr.eval(sol.map())) {
             auto iter(sol.map().begin());
