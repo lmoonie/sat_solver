@@ -80,14 +80,19 @@ namespace solve {
     }
 
     // report solution
-    void orchestrator::report_solution(sol::solution&& proposed_sol) {
+    void orchestrator::report_solution(sol::solution&& proposed_sol, solver::SolverType s) {
         std::scoped_lock lock(m);
         if (!finished) {
             sol = proposed_sol;
             finished = true;
             status = Status::Success;
             if (sol.is_valid())
-                pif.message(2, "Solution found");
+                message(2, "A solution was found by " + (
+                    s == solver::SolverType::DPLL        ? "DPLL"         :
+                    s == solver::SolverType::LocalSearch ? "local_search" :
+                    s == solver::SolverType::BruteForce  ? "brute_force"  :
+                                                                "unknown"
+                ));
         }
     }
 

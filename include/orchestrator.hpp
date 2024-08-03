@@ -43,7 +43,7 @@ namespace solve {
         // run the solvers
         std::pair<Status, sol::solution> operator()(const cnf::cnf_expr&);
         // report solution
-        void report_solution(sol::solution&&);
+        void report_solution(sol::solution&&, solver::SolverType);
         // report no solution
         void report_no_solution();
     private:
