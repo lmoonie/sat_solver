@@ -78,12 +78,14 @@ namespace sol {
         void set_num_clauses(clause);
         // set problem type
         void set_type(ProblemType);
+        // provide the statistics object
+        std::map<std::string, std::string>& stats();
 
     private:
         // tracks variable assignments
         std::map<variable, bool> variables;
         // store statistics
-        std::map<std::string, std::string> stats;
+        std::map<std::string, std::string> statistics;
         // largest variable
         variable max_var;
         // number of clauses

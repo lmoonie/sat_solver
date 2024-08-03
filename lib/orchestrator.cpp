@@ -133,15 +133,16 @@ namespace solve {
         std::scoped_lock lock(m);
         if (!finished) {
             sol = proposed_sol;
+            std::string solver_name =
+                s == solver::SolverType::DPLL        ? "DPLL"s         :
+                s == solver::SolverType::LocalSearch ? "local_search"s :
+                s == solver::SolverType::BruteForce  ? "brute_force"s  :
+                                                            "unknown"s ;
+            sol.stats().insert({"SOLVER", solver_name});
             finished = true;
             status = Status::Success;
             if (sol.is_valid())
-                pif.message(2, "a solution was found by "s + (
-                    s == solver::SolverType::DPLL        ? "DPLL"s         :
-                    s == solver::SolverType::LocalSearch ? "local_search"s :
-                    s == solver::SolverType::BruteForce  ? "brute_force"s  :
-                                                                "unknown"s
-                ));
+                pif.message(2, "a solution was found by "s + solver_name);
         }
     }
 

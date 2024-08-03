@@ -79,6 +79,11 @@ namespace sol {
     void solution::set_type(ProblemType ptype) {
         type = ptype;
     }
+    
+    // provide the statistics object
+    std::map<std::string, std::string>& stats() {
+        return statistics;
+    }
 
     // used to print solution
     std::ostream& operator<<(std::ostream& ostr, const solution& sol) {

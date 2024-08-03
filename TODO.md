@@ -33,7 +33,6 @@
 
 # Next steps
 - cli
-- timing/mem. usage
 - CDCL
 - video presentation
 
