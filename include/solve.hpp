@@ -16,7 +16,6 @@
 #include <format>
 #include <string>
 #include <iostream>
-#include <syncstream>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"

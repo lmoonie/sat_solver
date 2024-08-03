@@ -68,13 +68,13 @@ namespace solve {
     // send a message to the user
     void program_interface::message(int v, const std::string& m) const {
         if (v <= verbosity) {
-            std::osyncstream(std::cout) << "c " << m << std::endl;
+            std::cout << format("c {}", m) << std::endl;
         }
     }
 
     // send a warning to the user
     void program_interface::warn(const std::string& w) const {
-        std::osyncstream(std::cerr) << "Warning: " << w << std::endl;
+        std::cout << format("Warning: {}", w) << std::endl;
     }
 
     namespace cli {
