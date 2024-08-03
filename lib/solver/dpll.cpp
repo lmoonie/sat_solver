@@ -3,6 +3,7 @@
 // Jul 22, 2024
 
 #include "solver.hpp"
+#include "solve.hpp"
 
 namespace solver {
 
@@ -54,7 +55,7 @@ namespace solver {
 
         // report the solution
         if (final_sol.is_valid()) {
-            orc.report_solution(std::move(final_sol));
+            orc.report_solution(std::move(final_sol), SolverType::DPLL);
         } else {
             orc.report_no_solution();
         }

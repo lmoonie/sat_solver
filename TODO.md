@@ -23,7 +23,6 @@
 
 # cnf
 - consider not deleting all literals before deleting clause
-- test SAT conversion
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS
     - replace with variables
     - odd vars greater than max_var are false, even are true
@@ -35,6 +34,5 @@
 # Next steps
 - cli
 - timing/mem. usage
-- concurrency
 - CDCL
 - video presentation

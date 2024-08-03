@@ -3,6 +3,7 @@
 // Jul 22, 2024
 
 #include "solver.hpp"
+#include "solve.hpp"
 
 namespace solver {
 
@@ -36,7 +37,7 @@ namespace solver {
         }
         // report the solution
         sol.set_valid(expr.eval(sol.map()));
-        orc.report_solution(std::move(sol));
+        orc.report_solution(std::move(sol), SolverType::BruteForce);
     }
 
 }
