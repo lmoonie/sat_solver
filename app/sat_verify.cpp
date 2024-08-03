@@ -15,6 +15,7 @@ int main(int argc, char** argv) try {
         return std::cout ? 0 : 1;
     } else if (pif.print_formats) {
         std::cout << info::available_formats << std::endl;
+        return std::cout ? 0 : 1;
     } else {
         cnf::cnf_expr expr;
         sol::solution sol;
