@@ -35,8 +35,9 @@ namespace solve {
 
         // start random solvers
         pif.message(2, format("Starting {} incomplete solvers", num_inc_threads));
+        auto inc_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < num_inc_threads; i++) {
-            threads.emplace_back(std::jthread(solver::local_search(expr, *this)));
+            threads.emplace_back(std::jthread(inc_solver));
         }
 
         // get current time

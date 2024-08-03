@@ -74,7 +74,7 @@ namespace solver {
 
     // a stochastic local search algorithm implementing WalkSAT
     void local_search::operator()(std::stop_token token) {
-        orc->pif.message(2, "Local search solver starting");
+        orc.pif.message(2, "Local search solver starting");
         const double RAND_LIT_PROB = 0.2;
         const std::size_t MAX_RAND_ADVANCE = 20;
 
@@ -131,7 +131,7 @@ namespace solver {
         }
         // report the solution
         sol.set_valid(true);
-        orc->report_solution(std::move(sol));
+        orc.report_solution(std::move(sol));
     }
 
 }
