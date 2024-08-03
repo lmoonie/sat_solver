@@ -37,7 +37,7 @@ namespace solve {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("The following options are available:"),
+        desc("the following options are available:"),
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
         threads(std::jthread::hardware_concurrency()),
@@ -49,20 +49,20 @@ namespace solve {
         solver(solver::SolverType::Auto)
     {
         cli::extract_program_options(*this, argc, argv);
-        message(2, format("The verbosity is set to {}", verbosity));
-        message(2, "The solver is set to "s + (
+        message(2, format("the verbosity is set to {}", verbosity));
+        message(2, "the solver is set to "s + (
             solver == solver::SolverType::Auto        ? "auto"s         :
             solver == solver::SolverType::DPLL        ? "DPLL"s         :
             solver == solver::SolverType::LocalSearch ? "local_search"s :
             solver == solver::SolverType::BruteForce  ? "brute_force"s  :
                                                         "undefined"s
         ));
-        message(2, format("The portfolio is set to use {} threads", threads));
+        message(2, format("the portfolio is set to use {} threads", threads));
         if (incomplete) {
-            message(2, format("The portfolio is allowed to never prove unsatisfiability", threads));
+            message(2, format("the portfolio is allowed to never prove unsatisfiability", threads));
         }
-        message(2, format("The portfolio has a time limit of {} seconds", duration.count()));
-        message(2, format("The portfolio has a memory limit of {}kB", memory / 1000));
+        message(2, format("the portfolio has a time limit of {} seconds", duration.count()));
+        message(2, format("the portfolio has a memory limit of {}kB", memory / 1000));
     }
 
     // send a message to the user
