@@ -50,10 +50,11 @@ namespace solve {
             if (time.now() - start_time >= pif.duration) {
                 status = Status::OutOfTime;
                 finished = true;
+                pif.message(2, "Time limit reached");
             }
             if (finished) {
                 // tell running solvers to stop
-                pif.message(2, "Shutting down solvers"s);
+                pif.message(2, "Shutting down solvers");
                 for (auto& thread : threads) {
                     thread.request_stop();
                 }
@@ -95,9 +96,9 @@ namespace solve {
         active_divided_threads--;
         if (active_divided_threads == 0) {
             finished = true;
+            status = Status::Success;
+            pif.message(2, "No solution exists");
         }
-        status = Status::Success;
-        pif.message(2, "No solution exists");
     }
 
 }
