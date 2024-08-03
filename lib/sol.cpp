@@ -81,7 +81,7 @@ namespace sol {
     }
     
     // provide the statistics object
-    std::map<std::string, std::string>& stats() {
+    std::map<std::string, std::string>& solution::stats() {
         return statistics;
     }
 
@@ -96,7 +96,7 @@ namespace sol {
             sol.type == ProblemType::CNF ? std::to_string(sol.clauses) : ""
         ) << std::endl;
         // print statistics lines
-        for (const auto& [key, val] : sol.stats) {
+        for (const auto& [key, val] : sol.statistics) {
             ostr << std::format("t {} {}", key, val) << std::endl;
         }
         // print variable lines
