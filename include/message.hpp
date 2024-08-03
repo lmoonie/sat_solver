@@ -92,7 +92,14 @@ namespace err {
     const std::string mem_too_big(
         "the virtual memory usage could not be read from \"/proc/self/stat/\"."
     );
+}
 
+// information messages
+namespace info {
+
+    const std::string available_formats(
+        "The following problem formats are accepted:\nCNF\nSAT"
+    );
 
 }
 
