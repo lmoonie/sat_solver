@@ -60,7 +60,7 @@ namespace solver {
             final_sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
             orc.report_solution(std::move(final_sol), SolverType::DPLL);
         } else {
-            orc.report_no_solution(std::move(final_sol));
+            orc.report_no_solution();
         }
     } catch (...) {
         orc.report_error(true);
