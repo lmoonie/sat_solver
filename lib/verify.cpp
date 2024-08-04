@@ -13,7 +13,10 @@ namespace verify {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("The following options are available:")
+        desc("The following options are available:"),
+        quiet(false),
+        print_help(false),
+        print_formats(false)
     {
         cli::extract_program_options(*this, argc, argv);
     }
