@@ -228,7 +228,7 @@ namespace solve {
     }
 
     // report ready to start
-    void ready() {
+    void orchestrator::ready() {
         std::unique_lock lock(m);
         start.wait(lock, [this](){return started;})
     }
