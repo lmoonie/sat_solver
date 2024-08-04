@@ -21,15 +21,16 @@ namespace solve {
         active_incomplete_threads(0)
     {
         threads.reserve(pif.threads);
-        sol.set_max_var(expr.get_max_var());
-        sol.set_num_clauses(expr.get_num_clauses());
-        sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
     }
 
     inline bool vmem_usage(long int&);
 
     // run the solvers
     std::pair<Status, sol::solution> orchestrator::operator()(const cnf::cnf_expr& expr) {
+        sol.set_max_var(expr.get_max_var());
+        sol.set_num_clauses(expr.get_num_clauses());
+        sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
+
         // set the number of threads used for complete solvers
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
