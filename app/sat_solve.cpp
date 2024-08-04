@@ -4,9 +4,19 @@
 
 #include <iostream>
 #include <format>
+#include <csignal>
 #include "solve.hpp"
 
+volatile std::sig_atomic_t sig;
+
+void sig_handler(int signal) {
+    sig = signal;
+}
+
 int main(int argc, char** argv) try {
+    // register signal handler
+    std::signal(SIGINT, sig_handler);
+
     // configure program from CLI
     solve::program_interface pif(argc, argv);
 
