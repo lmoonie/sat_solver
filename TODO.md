@@ -1,3 +1,6 @@
+# local_search
+- check how it handles empty clauses/expressions
+
 # cnf
 - consider not deleting all literals before deleting clause
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS

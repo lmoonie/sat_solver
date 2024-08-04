@@ -22,10 +22,10 @@ namespace solver {
         auto start_time = time.now();
         // check for empty expression
         if (expr.get_num_clauses() == 0) {
-            curr_sol.set_valid(true);
+            sol.set_valid(true);
         } else if (expr.empty_clause()) {
         // check for empty clauses
-            curr_sol.set_valid(false);
+            sol.set_valid(false);
         } else {
             while (!expr.eval(sol.map())) {
                 auto iter(sol.map().begin());
