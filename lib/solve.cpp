@@ -35,7 +35,6 @@ namespace solve {
             ) << std::endl;
             return 2;
         }
-        return sol.is_valid();
     }
 
     // forward declaration
