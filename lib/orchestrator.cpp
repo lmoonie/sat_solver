@@ -93,7 +93,7 @@ namespace solve {
         // manage solvers periodically and upon finishing
         uint mem_warn_count(0);
         std::unique_lock lock(m);
-        while (!finished || sig != 0) {
+        while (!finished && sig == 0) {
             finish.wait_for(
                 lock,
                 std::chrono::milliseconds(500),
