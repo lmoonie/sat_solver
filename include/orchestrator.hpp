@@ -45,10 +45,13 @@ namespace solve {
         // report solution
         void report_solution(sol::solution&&, solver::SolverType);
         // report no solution
-        void report_no_solution(sol::solution&&);
+        void report_no_solution();
+        // report solver error
+        void report_error(bool);
     private:
         std::vector<std::jthread> threads;
         uint active_divided_threads;
+        uint active_incomplete_threads;
         sol::solution sol;
         bool finished;
         Status status;

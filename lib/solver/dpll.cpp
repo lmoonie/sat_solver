@@ -32,7 +32,7 @@ namespace solver {
         }
     }
 
-    void dpll::operator()(std::stop_token token) {
+    void dpll::operator()(std::stop_token token) try {
         orc.pif.message(2, "dpll solver starting");
         auto start_time = time.now();
         last_stop_check = time.now();
@@ -62,6 +62,9 @@ namespace solver {
         } else {
             orc.report_no_solution(std::move(final_sol));
         }
+    } catch {
+        orc.report_error(true);
+        return;
     }
 
     inline problem reduce_problem(problem prob, variable var, bool val) {

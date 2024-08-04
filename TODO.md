@@ -1,25 +1,10 @@
-# Admin
-- Review project spec
-- write README
-
-# sat_verify
-- Implement remaining CLI
-- output false clause?
-- implement ctrl+c
-
-# brute_force
+# solvers
 - add statistics
-
-# dpll
-- add statistics
-- may need to expand the stack
+- catch and report errors via ThreadPanic status
 
 # sat_solve
-- implement remaining CLI
-    - including custom parsers
 - implement ctrl+c
-- memory watching
-- time watching
+- messages of varying verbosity
 
 # cnf
 - consider not deleting all literals before deleting clause
@@ -28,13 +13,11 @@
     - odd vars greater than max_var are false, even are true
     - use cnf facilities to simplify
 
-# solvers
-- catch errors and return ThreadPanic status
-
 # Next steps
-- cli
 - CDCL
 - video presentation
+- README
+- review spec for final tasks
 
 # Future plans
 - perf tuning

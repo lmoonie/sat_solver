@@ -17,7 +17,7 @@ namespace solver {
     }
 
     // run the algorithm
-    void brute_force::operator()(std::stop_token token) {
+    void brute_force::operator()(std::stop_token token) try {
         orc.pif.message(2, "brute_force solver starting");
         auto start_time = time.now();
         while (!expr.eval(sol.map())) {
@@ -41,6 +41,9 @@ namespace solver {
         sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
         sol.set_valid(expr.eval(sol.map()));
         orc.report_solution(std::move(sol), SolverType::BruteForce);
+    } catch (...) {
+        orc.report_error(true);
+        return;
     }
 
 }

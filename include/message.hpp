@@ -92,6 +92,9 @@ namespace err {
     const std::string mem_too_big(
         "the virtual memory usage could not be read from \"/proc/self/stat/\"."
     );
+    const std::string thread_panic(
+        "an error encountered by one or more solvers has made solving the problem impossible"
+    );
 }
 
 // information messages

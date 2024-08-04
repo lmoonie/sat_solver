@@ -17,9 +17,13 @@ namespace solve {
     orchestrator::orchestrator(const program_interface& program_if):
         pif (program_if),
         finished(false),
-        active_divided_threads(0)
+        active_divided_threads(0),
+        active_incomplete_threads(0)
     {
         threads.reserve(pif.threads);
+        sol.set_max_var(expr.get_max_var());
+        sol.set_num_clauses(expr.get_num_clauses());
+        sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
     }
 
     inline bool vmem_usage(long int&);
@@ -33,6 +37,7 @@ namespace solve {
         if (pif.solver == solver::SolverType::Auto) {
             // set the number of threads used for incomplete solvers
             uint num_inc_threads(pif.threads - num_comp_threads);
+            uint active_incomplete_threads = num_inc_threads;
 
             // divide the problem and distribute to complete solvers
             auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
@@ -55,6 +60,7 @@ namespace solve {
             }
         } else if (pif.solver == solver::SolverType::LocalSearch) {
             // start random solvers
+            uint active_incomplete_threads = pif.threads;
             auto inc_solver = solver::local_search(expr, *this);
             for (std::size_t i(0); i < pif.threads; i++) {
                 threads.emplace_back(std::jthread(inc_solver));
@@ -71,7 +77,7 @@ namespace solve {
         // periodically monitor solvers
         uint mem_warn_count(0);
         do {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             std::scoped_lock lock(m);
             if (time.now() - start_time >= pif.duration) {
                 status = Status::OutOfTime;
@@ -97,7 +103,14 @@ namespace solve {
                     ));
                 }
             }
+            if (active_incomplete_threads == 0 && active_divided_threads == 0 && !finished) {
+                finished = true;
+                status = Status::ThreadPanic;
+            }
             if (finished) {
+                if (status == Status::ThreadPanic) {
+                    throw std::runtime_error(err::thread_panic);
+                }
                 // tell running solvers to stop
                 pif.message(2, "shutting down solvers");
                 for (auto& thread : threads) {
@@ -142,14 +155,27 @@ namespace solve {
     }
 
     // report no solution
-    void orchestrator::report_no_solution(sol::solution&& proposed_sol) {
+    void orchestrator::report_no_solution() {
         std::scoped_lock lock(m);
         active_divided_threads--;
         if (active_divided_threads == 0 && !finished) {
             finished = true;
             status = Status::Success;
-            sol = proposed_sol;
             pif.message(2, "no solution exists");
+        }
+    }
+
+    // report solver error
+    void orchestrator::report_error(bool is_complete_solver) {
+        std::scoped_lock lock(m);
+        if (is_complete_solver) {
+            if (!finished) {
+                finished = true;
+                status = Status::ThreadPanic;
+            }
+        } else {
+            active_incomplete_threads--;
+            pif.warn("an error was encountered while executing an incomplete solver");
         }
     }
 
