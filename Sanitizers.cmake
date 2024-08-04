@@ -2,7 +2,7 @@
 
 # Defines sanitizer options
 option(EN_ASAN "Enable address sanitization" false)
-option(EN_UBSAN "Enable undefined behaviour sanitization" true)
+option(EN_UBSAN "Enable undefined behaviour sanitization" false)
 option(EN_LSAN "Enable leaked memory sanitization" false)
 option(EN_TSAN "Enable thread sanitization" true)
 
