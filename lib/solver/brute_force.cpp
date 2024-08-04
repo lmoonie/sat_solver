@@ -40,10 +40,45 @@ namespace solver {
         std::chrono::duration<double> elapsed_time = time.now() - start_time;
         sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
         sol.set_valid(expr.eval(sol.map()));
-        orc.report_solution(std::move(sol), SolverType::BruteForce);
+        if (sol.is_valid()) {
+            orc.report_solution(std::move(sol), SolverType::BruteForce);
+        } else {
+            orc.report_no_solution();
+        }
     } catch (...) {
         orc.report_error(true);
         return;
+    }
+
+    std::vector<brute_force> brute_force::divide(uint num_sub_problems) {
+        std::vector<brute_force> reduced_solvers;
+        // variables in expression
+        auto var_list = expr.variables();
+        // divide the problem log_2(num_sub_problems) times
+        for (std::size_t i(0); i < num_sub_problems; i++) {
+            auto solver_copy(*this);
+            auto& reduced_sol = solver_copy.sol;
+            auto& reduced_expr = solver_copy.expr;
+            uint j(i);
+            auto var_iter = var_list.begin();
+            for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
+                if (var_iter == var_list.end()) break;
+                if (j % 2 == 0) {
+                    // branch left
+                    reduced_sol.assign_variable(*var_iter, false);
+                    reduced_expr.assign_and_simplify(*var_iter, false);
+
+                } else {
+                    // branch right
+                    reduced_sol.assign_variable(*var_iter, true);
+                    reduced_expr.assign_and_simplify(*var_iter, true);
+                }
+                j /= 2;
+                var_iter++;
+            }
+            reduced_solvers.push_back(solver_copy);
+        }
+        return reduced_solvers;
     }
 
 }
