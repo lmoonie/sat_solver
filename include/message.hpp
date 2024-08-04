@@ -100,6 +100,36 @@ namespace info {
     const std::string available_formats(
         "The following problem formats are accepted:\nCNF\nSAT"
     );
+    const std::string verify_description(
+"Usage: sat_verify [[-p] PROBLEM_FILE] [-s SOLUTION_FILE] [-q]
+Verify the solution to a SAT or CNF problem.
+Example: sat_verify problem.cnf -s solution.sol
+
+At least one of PROBLEM_FILE and SOLUTION_FILE must be provided;
+the other will be accepted via standard input if only one is given.
+
+The following options are accepted"
+    );
+
+    namespace verify_flags {
+
+            const std::string help(
+                "display this help text and exit"
+            );
+            const std::string available_formats(
+                "display the accepted problem formats and exit"
+            );
+            const std::string problem(
+                "refer to the problem at the provided file path"
+            );
+            const std::string solution(
+                "verify the solution at the provided file path"
+            );
+            const std::string quiet(
+                "suppress all (non-error) output"
+            );
+
+    }
 
 }
 

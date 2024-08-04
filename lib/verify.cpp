@@ -13,7 +13,7 @@ namespace verify {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("The following options are available"),
+        desc(info::verify_description),
         quiet(false),
         print_help(false),
         print_formats(false)
@@ -51,23 +51,7 @@ namespace verify {
 
     namespace cli {
 
-        namespace flag_desc {
-            const std::string help(
-                ""
-            );
-            const std::string available_formats(
-                ""
-            );
-            const std::string problem(
-                ""
-            );
-            const std::string solution(
-                ""
-            );
-            const std::string quiet(
-                ""
-            );
-        }
+        using namespace flag_desc = info::verify_flags;
 
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
