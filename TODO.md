@@ -1,10 +1,3 @@
-# solvers
-- add statistics
-
-# sat_solve
-- implement ctrl+c
-- messages of varying verbosity
-
 # cnf
 - consider not deleting all literals before deleting clause
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS
@@ -21,3 +14,4 @@
 # Future plans
 - perf tuning
     - random restarts on local_search
+- more solution statistics

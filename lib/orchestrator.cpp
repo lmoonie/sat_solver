@@ -37,7 +37,9 @@ namespace solve {
         sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
 
         if (sig != 0) {
-            pif.message(1, "interrupt signal received");
+            if (pif.verbosity > 0) {
+                (std::cout << "\nc interrupt signal received\n").flush();
+            }
             return {Status::IntSig, sol};
         }
 
@@ -103,7 +105,7 @@ namespace solve {
             if (time.now() - start_time >= pif.duration) {
                 status = Status::OutOfTime;
                 finished = true;
-                pif.message(2, "time limit reached");
+                pif.message(1, "time limit reached");
             }
             long int mem_usage;
             if (vmem_usage(mem_usage)) {
@@ -111,7 +113,7 @@ namespace solve {
                 if (mem_usage >= pif.memory) {
                     status = Status::OutOfMemory;
                     finished = true;
-                    pif.message(2, "memory limit reached");
+                    pif.message(1, "memory limit reached");
                 }
             } else {
                 mem_warn_count++;
@@ -130,7 +132,9 @@ namespace solve {
             }
             if (finished || sig != 0) {
                 if (sig != 0) {
-                    pif.message(1, "interrupt signal received");
+                    if (pif.verbosity > 0) {
+                        (std::cout << "\nc interrupt signal received\n").flush();
+                    }
                     status = Status::IntSig;
                 }
                 // tell running solvers to stop

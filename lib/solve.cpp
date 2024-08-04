@@ -12,7 +12,9 @@ namespace solve {
     // solve the problem
     int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
         if (sig != 0) {
-            pif.message(1, "interrupt signal received");
+            if (pif.verbosity > 0) {
+                (std::cout << "\nc interrupt signal received\n").flush();
+            }
             return 2;
         }
         cnf::cnf_expr expr(istr);
@@ -67,8 +69,8 @@ namespace solve {
         if (incomplete) {
             message(2, format("the portfolio is allowed to never prove unsatisfiability", threads));
         }
-        message(2, format("the portfolio has a time limit of {} seconds", duration.count()));
-        message(2, format("the portfolio has a memory limit of {}kB", memory / 1000));
+        message(1, format("the portfolio has a time limit of {} seconds", duration.count()));
+        message(1, format("the portfolio has a memory limit of {}kB", memory / 1000));
     }
 
     // send a message to the user
