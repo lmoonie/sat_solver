@@ -68,14 +68,14 @@ namespace solve {
     // send a message to the user
     void program_interface::message(int v, const std::string& m) const {
         if (v <= verbosity) {
-            std::cout << format("c {}", m) << std::endl;
+            std::cout << format("c {}\n", m);
         }
     }
 
     // send a warning to the user
     void program_interface::warn(const std::string& w) const {
         if (verbosity > 0) {
-            std::cerr << format("Warning: {}", w) << std::endl;
+            std::cerr << format("Warning: {}\n", w);
         }
     }
 
