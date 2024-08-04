@@ -13,7 +13,7 @@ namespace verify {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("The following options are available:"),
+        desc("The following options are available"),
         quiet(false),
         print_help(false),
         print_formats(false)
@@ -118,7 +118,9 @@ namespace verify {
             } else if (pif.var_map.count("solution") > 1) {
                 throw std::invalid_argument(err::too_many_solutions);
             }
-            if (pif.var_map.count("problem") + pif.var_map.count("solution") == 0) {
+            if (pif.var_map.count("problem") + pif.var_map.count("solution") == 0 &&
+                !pif.print_help && !pif.print_formats
+            ) {
                 throw std::invalid_argument(err::need_file);
             }
 
