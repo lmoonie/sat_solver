@@ -12,6 +12,8 @@
 #include "message.hpp"
 #include <signal.h>
 
+volatile std::sig_atomic_t sig;
+
 namespace solve {
 
     // constructor

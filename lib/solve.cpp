@@ -5,6 +5,8 @@
 #include "solve.hpp"
 #include "solver.hpp"
 
+volatile std::sig_atomic_t sig;
+
 namespace solve {
 
     // solve the problem

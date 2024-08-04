@@ -6,6 +6,8 @@
 #include <format>
 #include "solve.hpp"
 
+volatile std::sig_atomic_t sig = 0;
+
 void sig_handler(int signal) {
     sig = signal;
 }
