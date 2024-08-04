@@ -80,7 +80,7 @@ namespace solve {
 
         // start local_search solvers
         auto local_search_solver = solver::local_search(expr, *this);
-        for (std::size_t i(0); i < num_inc_threads; i++) {
+        for (std::size_t i(0); i < num_local_search_threads; i++) {
             threads.emplace_back(std::jthread(local_search_solver));
         }
         
