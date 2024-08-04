@@ -20,6 +20,7 @@ namespace solve {
     orchestrator::orchestrator(const program_interface& program_if):
         pif (program_if),
         finished(false),
+        started(false),
         active_divided_threads(0),
         active_incomplete_threads(0),
         status(Status::Success)
@@ -47,8 +48,6 @@ namespace solve {
         // set the number of threads used for complete solvers
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
-
-        pif.message(1, "solving...");
 
         if (pif.solver == solver::SolverType::Auto) {
             // set the number of threads used for incomplete solvers
@@ -90,10 +89,14 @@ namespace solve {
         std::chrono::steady_clock time;
         auto last_monitor_time = time.now();
         auto start_time = time.now();
+        uint mem_warn_count(0);
+
+        pif.message(1, "solving...");
 
         // manage solvers periodically and upon finishing
-        uint mem_warn_count(0);
         std::unique_lock lock(m);
+        started = true;
+        start.notify_all();
         while (!finished && sig == 0) {
             finish.wait_for(
                 lock,
