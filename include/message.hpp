@@ -110,25 +110,77 @@ namespace info {
         "\n"
         "The following options are accepted"
     );
+    const std::string solve_description(
+        "Usage: sat_solve [OPTION]...\n"
+        "Solve a SAT or CNF problem.\n"
+        "Example: sat_verify < problem\n"
+        "\n"
+        "a problem must be provided via standard input\n"
+        "\n"
+        "The following options are accepted"
+    );
 
     namespace v_flags {
+        const std::string help(
+            "display this help text and exit"
+        );
+        const std::string available_formats(
+            "display the accepted problem formats and exit"
+        );
+        const std::string problem(
+            "refer to the problem at the provided file path"
+        );
+        const std::string solution(
+            "verify the solution at the provided file path"
+        );
+        const std::string quiet(
+            "suppress all (non-error) output"
+        );
+    }
 
-            const std::string help(
-                "display this help text and exit"
-            );
-            const std::string available_formats(
-                "display the accepted problem formats and exit"
-            );
-            const std::string problem(
-                "refer to the problem at the provided file path"
-            );
-            const std::string solution(
-                "verify the solution at the provided file path"
-            );
-            const std::string quiet(
-                "suppress all (non-error) output"
-            );
-
+    namespace s_flags {
+        const std::string& help(v_flags::help);
+        const std::string& available_formats(v_flags::available_formats);
+        const std::string verbose(
+            "set the level of output verbosity; options are\n"
+            "   0: print only the solution and errors\n"
+            "   1: print basic orchestration info, solution, warnings, and errors\n"
+            "       (default if this option is not provided)\n"
+            "   2: print detailed orchestration info, solution, warnings, and errors\n"
+            "       (default if no argument is provided)"
+        );
+        const std::string quiet(
+            "equivalent to '--verbose 0'"
+        );
+        const std::string solver(
+            "allow only a particular algorithm to be used; see '--list-solvers'"
+        );
+        const std::string list_solvers(
+            "display the available solver algorithms and exit"
+        );
+        const std::string incomplete(
+            "do not require unsatisfiability to be proven; this currently has no effect"
+        );
+        const std::string threads(
+            "the maximum number of threads to use for solving\n"
+            "   (default is all available threads)"
+        );
+        const std::string duration(
+            "the (approximate) maximum wall time the solvers may use\n"
+            "   must be a whole number followed immediately by\n"
+            "   's': seconds\n"
+            "   'm': minutes\n"
+            "   'h': hours\n"
+            "   (default is '5m')"
+        );
+        const std::string memory(
+            "the (approximate) maximum memory the program may use\n"
+            "   must be a whole number followed immediately by\n"
+            "   'k': kilobytes\n"
+            "   'm': megabytes\n"
+            "   'g': gigabytes\n"
+            "   (default is '2g')"
+        );
     }
 
 }

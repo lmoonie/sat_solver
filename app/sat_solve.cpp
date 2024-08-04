@@ -11,8 +11,15 @@ int main(int argc, char** argv) try {
     solve::program_interface pif(argc, argv);
 
     // proceed with the indicated mode
-    if (false) {
-        true; // no-op
+    if (print_help) {
+        std::cout << pif.desc << std::endl;
+        return std::cout ? 0 : 1;
+    } else if (print_formats) {
+        std::cout << info::available_formats << std::endl;
+        return std::cout ? 0 : 1;
+    } else if (print_solvers) {
+        std::cout << info::available_solvers << std::endl;
+        return std::cout ? 0 : 1;
     } else {
         // solve the provided problem
         return solve::run_portfolio(pif, std::cin, std::cout);

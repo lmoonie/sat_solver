@@ -37,7 +37,7 @@ namespace solve {
 
     // CLI constructor
     program_interface::program_interface(int argc, char** argv):
-        desc("the following options are available:"),
+        desc(info::solve_description),
         duration(std::chrono::minutes(5)),
         memory(2 * 1'000'000'000),
         threads(std::jthread::hardware_concurrency()),
@@ -78,39 +78,6 @@ namespace solve {
     }
 
     namespace cli {
-
-        namespace flag_desc {
-            const std::string help(
-                ""
-            );
-            const std::string available_formats(
-                ""
-            );
-            const std::string verbose(
-                ""
-            );
-            const std::string quiet(
-                ""
-            );
-            const std::string solver(
-                ""
-            );
-            const std::string list_solvers(
-                ""
-            );
-            const std::string incomplete(
-                ""
-            );
-            const std::string threads(
-                ""
-            );
-            const std::string duration(
-                ""
-            );
-            const std::string memory(
-                ""
-            );
-        }
         
         // needed to overload validate
         struct duration_t {
@@ -179,16 +146,16 @@ namespace solve {
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
             pif.desc.add_options()
-                ("help,h", flag_desc::help.c_str())
-                ("available-formats,f", flag_desc::available_formats.c_str())
-                ("verbose,v", opts::value<ushort>()->implicit_value(2), flag_desc::verbose.c_str())
-                ("quiet,q", flag_desc::quiet.c_str())
-                ("solver,s", opts::value<std::string>(), flag_desc::solver.c_str())
-                ("list-solvers,l", flag_desc::list_solvers.c_str())
-                ("incomplete,i", flag_desc::incomplete.c_str())
-                ("threads,t", opts::value<uint>(), flag_desc::threads.c_str())
-                ("duration,d", opts::value<duration_t>(), flag_desc::duration.c_str())
-                ("memory,m", opts::value<memory_t>(), flag_desc::memory.c_str());
+                ("help,h", info::s_flags::help.c_str())
+                ("available-formats,f", info::s_flags::available_formats.c_str())
+                ("verbose,v", opts::value<ushort>()->implicit_value(2), info::s_flags::verbose.c_str())
+                ("quiet,q", info::s_flags::quiet.c_str())
+                ("solver,s", opts::value<std::string>(), info::s_flags::solver.c_str())
+                ("list-solvers,l", info::s_flags::list_solvers.c_str())
+                ("incomplete,i", info::s_flags::incomplete.c_str())
+                ("threads,t", opts::value<uint>(), info::s_flags::threads.c_str())
+                ("duration,d", opts::value<duration_t>(), info::s_flags::duration.c_str())
+                ("memory,m", opts::value<memory_t>(), info::s_flags::memory.c_str());
 
             // parse command line options
             opts::store(
