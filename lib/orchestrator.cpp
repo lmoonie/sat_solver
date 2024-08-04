@@ -92,11 +92,11 @@ namespace solve {
         do {
             finish.wait_for(
                 lock,
-                std::chrono::seconds(1),
+                std::chrono::milliseconds(500),
                 [&](){
                     return
                         finished ||
-                        time.now() - last_monitor_time >= std::chrono::seconds(1);
+                        time.now() - last_monitor_time >= std::chrono::milliseconds(500);
                 }
             );
             last_monitor_time = time.now();
