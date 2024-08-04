@@ -23,7 +23,8 @@ namespace solve {
         Success = 0,
         OutOfTime = 1,
         OutOfMemory = 2,
-        ThreadPanic = 3
+        ThreadPanic = 3,
+        IntSig = 4
     };
 
     class orchestrator {

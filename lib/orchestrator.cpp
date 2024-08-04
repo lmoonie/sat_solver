@@ -34,7 +34,10 @@ namespace solve {
         sol.set_num_clauses(expr.get_num_clauses());
         sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
 
-        if (sig != 0) throw std::runtime_error(err::intsig);
+        if (sig != 0) {
+            pif.message(1, "interrupt signal received");
+            return {Status::IntSig, sol};
+        }
 
         // set the number of threads used for complete solvers
         uint num_comp_threads(1);
@@ -126,6 +129,7 @@ namespace solve {
             if (finished || sig != 0) {
                 if (sig != 0) {
                     pif.message(1, "interrupt signal received");
+                    status = Status::IntSig;
                 }
                 // tell running solvers to stop
                 pif.message(2, "shutting down solvers");
