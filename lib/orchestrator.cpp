@@ -73,19 +73,25 @@ namespace solve {
         }
 
         // start solvers
+        if (num_dpll_threads > 0) {
+            assert(num_brute_force_threads == 0);
+        } else if (num_brute_force_threads > 0) {
+            assert(num_dpll_threads == 0);
+        }
         auto dpll_solvers = solver::dpll(expr, *this).divide(num_dpll_threads);
         auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
+        auto local_search_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < pif.threads; i++) {
             if (num_dpll_threads > 0) {
                 threads.emplace_back(std::jthread(dpll_solvers[i]));
                 num_dpll_threads--;
             } else if (num_local_search_threads > 0) {
-                threads.emplace_back(std::jthread(local_search_solvers[i]));
+                threads.emplace_back(std::jthread(local_search_solver));
                 num_local_search_threads--;
             } else if (num_brute_force_threads > 0) {
                 threads.emplace_back(std::jthread(brute_force_solvers[i]));
                 num_brute_force_threads--;
-            } else if {
+            } else {
                 threads.emplace_back(std::jthread([](){return;}));
             }
         }
