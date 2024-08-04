@@ -82,7 +82,7 @@ namespace solve {
         auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
         auto local_search_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < pif.threads; i++) {
-            threads.emplace_back(std::jthread);
+            threads.emplace_back(std::jthread());
         }
         for (std::size_t i(0); i < pif.threads; i++) {
             if (num_dpll_threads > 0) {
