@@ -5,7 +5,7 @@
 #include "solve.hpp"
 #include "solver.hpp"
 
-volatile std::sig_atomic_t sig;
+extern volatile std::sig_atomic_t sig;
 
 namespace solve {
 

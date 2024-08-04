@@ -12,7 +12,7 @@
 #include "message.hpp"
 #include <signal.h>
 
-volatile std::sig_atomic_t sig;
+extern volatile std::sig_atomic_t sig;
 
 namespace solve {
 
