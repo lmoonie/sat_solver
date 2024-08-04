@@ -65,7 +65,7 @@ namespace solve {
         }
 
         // divide the problem and distribute to complete solvers
-        solver::basic_solver comp_solvers =
+        auto comp_solvers =
             pif.solver == solver::SolverType::DPLL ?
             solver::dpll(expr, *this).divide(num_comp_threads) :
             solver::brute_force(expr, *this).divide(num_comp_threads);

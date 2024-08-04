@@ -64,6 +64,8 @@ namespace solver {
         brute_force(const cnf::cnf_expr&, solve::orchestrator&);
         // run the algorithm
         void operator()(std::stop_token);
+        // divide the problem
+        std::vector<brute_force> divide(uint);
         // destructor
         ~brute_force() {};
     };
