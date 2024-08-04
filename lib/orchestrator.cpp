@@ -21,7 +21,8 @@ namespace solve {
         pif (program_if),
         finished(false),
         active_divided_threads(0),
-        active_incomplete_threads(0)
+        active_incomplete_threads(0),
+        status(Status::Success)
     {
         threads.reserve(pif.threads);
     }
