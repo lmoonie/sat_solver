@@ -73,13 +73,23 @@ namespace solve {
 
         // get current time
         std::chrono::steady_clock time;
+        auto last_monitor_time = time.now();
         auto start_time = time.now();
 
-        // periodically monitor solvers
+        // manage solvers periodically and upon finishing
         uint mem_warn_count(0);
+        std::unique_lock lock(m);
         do {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            std::scoped_lock lock(m);
+            finish.wait_for(
+                lock,
+                std::chrono::seconds(1),
+                [](){
+                    return
+                        finished ||
+                        time.now() - last_monitor_time >= std::chrono::seconds(1);
+                }
+            );
+            last_monitor_time = time.now();
             if (time.now() - start_time >= pif.duration) {
                 status = Status::OutOfTime;
                 finished = true;
@@ -120,6 +130,7 @@ namespace solve {
                 break;
             }
         } while (true);
+        lock.unlock();
 
         // wait for threads to stop
         for (auto& thread : threads) {
@@ -152,6 +163,7 @@ namespace solve {
             status = Status::Success;
             if (sol.is_valid())
                 pif.message(2, "a solution was found by "s + solver_name);
+            finish.notify_all();
         }
     }
 
@@ -163,6 +175,7 @@ namespace solve {
             finished = true;
             status = Status::Success;
             pif.message(2, "no solution exists");
+            finish.notify_all();
         }
     }
 
@@ -173,6 +186,7 @@ namespace solve {
             if (!finished) {
                 finished = true;
                 status = Status::ThreadPanic;
+                finish.notify_all();
             }
         } else {
             active_incomplete_threads--;

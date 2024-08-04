@@ -1,6 +1,5 @@
 # solvers
 - add statistics
-- catch and report errors via ThreadPanic status
 
 # sat_solve
 - implement ctrl+c

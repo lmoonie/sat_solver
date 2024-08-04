@@ -12,6 +12,7 @@
 #include <thread>
 #include <mutex>
 #include <utility>
+#include <condition_variable>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "solve.hpp"
@@ -56,6 +57,7 @@ namespace solve {
         bool finished;
         Status status;
         mutable std::mutex m;
+        mutable std::condition_variable finish;
     };
 
 }
