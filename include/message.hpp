@@ -139,8 +139,12 @@ namespace info {
     }
 
     namespace s_flags {
-        const std::string& help(v_flags::help);
-        const std::string& available_formats(v_flags::available_formats);
+        const std::string help(
+            "display this help text and exit"
+        );
+        const std::string available_formats(
+            "display the accepted problem formats and exit"
+        );
         const std::string verbose(
             "set the level of output verbosity; options are\n"
             "   0: print only the solution and errors\n"
