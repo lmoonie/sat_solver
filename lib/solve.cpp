@@ -74,7 +74,9 @@ namespace solve {
 
     // send a warning to the user
     void program_interface::warn(const std::string& w) const {
-        std::cout << format("Warning: {}", w) << std::endl;
+        if (verbosity > 0) {
+            std::err << format("Warning: {}", w) << std::endl;
+        }
     }
 
     namespace cli {

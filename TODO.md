@@ -5,6 +5,8 @@
 # sat_solve
 - implement ctrl+c
 - messages of varying verbosity
+- adjust polling interval to feel more responsive
+    - can use condition variable at the same time?
 
 # cnf
 - consider not deleting all literals before deleting clause

@@ -38,7 +38,7 @@ namespace solve {
         if (pif.solver == solver::SolverType::Auto) {
             // set the number of threads used for incomplete solvers
             uint num_inc_threads(pif.threads - num_comp_threads);
-            uint active_incomplete_threads = num_inc_threads;
+            active_incomplete_threads = num_inc_threads;
 
             // divide the problem and distribute to complete solvers
             auto comp_solvers = solver::dpll(expr, *this).divide(num_comp_threads);
@@ -61,7 +61,7 @@ namespace solve {
             }
         } else if (pif.solver == solver::SolverType::LocalSearch) {
             // start random solvers
-            uint active_incomplete_threads = pif.threads;
+            active_incomplete_threads = pif.threads;
             auto inc_solver = solver::local_search(expr, *this);
             for (std::size_t i(0); i < pif.threads; i++) {
                 threads.emplace_back(std::jthread(inc_solver));
