@@ -105,7 +105,7 @@ namespace solve {
                 }
             );
             last_monitor_time = time.now();
-            if (time.now() - start_time >= pif.duration) {
+            if (time.now() - start_time >= pif.duration && !finished) {
                 status = Status::OutOfTime;
                 finished = true;
                 pif.message(1, "time limit reached");
@@ -113,7 +113,7 @@ namespace solve {
             long int mem_usage;
             if (vmem_usage(mem_usage)) {
                 mem_warn_count = 0;
-                if (mem_usage >= pif.memory) {
+                if (mem_usage >= pif.memory && !finished) {
                     status = Status::OutOfMemory;
                     finished = true;
                     pif.message(1, "memory limit reached");
