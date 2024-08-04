@@ -20,26 +20,34 @@ namespace solver {
     void brute_force::operator()(std::stop_token token) try {
         orc.pif.message(2, "brute_force solver starting");
         auto start_time = time.now();
-        while (!expr.eval(sol.map())) {
-            auto iter(sol.map().begin());
-            while (iter != sol.map().end() && iter->second) {
-                sol.reassign_variable((iter++)->first, false);
-            }
-            if (iter != sol.map().end()) {
-                sol.reassign_variable(iter->first, true);
-            } else break;
-            // check for a stop signal
-            if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
-                last_stop_check = time.now();
-                if (token.stop_requested()) {
-                    return;
+        // check for empty expression
+        if (expr.get_num_clauses() == 0) {
+            curr_sol.set_valid(true);
+        } else if (expr.empty_clause()) {
+        // check for empty clauses
+            curr_sol.set_valid(false);
+        } else {
+            while (!expr.eval(sol.map())) {
+                auto iter(sol.map().begin());
+                while (iter != sol.map().end() && iter->second) {
+                    sol.reassign_variable((iter++)->first, false);
+                }
+                if (iter != sol.map().end()) {
+                    sol.reassign_variable(iter->first, true);
+                } else break;
+                // check for a stop signal
+                if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                    last_stop_check = time.now();
+                    if (token.stop_requested()) {
+                        return;
+                    }
                 }
             }
+            sol.set_valid(expr.eval(sol.map()));
         }
         // report the solution
         std::chrono::duration<double> elapsed_time = time.now() - start_time;
         sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
-        sol.set_valid(expr.eval(sol.map()));
         if (sol.is_valid()) {
             orc.report_solution(std::move(sol), SolverType::BruteForce);
         } else {
