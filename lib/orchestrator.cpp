@@ -44,40 +44,50 @@ namespace solve {
             return {Status::IntSig, sol};
         }
 
-        // set the number of threads used for complete solvers
-        uint num_comp_threads(0);
+        // set the number of threads used for DPLL
+        uint num_dpll_threads(0);
         if (
             pif.solver == solver::SolverType::Auto ||
-            pif.solver == solver::SolverType::DPLL ||
-            pif.solver == solver::SolverType::BruteForce
+            pif.solver == solver::SolverType::DPLL
         ) {
-            num_comp_threads = 1;
-            while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
+            num_dpll_threads = 1;
+            while (num_dpll_threads*2 <= pif.threads) num_dpll_threads *= 2;
         }
 
-        // set the number of threads used for incomplete solvers
-        uint num_inc_threads(0);
+        // set the number of threads used for LocalSearch
+        uint num_local_search_threads(0);
         if (
             pif.solver == solver::SolverType::Auto) {
-            num_inc_threads = pif.threads - num_comp_threads;
+            num_local_search_threads = pif.threads - num_dpll_threads;
         } else if (pif.solver == solver::SolverType::LocalSearch) {
-            num_inc_threads = pif.threads;
+            num_local_search_threads = pif.threads;
         }
 
-        // divide the problem and distribute to complete solvers
-        auto comp_solvers =
-            pif.solver == solver::SolverType::DPLL ?
-            solver::dpll(expr, *this).divide(num_comp_threads) :
-            solver::brute_force(expr, *this).divide(num_comp_threads);
-        active_divided_threads = num_comp_threads;
-        for (std::size_t i(0); i < num_comp_threads; i++) {
-            threads.emplace_back(std::jthread(comp_solvers[i]));
+        // set the number of threads used for BruteForce
+        uint num_brute_force_threads(0);
+        if (pif.solver == solver::SolverType::BruteForce) {
+            num_brute_force_threads = 1;
+            while (num_brute_force_threads*2 <= pif.threads) num_brute_force_threads *= 2;
         }
 
-        // start incomplete solvers
-        auto inc_solver = solver::local_search(expr, *this);
+        active_divided_threads = num_brute_force_threads + num_dpll_threads;
+
+        // start dpll solvers
+        auto dpll_solvers = solver::dpll(expr, *this).divide(num_dpll_threads);
+        for (std::size_t i(0); i < num_dpll_threads; i++) {
+            threads.emplace_back(std::jthread(dpll_solvers[i]));
+        }
+
+        // start local_search solvers
+        auto local_search_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < num_inc_threads; i++) {
-            threads.emplace_back(std::jthread(inc_solver));
+            threads.emplace_back(std::jthread(local_search_solver));
+        }
+        
+        // start brute_force solvers
+        auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
+        for (std::size_t i(0); i < num_brute_force_threads; i++) {
+            threads.emplace_back(std::jthread(brute_force_solvers[i]));
         }
 
         // get current time
