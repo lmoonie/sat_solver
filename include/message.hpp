@@ -123,7 +123,7 @@ namespace info {
         "Solve a SAT or CNF problem.\n"
         "Example: sat_verify < problem\n"
         "\n"
-        "a problem must be provided via standard input\n"
+        "The user must provide a problem via standard input.\n"
         "\n"
         "The following options are accepted"
     );
@@ -180,16 +180,16 @@ namespace info {
         const std::string duration(
             "the (approximate) maximum wall time the solvers may use\n"
             "   must be a whole number followed immediately by\n"
-            "   's': seconds\n"
-            "   'm': minutes\n"
+            "   's': seconds, \n"
+            "   'm': minutes, or\n"
             "   'h': hours\n"
             "   (default is '5m')"
         );
         const std::string memory(
             "the (approximate) maximum memory the program may use\n"
             "   must be a whole number followed immediately by\n"
-            "   'k': kilobytes\n"
-            "   'm': megabytes\n"
+            "   'k': kilobytes, \n"
+            "   'm': megabytes, or\n"
             "   'g': gigabytes\n"
             "   (default is '2g')"
         );
