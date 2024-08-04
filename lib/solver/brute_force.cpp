@@ -10,11 +10,7 @@ namespace solver {
     // problem constructor
     brute_force::brute_force(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
         basic_solver(prob, orchestrator)
-    {
-        for (const auto& var : expr.variables()) {
-            sol.assign_variable(var, false);
-        }
-    }
+    {}
 
     // run the algorithm
     void brute_force::operator()(std::stop_token token) try {
@@ -24,9 +20,12 @@ namespace solver {
         if (expr.get_num_clauses() == 0) {
             sol.set_valid(true);
         } else if (expr.empty_clause()) {
-        // check for empty clauses
+            // check for empty clauses
             sol.set_valid(false);
         } else {
+            for (const auto& var : expr.variables()) {
+                sol.assign_variable(var, false);
+            }
             while (!expr.eval(sol.map())) {
                 auto iter(sol.map().begin());
                 while (iter != sol.map().end() && iter->second) {
