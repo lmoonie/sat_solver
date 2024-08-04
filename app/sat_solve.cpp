@@ -11,13 +11,13 @@ int main(int argc, char** argv) try {
     solve::program_interface pif(argc, argv);
 
     // proceed with the indicated mode
-    if (print_help) {
+    if (pif.print_help) {
         std::cout << pif.desc << std::endl;
         return std::cout ? 0 : 1;
-    } else if (print_formats) {
+    } else if (pif.print_formats) {
         std::cout << info::available_formats << std::endl;
         return std::cout ? 0 : 1;
-    } else if (print_solvers) {
+    } else if (pif.print_solvers) {
         std::cout << info::available_solvers << std::endl;
         return std::cout ? 0 : 1;
     } else {

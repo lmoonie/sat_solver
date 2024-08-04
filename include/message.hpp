@@ -98,7 +98,15 @@ namespace err {
 namespace info {
 
     const std::string available_formats(
-        "The following problem formats are accepted:\nCNF\nSAT"
+        "The following problem formats are accepted:\n"
+        "   CNF\n"
+        "   SAT"
+    );
+    const std::string available_solvers(
+        "The following solvers are available:\n"
+        "   brute_force\n"
+        "   local_search\n"
+        "   dpll"
     );
     const std::string verify_description(
         "Usage: sat_verify [[-p] PROBLEM_FILE] [-s SOLUTION_FILE] [-q]\n"
