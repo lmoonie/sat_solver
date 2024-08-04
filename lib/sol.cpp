@@ -89,12 +89,12 @@ namespace sol {
     std::ostream& operator<<(std::ostream& ostr, const solution& sol) {
         // print solution line
         ostr << std::format(
-            "s {} {} {} {}",
+            "s {} {} {} {}\n",
             sol.type == ProblemType::CNF ? "cnf" : "sat",
             sol.valid == true ? 1 : 0,
             sol.max_var,
             sol.type == ProblemType::CNF ? std::to_string(sol.clauses) : ""
-        ) << std::endl;
+        );
         // print statistics lines
         for (const auto& [key, val] : sol.statistics) {
             ostr << std::format("t {} {}\n", key, val);
@@ -105,6 +105,7 @@ namespace sol {
                 ostr << std::format("v {}\n", val ? var : -var);
             }
         }
+        ostr.flush();
         return ostr;
     }
 
