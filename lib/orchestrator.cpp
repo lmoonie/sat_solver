@@ -47,7 +47,8 @@ namespace solve {
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
 
-        pif.message(1, "starting solver(s)");
+        pif.message(1, "solving...");
+        std::unique_lock lock(m);
 
         if (pif.solver == solver::SolverType::Auto) {
             // set the number of threads used for incomplete solvers
@@ -92,7 +93,6 @@ namespace solve {
 
         // manage solvers periodically and upon finishing
         uint mem_warn_count(0);
-        std::unique_lock lock(m);
         do {
             finish.wait_for(
                 lock,
@@ -144,9 +144,6 @@ namespace solve {
                 for (auto& thread : threads) {
                     thread.request_stop();
                 }
-                if (status == Status::ThreadPanic) {
-                    throw std::runtime_error(err::thread_panic);
-                }
                 break;
             }
         } while (true);
@@ -157,6 +154,9 @@ namespace solve {
             thread.join();
         }
         pif.message(2, "solvers stopped");
+        if (status == Status::ThreadPanic) {
+            throw std::runtime_error(err::thread_panic);
+        }
 
         // assign arbitrary values to any remaining variables
         for (auto const& var : expr.variables()) {
