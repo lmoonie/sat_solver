@@ -47,6 +47,8 @@ namespace solve {
         uint num_comp_threads(1);
         while (num_comp_threads*2 <= pif.threads) num_comp_threads *= 2;
 
+        pif.message(1, "starting solver(s)");
+
         if (pif.solver == solver::SolverType::Auto) {
             // set the number of threads used for incomplete solvers
             uint num_inc_threads(pif.threads - num_comp_threads);
