@@ -58,11 +58,9 @@ namespace solve {
         uint active_incomplete_threads;
         sol::solution sol;
         bool finished;
-        bool started;
         Status status;
         mutable std::mutex m;
         mutable std::condition_variable finish;
-        mutable std::condition_variable start;
     };
 
 }

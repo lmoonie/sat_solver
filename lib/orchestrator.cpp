@@ -20,7 +20,6 @@ namespace solve {
     orchestrator::orchestrator(const program_interface& program_if):
         pif (program_if),
         finished(false),
-        started(false),
         active_divided_threads(0),
         active_incomplete_threads(0),
         status(Status::Success)
@@ -95,8 +94,6 @@ namespace solve {
 
         // manage solvers periodically and upon finishing
         std::unique_lock lock(m);
-        started = true;
-        start.notify_all();
         while (!finished && sig == 0) {
             finish.wait_for(
                 lock,
@@ -225,12 +222,6 @@ namespace solve {
             stat >> mem;
             mem *= std::abs(getpagesize());
             return !stat.bad();
-    }
-
-    // report ready to start
-    void orchestrator::ready() {
-        std::unique_lock lock(m);
-        start.wait(lock, [this](){return started;});
     }
 
 
