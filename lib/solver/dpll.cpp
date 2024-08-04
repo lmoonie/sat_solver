@@ -62,7 +62,7 @@ namespace solver {
         } else {
             orc.report_no_solution(std::move(final_sol));
         }
-    } catch {
+    } catch (...) {
         orc.report_error(true);
         return;
     }
