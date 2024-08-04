@@ -93,7 +93,7 @@ namespace solve {
         // manage solvers periodically and upon finishing
         uint mem_warn_count(0);
         std::unique_lock lock(m);
-        while (!finished) {
+        while (!finished || sig != 0) {
             finish.wait_for(
                 lock,
                 std::chrono::milliseconds(500),
@@ -132,21 +132,18 @@ namespace solve {
                 finished = true;
                 status = Status::ThreadPanic;
             }
-            if (finished || sig != 0) {
-                if (sig != 0) {
-                    if (pif.verbosity > 0) {
-                        (std::cout << "\nc interrupt signal received\n").flush();
-                    }
-                    status = Status::IntSig;
-                }
-                // tell running solvers to stop
-                pif.message(2, "shutting down solvers");
-                for (auto& thread : threads) {
-                    thread.request_stop();
-                }
-                break;
+        }
+        if (sig != 0) {
+            if (pif.verbosity > 0) {
+                (std::cout << "\nc interrupt signal received\n").flush();
             }
-        };
+            status = Status::IntSig;
+        }
+        // tell running solvers to stop
+        pif.message(2, "shutting down solvers");
+        for (auto& thread : threads) {
+            thread.request_stop();
+        }
         lock.unlock();
 
         // wait for threads to stop
