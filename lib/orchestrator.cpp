@@ -199,15 +199,15 @@ namespace solve {
     // report solver error
     void orchestrator::report_error(bool is_complete_solver) {
         std::scoped_lock lock(m);
-        if (is_complete_solver) {
-            if (!finished) {
+        if (!finished) {
+            if (is_complete_solver) {
                 finished = true;
                 status = Status::ThreadPanic;
                 finish.notify_all();
+            } else {
+                active_incomplete_threads--;
+                pif.warn("an error was encountered while executing an incomplete solver");
             }
-        } else {
-            active_incomplete_threads--;
-            pif.warn("an error was encountered while executing an incomplete solver");
         }
     }
 
