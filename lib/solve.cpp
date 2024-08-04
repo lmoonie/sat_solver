@@ -9,7 +9,10 @@ namespace solve {
 
     // solve the problem
     int run_portfolio(const program_interface& pif, std::istream& istr, std::ostream& ostr) {
-        if (sig != 0) throw std::runtime_error(err::intsig);
+        if (sig != 0) {
+            pif.message(1, "interrupt signal received");
+            return 2;
+        }
         cnf::cnf_expr expr(istr);
         orchestrator orc(pif);
         auto result = orc(expr);

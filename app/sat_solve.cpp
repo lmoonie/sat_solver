@@ -7,8 +7,6 @@
 #include <csignal>
 #include "solve.hpp"
 
-volatile std::sig_atomic_t sig;
-
 void sig_handler(int signal) {
     sig = signal;
 }

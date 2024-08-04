@@ -20,6 +20,8 @@
 #include "cnf.hpp"
 #include "message.hpp"
 
+volatile std::sig_atomic_t sig;
+
 namespace solver {
 
     enum SolverType: ushort {
