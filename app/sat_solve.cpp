@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <format>
-#include <csignal>
 #include "solve.hpp"
 
 void sig_handler(int signal) {

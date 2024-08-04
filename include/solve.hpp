@@ -16,6 +16,7 @@
 #include <format>
 #include <string>
 #include <iostream>
+#include <csignal>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
