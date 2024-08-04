@@ -50,6 +50,8 @@ namespace solve {
         void report_no_solution();
         // report solver error
         void report_error(bool);
+        // report ready to start
+        void ready();
     private:
         std::vector<std::jthread> threads;
         uint active_divided_threads;

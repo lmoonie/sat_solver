@@ -227,6 +227,12 @@ namespace solve {
             return !stat.bad();
     }
 
+    // report ready to start
+    void ready() {
+        std::unique_lock lock(m);
+        start.wait(lock, [this](){return started;})
+    }
+
 
 }
 
