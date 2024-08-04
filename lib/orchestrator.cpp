@@ -52,6 +52,7 @@ namespace solve {
         ) {
             num_dpll_threads = 1;
             while (num_dpll_threads*2 <= pif.threads) num_dpll_threads *= 2;
+            active_divided_threads = num_dpll_threads;
         }
 
         // set the number of threads used for LocalSearch
@@ -68,26 +69,25 @@ namespace solve {
         if (pif.solver == solver::SolverType::BruteForce) {
             num_brute_force_threads = 1;
             while (num_brute_force_threads*2 <= pif.threads) num_brute_force_threads *= 2;
+            active_divided_threads = num_brute_force_threads;
         }
 
-        active_divided_threads = num_brute_force_threads + num_dpll_threads;
-
-        // start dpll solvers
+        // start solvers
         auto dpll_solvers = solver::dpll(expr, *this).divide(num_dpll_threads);
-        for (std::size_t i(0); i < num_dpll_threads; i++) {
-            threads.emplace_back(std::jthread(dpll_solvers[i]));
-        }
-
-        // start local_search solvers
-        auto local_search_solver = solver::local_search(expr, *this);
-        for (std::size_t i(0); i < num_local_search_threads; i++) {
-            threads.emplace_back(std::jthread(local_search_solver));
-        }
-        
-        // start brute_force solvers
         auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
-        for (std::size_t i(0); i < num_brute_force_threads; i++) {
-            threads.emplace_back(std::jthread(brute_force_solvers[i]));
+        for (std::size_t i(0); i < pif.threads; i++) {
+            if (num_dpll_threads > 0) {
+                threads.emplace_back(std::jthread(dpll_solvers[i]));
+                num_dpll_threads--;
+            } else if (num_local_search_threads > 0) {
+                threads.emplace_back(std::jthread(local_search_solvers[i]));
+                num_local_search_threads--;
+            } else if (num_brute_force_threads > 0) {
+                threads.emplace_back(std::jthread(brute_force_solvers[i]));
+                num_brute_force_threads--;
+            } else if {
+                threads.emplace_back(std::jthread([](){return;}));
+            }
         }
 
         // get current time
