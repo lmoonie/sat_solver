@@ -51,16 +51,14 @@ namespace verify {
 
     namespace cli {
 
-        using namespace flag_desc = info::verify_flags;
-
         inline void extract_program_options(program_interface& pif, int argc, char** argv) {
             // available options
             pif.desc.add_options()
-                ("help,h", flag_desc::help.c_str())
-                ("available-formats,f", flag_desc::available_formats.c_str())
-                ("problem,p", opts::value<std::string>(), flag_desc::problem.c_str())
-                ("solution,s", opts::value<std::string>(), flag_desc::solution.c_str())
-                ("quiet,q", flag_desc::quiet.c_str());
+                ("help,h", info::v_flags::help.c_str())
+                ("available-formats,f", info::v_flags::available_formats.c_str())
+                ("problem,p", opts::value<std::string>(), info::v_flags::problem.c_str())
+                ("solution,s", opts::value<std::string>(), info::v_flags::solution.c_str())
+                ("quiet,q", info::v_flags::quiet.c_str());
 
             // a value without corresponding flag is assumed to be the solution file
             pif.pos.add("problem", -1);

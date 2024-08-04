@@ -111,7 +111,7 @@ namespace info {
         "The following options are accepted"
     );
 
-    namespace verify_flags {
+    namespace v_flags {
 
             const std::string help(
                 "display this help text and exit"
