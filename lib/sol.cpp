@@ -97,12 +97,12 @@ namespace sol {
         ) << std::endl;
         // print statistics lines
         for (const auto& [key, val] : sol.statistics) {
-            ostr << std::format("t {} {}", key, val) << std::endl;
+            ostr << std::format("t {} {}\n", key, val);
         }
         // print variable lines
         if (sol.valid) {
             for (const auto& [var, val] : sol.variables) {
-                ostr << std::format("v {}", val ? var : -var) << std::endl;
+                ostr << std::format("v {}\n", val ? var : -var);
             }
         }
         return ostr;
