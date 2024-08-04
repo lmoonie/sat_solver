@@ -83,7 +83,7 @@ namespace solve {
             finish.wait_for(
                 lock,
                 std::chrono::seconds(1),
-                [this](){
+                [&](){
                     return
                         finished ||
                         time.now() - last_monitor_time >= std::chrono::seconds(1);
