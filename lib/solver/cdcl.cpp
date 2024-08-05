@@ -105,9 +105,10 @@ namespace solver {
         clause empty_clause = expr.get_empty_clause();
         std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
         std::cout << conflict_clause;
-        while (!first_uip(conflict_clause, trail, decision_level)) {
-            conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(trail.back().reason_clause));
-            trail.pop_back();
+        auto iter = trail.rbegin();
+        while (!first_uip(conflict_clause, trail, decision_level) && iter != trail.rend()) {
+            conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(iter->reason_clause));
+            iter++;
         }
         // find second-greatest decision level in clause
         int backjump_level = -1;
