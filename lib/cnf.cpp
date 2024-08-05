@@ -579,11 +579,6 @@ namespace cnf::sat {
         remove_operators(str);
     }
 
-    // return clauses map
-    std::unordered_map<clause, lit_set> get_clauses() const {
-        return clauses;
-    }
-
 }
 
 // a collection of functions used to process problems via I/O
