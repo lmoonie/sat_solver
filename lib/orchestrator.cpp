@@ -97,7 +97,7 @@ namespace solve {
         }
 
         if (pif.solver == solver::SolverType::CDCL) {
-            threads.at(0) = solver::cdcl(expr, *this);
+            threads.at(0) = std::jthread(solver::cdcl(expr, *this));
         }
 
         // get current time
