@@ -157,7 +157,7 @@ namespace solver {
                         break;
                     } else {
                         // backjump to backjump_level
-                        while (!trail.empty() && trail.back().decision_level >= backjump_level)
+                        while (!trail.empty() && trail.back().decision_level > backjump_level)
                             trail.pop_back();
                         decision_level = backjump_level;
                         expr = full_expr;
