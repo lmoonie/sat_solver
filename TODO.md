@@ -1,9 +1,3 @@
-# cnf
-- CONSIDER +() AND \*() WHEN PROCESSING STRINGS
-    - replace with variables
-    - odd vars greater than max_var are false, even are true
-    - use cnf facilities to simplify
-
 - cdcl
 
 # Next steps

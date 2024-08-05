@@ -99,18 +99,20 @@ namespace solver {
         cnf::cnf_expr& expr,
         std::deque<assignment>& trail,
         int decision_level,
-        const cnf::cnf_expr& original_expr
+        cnf::cnf_expr& full_expr,
+        clause& next_clause
     ) {
         clause empty_clause = expr.get_empty_clause();
-        std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
+        std::unordered_set<literal> conflict_clause = full_expr.get_clause(empty_clause);
         auto iter = trail.rbegin();
         while (!first_uip(conflict_clause, trail, decision_level) && iter->reason_clause != 0) {
-            conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(iter->reason_clause));
+            conflict_clause = resolve_clauses(conflict_clause, full_expr.get_clause(iter->reason_clause));
             iter++;
         }
         // find second-greatest decision level in clause
         int backjump_level = -1;
         for (auto const& lit : conflict_clause) {
+            full_expr.add_literal(lit, next_clause);
             for (auto iter = trail.rbegin(); iter != trail.rend(); iter++) {
                 if (iter->var == abs(lit)) {
                     if (
@@ -123,6 +125,7 @@ namespace solver {
                 }
             }
         }
+        next_clause++;
         return backjump_level;
     }
 
@@ -132,32 +135,35 @@ namespace solver {
         last_stop_check = time.now();
 
         std::deque<assignment> trail;
-        std::deque<cnf::cnf_expr> expr_record;
+        cnf::cnf_expr full_expr = expr;
         bool sol_found = true;
         int decision_level = 0;
+        clause next_clause = expr.get_num_clauses() + 1;
 
-        if (unit_propagate(expr, trail, expr_record.size())) {
+        if (unit_propagate(expr, trail, decision_level)) {
             bool next_val = false;
             // until all variables assigned
             while (expr.get_num_clauses() > 0) {
-                expr_record.push_back(expr);
                 decision_level++;
                 variable branch_var = expr.pick_var();
                 trail.push_back({branch_var, next_val, decision_level, 0});
                 expr.assign_and_simplify(branch_var, next_val);
                 if (next_val) next_val = false;
-                if (!unit_propagate(expr, trail, expr_record.size())) {
+                if (!unit_propagate(expr, trail, decision_level)) {
                     // on conflict
-                    int backjump_level = analyze_conflict(expr, trail, decision_level, expr_record[0]);
+                    int backjump_level = analyze_conflict(expr, trail, decision_level, full_expr, next_clause);
                     if (backjump_level < 0) {
                         sol_found = false;
                         break;
                     } else {
                         // backjump to backjump_level
-                        while (expr_record.size() > backjump_level) expr_record.pop_back();
-                        while (!trail.empty() && trail.back().decision_level >= backjump_level) trail.pop_back();
-                        expr = expr_record.back();
-                        decision_level = expr_record.size();
+                        while (!trail.empty() && trail.back().decision_level >= backjump_level)
+                            trail.pop_back();
+                        decision_level = backjump_level;
+                        expr = full_expr;
+                        for (auto const& ass : trail) {
+                            expr.assign_and_simplify(ass.var, ass.val);
+                        }
                         next_val = true;
                     }
                 }
