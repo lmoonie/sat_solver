@@ -298,9 +298,13 @@ namespace cnf::sat {
                 bool inner_formula(false);
                 while (!inner_formula) {
                     std::size_t j(str.find_first_not_of(" \t\n", i+1));
-                    if (j == str.npos || str.at(j) != '(') break;
+                    if (j == str.npos) {
+                        throw std::invalid_argument(err::expression_format);
+                    } else if (str.at(j) != '(') break;
                     j = str.find_first_not_of(" \t\n", j+1);
-                    if (j == str.npos) throw std::invalid_argument(err::expression_format);
+                    if (j == str.npos) {
+                        throw std::invalid_argument(err::expression_format);
+                    }
                     std::size_t clause_depth(1);
                     while (clause_depth > 0 && j < str.size()) {
                         if (str.at(j) == '(') clause_depth++;
