@@ -173,13 +173,12 @@ namespace solver {
                     }
                 }
             }
-        }
-
-        if (sol_found) {
-            for (auto const& ass : trail) {
-                sol.assign_variable(ass.var, ass.val);
+            if (sol_found) {
+                for (auto const& ass : trail) {
+                    sol.assign_variable(ass.var, ass.val);
+                }
+                sol.set_valid(true);
             }
-            sol.set_valid(true);
         }
 
         // report the solution
