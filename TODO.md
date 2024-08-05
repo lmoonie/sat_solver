@@ -1,8 +1,4 @@
-# local_search
-- check how it handles empty clauses/expressions
-
 # cnf
-- consider not deleting all literals before deleting clause
 - CONSIDER +() AND \*() WHEN PROCESSING STRINGS
     - replace with variables
     - odd vars greater than max_var are false, even are true
@@ -10,14 +6,17 @@
 - sat not pointing out negative misformat properly
 
 # Next steps
-- CDCL
 - video presentation
 - README
 - review spec for final tasks
+- code comments
+- testing
 
 # Future plans
 - perf tuning
     - random restarts on local_search
     - replace .at() with []
+    - cnf: consider not deleting all literals before deleting clause
+    - assign_and_simplify notifies of empty clause
+    - cache-efficient data structures
 - more solution statistics
-- assign_and_simplify notifies of empty clause
