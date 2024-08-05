@@ -147,8 +147,8 @@ namespace solver {
                 if (!skip_branch) {
                     decision_level++;
                     variable branch_var = expr.pick_var();
-                    trail.push_back({branch_var, next_val, decision_level, 0});
-                    expr.assign_and_simplify(branch_var, next_val);
+                    trail.push_back({branch_var, false, decision_level, 0});
+                    expr.assign_and_simplify(branch_var, false);
                 } else {
                     skip_branch = false;
                 }
