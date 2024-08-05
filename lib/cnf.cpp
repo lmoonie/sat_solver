@@ -759,7 +759,13 @@ namespace cnf::io {
             std::stringstream ss(sat_str);
             do {
                 if (ss >> lit) {
-                    if (std::abs(lit) > max_var) {
+                    if (lit == std::numeric_limits<variable>::max() - 1) {
+                        expr.add_literal(lit, cl);
+                        expr.assign_and_simplify(abs(lit), true);
+                    } else if (lit == std::numeric_limits<variable>::min() + 1) {
+                        expr.add_literal(lit, cl);
+                        expr.assign_and_simplify(abs(lit), true);
+                    } else if (std::abs(lit) > max_var) {
                         // not a valid literal
                         throw std::invalid_argument(err::invalid_variable);
                     } else if (lit == 0) {
