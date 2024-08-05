@@ -39,7 +39,7 @@ namespace solver {
     }
 
     inline bool first_uip(
-        const std::set<literal>& con_clause,
+        const std::unordered_set<literal>& con_clause,
         const std::deque<assignment>& trail,
         const std::size_t& decision_level
     ) {
@@ -58,11 +58,11 @@ namespace solver {
         return true;
     }
 
-    inline std::set<literal> resolve_clauses(
-        const std::set<literal>& con_clause,
-        const std::set<literal>& reason_clause
+    inline std::unordered_set<literal> resolve_clauses(
+        const std::unordered_set<literal>& con_clause,
+        const std::unordered_set<literal>& reason_clause
     ) {
-        std::set<literal> resolved_clause = con_clause;
+        std::unordered_set<literal> resolved_clause = con_clause;
         for (auto const& lit : reason_clause) {
             if (resolved_clause.contains(-lit)) {
                 // the complementary literals cancel each other
