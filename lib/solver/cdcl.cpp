@@ -73,6 +73,7 @@ namespace solver {
                     num_lit_at_dec_level++;
                     break;
                 }
+                iter++;
             }
             if (num_lit_at_dec_level > 1) return false;
         }
