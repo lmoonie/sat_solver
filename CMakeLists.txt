@@ -26,7 +26,7 @@ add_library(cnf lib/cnf.cpp)
 add_library(sol lib/sol.cpp)
 add_library(verify lib/verify.cpp)
 add_library(solve lib/solve.cpp lib/orchestrator.cpp)
-add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp lib/solver/local_search.cpp)
+add_library(solver lib/solver/basic_solver.cpp lib/solver/brute_force.cpp lib/solver/dpll.cpp lib/solver/local_search.cpp lib/solver/cdcl.cpp)
 
 # Include directories
 target_include_directories(cnf PUBLIC include)
