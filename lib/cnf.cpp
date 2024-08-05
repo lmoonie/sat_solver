@@ -388,13 +388,11 @@ namespace cnf::sat {
                     continue;
                 } else {
                     if (clean_str.at(i) == '*') {
-                        str.insert(
-                            i,
+                        str.append(
                             std::to_string(std::numeric_limits<variable>::max())
                         );
                     } else {
-                        str.insert(
-                            i,
+                        str.append(
                             std::to_string(std::numeric_limits<variable>::min())
                         );
                     }
