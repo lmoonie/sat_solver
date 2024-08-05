@@ -157,6 +157,14 @@ namespace solver {
                     next_val = true;
                 }
             }
+            // check for a stop signal
+            if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                last_stop_check = time.now();
+                if (token.stop_requested()) {
+                    sol_found = false;
+                    break;
+                }
+            }
         }
 
         if (sol_found) {
