@@ -135,49 +135,42 @@ namespace solver {
 
         std::deque<assignment> trail;
         std::deque<cnf::cnf_expr> expr_record;
-        std::size_t num_var = expr.variables().size();
         bool sol_found = true;
         int decision_level = 0;
 
-        if (!unit_propagate(expr, trail, expr_record.size())) {
-            // unsatisfiable
-            // skip the while loop
-            num_var = 0;
-            sol_found = false;
-        }
-
-        bool next_val = false;
-
-        // until all variables assigned
-        while (expr.get_num_clauses() > 0) {
-            expr_record.push_back(expr);
-            decision_level++;
-            variable branch_var = expr.pick_var();
-            trail.push_back({branch_var, next_val, decision_level, 0});
-            std::cout << trail.back();
-            expr.assign_and_simplify(branch_var, next_val);
-            if (next_val) next_val = false;
-            if (!unit_propagate(expr, trail, expr_record.size())) {
-                // on conflict
-                int backjump_level = analyze_conflict(expr, trail, decision_level, expr_record[0]);
-                if (backjump_level < 0) {
-                    sol_found = false;
-                    break;
-                } else {
-                    // backjump to backjump_level
-                    while (expr_record.size() > backjump_level) expr_record.pop_back();
-                    while (trail.back().decision_level >= backjump_level) trail.pop_back();
-                    expr = expr_record.back();
-                    decision_level = expr_record.size();
-                    next_val = true;
+        if (unit_propagate(expr, trail, expr_record.size())) {
+            bool next_val = false;
+            // until all variables assigned
+            while (expr.get_num_clauses() > 0) {
+                expr_record.push_back(expr);
+                decision_level++;
+                variable branch_var = expr.pick_var();
+                trail.push_back({branch_var, next_val, decision_level, 0});
+                std::cout << trail.back();
+                expr.assign_and_simplify(branch_var, next_val);
+                if (next_val) next_val = false;
+                if (!unit_propagate(expr, trail, expr_record.size())) {
+                    // on conflict
+                    int backjump_level = analyze_conflict(expr, trail, decision_level, expr_record[0]);
+                    if (backjump_level < 0) {
+                        sol_found = false;
+                        break;
+                    } else {
+                        // backjump to backjump_level
+                        while (expr_record.size() > backjump_level) expr_record.pop_back();
+                        while (trail.back().decision_level >= backjump_level) trail.pop_back();
+                        expr = expr_record.back();
+                        decision_level = expr_record.size();
+                        next_val = true;
+                    }
                 }
-            }
-            // check for a stop signal
-            if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
-                last_stop_check = time.now();
-                if (token.stop_requested()) {
-                    sol_found = false;
-                    break;
+                // check for a stop signal
+                if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                    last_stop_check = time.now();
+                    if (token.stop_requested()) {
+                        sol_found = false;
+                        break;
+                    }
                 }
             }
         }
