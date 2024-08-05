@@ -53,6 +53,7 @@ namespace solver {
             trail.push_back({abs(unit_lit), unit_val, decision_level, ucl->first});
             std::cout << trail.back();
             expr.assign_and_simplify(abs(unit_lit), unit_val);
+            if (expr.empty_clause()) return false;
         }
         // return false on conflict
         return !expr.empty_clause();

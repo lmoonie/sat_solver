@@ -20,3 +20,4 @@
     - random restarts on local_search
     - replace .at() with []
 - more solution statistics
+- assign_and_simplify notifies of empty clause
