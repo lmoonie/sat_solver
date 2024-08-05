@@ -13,7 +13,7 @@ namespace solver {
     struct assignment {
         variable var;
         bool val;
-        int decision_level;
+        std::size_t decision_level;
         clause reason_clause;
     };
 
@@ -31,7 +31,7 @@ namespace solver {
             expr.assign_and_simplify(abs(unit_lit), unit_val);
         }
         // return false on conflict
-        return !sub_expr.empty_clause();
+        return !expr.empty_clause();
     }
 
     inline bool first_uip(
@@ -73,13 +73,13 @@ namespace solver {
     inline int analyze_conflict(
         cnf::cnf_expr& expr,
         std::deque<assignment>& trail,
-        int decision_level,
+        std::size_t decision_level,
         const cnf::cnf_expr& original_expr
     ) {
         clause empty_clause = expr.get_empty_clause();
-        std::set<literal> conflict_clause = original_expr[empty_clause];
+        std::set<literal> conflict_clause = original_expr.get_clause(empty_clause);
         while (!first_uip(conflict_clause, trail, decision_level)) {
-            conflict_clause = resolve_clauses(conflict_clause, trail.back());
+            conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(trail.back().reason_clause));
             trail.pop_back();
         }
         // find second-greatest decision level in clause
@@ -111,7 +111,7 @@ namespace solver {
         std::size_t num_var = expr.variables().size();
         bool sol_found = true;
 
-        if (!unit_propagate(expr, trail)) {
+        if (!unit_propagate(expr, trail, expr_record.size())) {
             // unsatisfiable
             // skip the while loop
             num_var = 0;
@@ -127,7 +127,7 @@ namespace solver {
             expr.assign_and_simplify(branch_var, next_val);
             expr_record.push(expr);
             if (next_val) next_val = false;
-            if (!unit_propagate(expr)) {
+            if (!unit_propagate(expr, trail, expr_record.size())) {
                 // on conflict
                 int backjump_level = analyze_conflict(expr, trail, expr_record.size(), expr_record[0]);
                 if (backjump_level < 0) {
