@@ -144,7 +144,7 @@ namespace solver {
             bool skip_branch = false;
             // until all variables assigned
             while (expr.get_num_clauses() > 0) {
-                if !(skip_branch) {
+                if (!skip_branch) {
                     decision_level++;
                     variable branch_var = expr.pick_var();
                     trail.push_back({branch_var, next_val, decision_level, 0});
@@ -163,7 +163,7 @@ namespace solver {
                         while (trail.size() > 1 && (++trail.rbegin())->decision_level >= backjump_level)
                             trail.pop_back();
                         assignment next_branch = trail.back();
-                        trail.pop();
+                        trail.pop_back();
                         next_branch.val = true;
                         trail.push_back(next_branch);
                         decision_level = backjump_level;
