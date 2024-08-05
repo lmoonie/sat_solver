@@ -141,17 +141,21 @@ namespace solver {
         clause next_clause = expr.get_max_clause() + 1;
 
         if (unit_propagate(expr, trail, decision_level)) {
-            bool skip_branch = false;
+            bool next_val = false;
             // until all variables assigned
+            variable branch_var = expr.pick_var();
             while (expr.get_num_clauses() > 0) {
-                if (!skip_branch) {
-                    decision_level++;
-                    variable branch_var = expr.pick_var();
-                    trail.push_back({branch_var, false, decision_level, 0});
-                    expr.assign_and_simplify(branch_var, false);
-                } else {
-                    skip_branch = false;
+                // check for a stop signal
+                if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
+                    last_stop_check = time.now();
+                    if (token.stop_requested()) {
+                        return;
+                    }
                 }
+                decision_level++;
+                trail.push_back({branch_var, next_val, decision_level, 0});
+                expr.assign_and_simplify(branch_var, next_val);
+                if (next_val) next_val = false;
                 if (!unit_propagate(expr, trail, decision_level)) {
                     // on conflict
                     int backjump_level = analyze_conflict(expr, trail, decision_level, full_expr, next_clause);
@@ -160,27 +164,18 @@ namespace solver {
                         break;
                     } else {
                         // backjump to backjump_level
-                        while (trail.size() > 1 && (++trail.rbegin())->decision_level >= backjump_level)
+                        while (!trail.empty() && trail.back().decision_level >= backjump_level)
                             trail.pop_back();
-                        assignment next_branch = trail.back();
-                        trail.pop_back();
-                        next_branch.val = true;
-                        trail.push_back(next_branch);
-                        decision_level = backjump_level;
+                        decision_level = backjump_level - 1;
                         expr = full_expr;
                         for (auto const& ass : trail) {
                             expr.assign_and_simplify(ass.var, ass.val);
                         }
-                        skip_branch = true;
+                        next_val = true;
+                        continue;
                     }
                 }
-                // check for a stop signal
-                if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
-                    last_stop_check = time.now();
-                    if (token.stop_requested()) {
-                        return;
-                    }
-                }
+                branch_var = expr.pick_var();
             }
             if (sol_found) {
                 for (auto const& ass : trail) {
