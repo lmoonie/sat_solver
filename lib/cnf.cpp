@@ -3,6 +3,7 @@
 // Jul 12, 2024
 
 #include "cnf.hpp"
+#include <limits>
 
 namespace cnf {
 
@@ -380,9 +381,24 @@ namespace cnf::sat {
                 if (num_elements > 1) {
                     str.push_back(clean_str.at(i++));
                     parenth.push(true);
-                } else {
+                } else if (num_elements == 1) {
                     i += 3;
                     parenth.push(false);
+                    string_changed = true;
+                    continue;
+                } else {
+                    if (clean_str.at(i) == '*') {
+                        str.insert(
+                            i,
+                            std::to_string(std::numeric_limits<variable>::max())
+                        );
+                    } else {
+                        str.insert(
+                            i,
+                            std::to_string(std::numeric_limits<variable>::min())
+                        );
+                    }
+                    i += 4;
                     string_changed = true;
                     continue;
                 }
