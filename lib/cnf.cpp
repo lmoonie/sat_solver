@@ -232,6 +232,17 @@ namespace cnf {
         return 0;
     }
 
+    // find highest-numbered clause
+    clause cnf_expr::get_max_clause() const {
+        clause max_clause = 0;
+        for (auto const& [cl, lset] : clauses) {
+            if (cl > max_clause) {
+                max_clause = cl;
+            }
+        }
+        return max_clause;
+    }
+
     // used to print cnf_expr
     std::ostream& operator<<(std::ostream& ostr, const cnf_expr& expr) {
         auto clause_iter(expr.clauses.begin());

@@ -138,7 +138,7 @@ namespace solver {
         cnf::cnf_expr full_expr = expr;
         bool sol_found = true;
         int decision_level = 0;
-        clause next_clause = expr.get_num_clauses() + 1;
+        clause next_clause = expr.get_max_clause() + 1;
 
         if (unit_propagate(expr, trail, decision_level)) {
             bool next_val = false;

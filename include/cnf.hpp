@@ -109,6 +109,8 @@ namespace cnf {
         ProblemType get_type() const;
         // find an empty clause
         clause get_empty_clause() const;
+        // find highest-numbered clause
+        clause get_max_clause() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;
