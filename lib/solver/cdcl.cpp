@@ -51,7 +51,6 @@ namespace solver {
             literal unit_lit = *((ucl->second).begin());
             bool unit_val = unit_lit > 0 ? true : false;
             trail.push_back({abs(unit_lit), unit_val, decision_level, ucl->first});
-            std::cout << trail.back();
             expr.assign_and_simplify(abs(unit_lit), unit_val);
             if (expr.empty_clause()) return false;
         }
@@ -104,7 +103,6 @@ namespace solver {
     ) {
         clause empty_clause = expr.get_empty_clause();
         std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
-        std::cout << conflict_clause;
         auto iter = trail.rbegin();
         while (!first_uip(conflict_clause, trail, decision_level) && iter->reason_clause != 0) {
             conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(iter->reason_clause));
@@ -146,7 +144,6 @@ namespace solver {
                 decision_level++;
                 variable branch_var = expr.pick_var();
                 trail.push_back({branch_var, next_val, decision_level, 0});
-                std::cout << trail.back();
                 expr.assign_and_simplify(branch_var, next_val);
                 if (next_val) next_val = false;
                 if (!unit_propagate(expr, trail, expr_record.size())) {
@@ -191,7 +188,6 @@ namespace solver {
         }
     } catch (std::exception& e) {
         orc.report_error(true);
-        std::cout << e.what() << std::endl;
         return;
     }
 
