@@ -144,7 +144,7 @@ namespace solver {
             bool next_val = false;
             // until all variables assigned
             variable branch_var = expr.pick_var();
-            while (expr.get_num_clauses() > 0) {
+            while (true) {
                 // check for a stop signal
                 if (time.now() - last_stop_check > std::chrono::milliseconds(100)) {
                     last_stop_check = time.now();
@@ -172,10 +172,10 @@ namespace solver {
                             expr.assign_and_simplify(ass.var, ass.val);
                         }
                         next_val = true;
-                        if (expr.get_num_clauses() == 0) break;
                         continue;
                     }
                 }
+                if (expr.get_num_clauses() <= 0) break;
                 branch_var = expr.pick_var();
             }
             if (sol_found) {
