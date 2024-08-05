@@ -308,6 +308,7 @@ namespace cnf::sat {
                             if (clause_depth > max_cl_depth) {
                                 max_cl_depth = clause_depth;
                             }
+                        }
                         if (str.at(j) == ')') clause_depth--;
                         if (clause_depth == scan_depth) {
                             if (str.at(j) == '+' ||
