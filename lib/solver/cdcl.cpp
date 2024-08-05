@@ -153,13 +153,13 @@ namespace solver {
             expr_record.push_back(expr);
             decision_level++;
             variable branch_var = expr.pick_var();
-            trail.push_back({branch_var, next_val, expr_record.size(), 0});
+            trail.push_back({branch_var, next_val, decision_level, 0});
             std::cout << trail.back();
             expr.assign_and_simplify(branch_var, next_val);
             if (next_val) next_val = false;
             if (!unit_propagate(expr, trail, expr_record.size())) {
                 // on conflict
-                int backjump_level = analyze_conflict(expr, trail, expr_record.size(), expr_record[0]);
+                int backjump_level = analyze_conflict(expr, trail, decision_level, expr_record[0]);
                 if (backjump_level < 0) {
                     sol_found = false;
                     break;
