@@ -18,7 +18,13 @@ namespace solver {
     };
 
     std::ostream& operator<<(std::ostream& ostr, const assignment& ass) {
-        ostr << std::format("{} {} {} {}", var, val, decision_level, reason_clause) << std::endl;
+        ostr << std::format(
+            "{} {} {} {}",
+            ass.var,
+            ass.val,
+            ass.decision_level,
+            ass.reason_clause
+        ) << std::endl;
         return ostr;
     }
 
