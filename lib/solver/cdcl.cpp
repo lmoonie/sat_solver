@@ -155,7 +155,7 @@ namespace solver {
                     } else {
                         // backjump to backjump_level
                         while (expr_record.size() > backjump_level) expr_record.pop_back();
-                        while (trail.back().decision_level >= backjump_level) trail.pop_back();
+                        while (!trail.empty() && trail.back().decision_level >= backjump_level) trail.pop_back();
                         expr = expr_record.back();
                         decision_level = expr_record.size();
                         next_val = true;
@@ -191,41 +191,41 @@ namespace solver {
         return;
     }
 
-    // std::vector<cdcl> cdcl::divide(uint num_sub_problems) {
-    //     // perform pure literal deletion
-    //     for (literal plit(expr.pure_literal()); plit != 0; plit = expr.pure_literal()) {
-    //         bool pure_val = plit > 0 ? true : false;
-    //         sol.assign_variable(abs(plit), pure_val);
-    //         expr.assign_and_simplify(abs(plit), pure_val);
-    //     }
-    //     std::vector<cdcl> reduced_solvers;
-    //     // variables in expression
-    //     auto var_list = expr.variables();
-    //     // divide the problem log_2(num_sub_problems) times
-    //     for (std::size_t i(0); i < num_sub_problems; i++) {
-    //         auto solver_copy(*this);
-    //         auto& reduced_sol = solver_copy.sol;
-    //         auto& reduced_expr = solver_copy.expr;
-    //         uint j(i);
-    //         auto var_iter = var_list.begin();
-    //         for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
-    //             if (var_iter == var_list.end()) break;
-    //             if (j % 2 == 0) {
-    //                 // branch left
-    //                 reduced_sol.assign_variable(*var_iter, false);
-    //                 reduced_expr.assign_and_simplify(*var_iter, false);
+    std::vector<cdcl> cdcl::divide(uint num_sub_problems) {
+        // perform pure literal deletion
+        for (literal plit(expr.pure_literal()); plit != 0; plit = expr.pure_literal()) {
+            bool pure_val = plit > 0 ? true : false;
+            sol.assign_variable(abs(plit), pure_val);
+            expr.assign_and_simplify(abs(plit), pure_val);
+        }
+        std::vector<cdcl> reduced_solvers;
+        // variables in expression
+        auto var_list = expr.variables();
+        // divide the problem log_2(num_sub_problems) times
+        for (std::size_t i(0); i < num_sub_problems; i++) {
+            auto solver_copy(*this);
+            auto& reduced_sol = solver_copy.sol;
+            auto& reduced_expr = solver_copy.expr;
+            uint j(i);
+            auto var_iter = var_list.begin();
+            for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
+                if (var_iter == var_list.end()) break;
+                if (j % 2 == 0) {
+                    // branch left
+                    reduced_sol.assign_variable(*var_iter, false);
+                    reduced_expr.assign_and_simplify(*var_iter, false);
 
-    //             } else {
-    //                 // branch right
-    //                 reduced_sol.assign_variable(*var_iter, true);
-    //                 reduced_expr.assign_and_simplify(*var_iter, true);
-    //             }
-    //             j /= 2;
-    //             var_iter++;
-    //         }
-    //         reduced_solvers.push_back(solver_copy);
-    //     }
-    //     return reduced_solvers;
-    // }
+                } else {
+                    // branch right
+                    reduced_sol.assign_variable(*var_iter, true);
+                    reduced_expr.assign_and_simplify(*var_iter, true);
+                }
+                j /= 2;
+                var_iter++;
+            }
+            reduced_solvers.push_back(solver_copy);
+        }
+        return reduced_solvers;
+    }
 
 }

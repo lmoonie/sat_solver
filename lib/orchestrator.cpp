@@ -71,14 +71,18 @@ namespace solve {
             active_divided_threads = num_brute_force_threads;
         }
 
-        // start solvers
-        if (num_dpll_threads > 0) {
-            assert(num_brute_force_threads == 0);
-        } else if (num_brute_force_threads > 0) {
-            assert(num_dpll_threads == 0);
+        // set the number of threads used for CDCL
+        uint num_cdcl_threads(0);
+        if (pif.solver == solver::SolverType::CDCL) {
+            num_cdcl_threads = 1;
+            while (num_cdcl_threads*2 <= pif.threads) num_cdcl_threads *= 2;
+            active_divided_threads = num_cdcl_threads;
         }
+
+        // start solvers
         auto dpll_solvers = solver::dpll(expr, *this).divide(num_dpll_threads);
         auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
+        auto cdcl_solvers = solver::cdcl(expr, *this).divide(num_cdcl_threads);
         auto local_search_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < pif.threads; i++) {
             if (num_dpll_threads > 0) {
@@ -90,12 +94,10 @@ namespace solve {
             } else if (num_brute_force_threads > 0) {
                 threads.emplace_back(std::jthread(brute_force_solvers[i]));
                 num_brute_force_threads--;
+            } else if (num_cdcl_threads > 0) {
+                threads.emplace_back(std::jthread(cdcl_solvers[i]));
+                num_cdcl_threads--;
             } else break;
-        }
-
-        if (pif.solver == solver::SolverType::CDCL) {
-            threads.emplace_back(std::jthread(solver::cdcl(expr, *this)));
-            active_divided_threads = 1;
         }
 
         // get current time
