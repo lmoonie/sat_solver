@@ -136,7 +136,7 @@ namespace solver {
         bool next_val = false;
 
         // until all variables assigned
-        while (trail.size() < num_var) {
+        while (expr.get_num_clauses() > 0) {
             expr_record.push_back(expr);
             variable branch_var = expr.pick_var();
             trail.push_back({branch_var, next_val, expr_record.size(), 0});
@@ -159,7 +159,7 @@ namespace solver {
             }
         }
 
-        if (trail.size() == num_var && sol_found) {
+        if (sol_found) {
             for (auto const& ass : trail) {
                 sol.assign_variable(ass.var, ass.val);
             }
