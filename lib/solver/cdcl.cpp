@@ -22,7 +22,11 @@ namespace solver {
         basic_solver(prob, orchestrator)
     {}
 
-    inline bool unit_propagate(cnf::cnf_expr& expr, std::deque<assignment>& trail, const int& decision_level) {
+    inline bool unit_propagate(
+        cnf::cnf_expr& expr,
+        std::deque<assignment>& trail,
+        const std::size_t& decision_level
+    ) {
         /// perform unit propagation
         for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
             literal unit_lit = *((ucl->second).begin());
@@ -37,7 +41,7 @@ namespace solver {
     inline bool first_uip(
         const std::set<literal>& con_clause,
         const std::deque<assignment>& trail,
-        const int& decision_level
+        const std::size_t& decision_level
     ) {
         int num_lit_at_dec_level = 0;
         for (auto const& lit : con_clause) {
@@ -77,7 +81,7 @@ namespace solver {
         const cnf::cnf_expr& original_expr
     ) {
         clause empty_clause = expr.get_empty_clause();
-        std::set<literal> conflict_clause = original_expr.get_clause(empty_clause);
+        std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
         while (!first_uip(conflict_clause, trail, decision_level)) {
             conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(trail.back().reason_clause));
             trail.pop_back();
@@ -125,7 +129,7 @@ namespace solver {
             variable branch_var = expr.pick_var();
             trail.push_back({branch_var, next_val, expr_record.size(), 0});
             expr.assign_and_simplify(branch_var, next_val);
-            expr_record.push(expr);
+            expr_record.push_back(expr);
             if (next_val) next_val = false;
             if (!unit_propagate(expr, trail, expr_record.size())) {
                 // on conflict
@@ -151,9 +155,9 @@ namespace solver {
         }
 
         // report the solution
-        if (final_sol.is_valid()) {
+        if (sol.is_valid()) {
             std::chrono::duration<double> elapsed_time = time.now() - start_time;
-            final_sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
+            sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
             orc.report_solution(std::move(sol), SolverType::CDCL);
         } else {
             orc.report_no_solution();
