@@ -40,7 +40,7 @@ namespace cnf {
     // remove a redundant variable from the record
     void cnf_expr::remove_variable(variable var) {
         literals.erase(var);
-        literal.erase(-var);
+        literals.erase(-var);
     }
 
     // remove an entire clause
