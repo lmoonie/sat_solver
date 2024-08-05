@@ -160,16 +160,21 @@ namespace solve {
                 ("verbose,v", opts::value<ushort>()->implicit_value(2), info::s_flags::verbose.c_str())
                 ("quiet,q", info::s_flags::quiet.c_str())
                 ("solver,s", opts::value<std::string>(), info::s_flags::solver.c_str())
+                ("problem,p", opts::value<std::string>(), info::s_flags::problem.c_str())
                 ("list-solvers,l", info::s_flags::list_solvers.c_str())
                 ("incomplete,i", info::s_flags::incomplete.c_str())
                 ("threads,t", opts::value<uint>(), info::s_flags::threads.c_str())
                 ("duration,d", opts::value<duration_t>(), info::s_flags::duration.c_str())
                 ("memory,m", opts::value<memory_t>(), info::s_flags::memory.c_str());
 
+            // a value without corresponding flag is assumed to be the problem file
+            pif.pos.add("problem", -1);
+
             // parse command line options
             opts::store(
                 opts::command_line_parser(argc, argv)
                     .options(pif.desc)
+                    .positional(pif.pos)
                     .run()
                 ,
                 pif.var_map
@@ -215,6 +220,15 @@ namespace solve {
                 }
             } else if (pif.var_map.count("solver") > 1) {
                 throw std::invalid_argument(err::repeat_options);
+            }
+            // set problem file
+            if (pif.var_map.count("problem") == 1) {
+                pif.pstr = std::fstream(pif.var_map["problem"].as<std::string>());
+                if (!pif.pstr) {
+                    throw std::invalid_argument(err::not_open_file);
+                }
+            } else if (pif.var_map.count("problem") > 1) {
+                throw std::invalid_argument(err::too_many_problems);
             }
             // set list-solvers
             if (pif.var_map.count("list-solvers")) {

@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <csignal>
+#include <fstream>
 #include "sol.hpp"
 #include "cnf.hpp"
 #include "message.hpp"
@@ -67,9 +68,11 @@ namespace solve {
         uint threads;
         std::chrono::duration<int64_t> duration;
         long int memory;
+        std::fstream pstr;
 
         // Boost program options
         opts::options_description desc;
+        opts::positional_options_description pos;
         opts::variables_map var_map;
     };
 

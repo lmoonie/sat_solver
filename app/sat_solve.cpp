@@ -31,7 +31,11 @@ int main(int argc, char** argv) try {
         return std::cout ? 0 : 1;
     } else {
         // solve the provided problem
-        return solve::run_portfolio(pif, std::cin, std::cout);
+        if (pif.var_map.count("problem") > 0) {
+            return solve::run_portfolio(pif, pif.pstr, std::cout);
+        } else {
+            return solve::run_portfolio(pif, std::cin, std::cout);
+        }
     }
 } catch (std::exception& e) {
     std::cerr << "Error: " << e.what() << std::endl;

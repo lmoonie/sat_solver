@@ -60,7 +60,7 @@ namespace verify {
                 ("solution,s", opts::value<std::string>(), info::v_flags::solution.c_str())
                 ("quiet,q", info::v_flags::quiet.c_str());
 
-            // a value without corresponding flag is assumed to be the solution file
+            // a value without corresponding flag is assumed to be the problem file
             pif.pos.add("problem", -1);
 
             // parse command line options
