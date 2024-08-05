@@ -161,8 +161,9 @@ namespace solver {
         } else {
             orc.report_no_solution();
         }
-    } catch (...) {
+    } catch (std::exception& e) {
         orc.report_error(true);
+        std::cout << e.what() << std::endl;
         return;
     }
 
