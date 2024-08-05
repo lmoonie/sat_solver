@@ -37,6 +37,12 @@ namespace cnf {
         clauses[cl].erase(lit);
     }
 
+    // remove a redundant variable from the record
+    void cnf_expr::remove_variable(variable var) {
+        literals.erase(var);
+        literal.erase(-var);
+    }
+
     // remove an entire clause
     void cnf_expr::remove_clause(clause cl) {
         for (const literal& lit : clauses[cl]) {
@@ -762,13 +768,11 @@ namespace cnf::io {
                     if (lit == std::numeric_limits<variable>::max() - 1) {
                         expr.add_literal(lit, cl);
                         expr.assign_and_simplify(abs(lit), true);
-                        expr.literals.erase(lit);
-                        expr.literals.erase(-lit);
+                        expr.remove_variable(abs(lit));
                     } else if (lit == std::numeric_limits<variable>::min() + 1) {
                         expr.add_literal(lit, cl);
                         expr.assign_and_simplify(abs(lit), true);
-                        expr.literals.erase(lit);
-                        expr.literals.erase(-lit);
+                        expr.remove_variable(abs(lit));
                     } else if (std::abs(lit) > max_var) {
                         // not a valid literal
                         throw std::invalid_argument(err::invalid_variable);

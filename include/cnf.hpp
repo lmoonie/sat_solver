@@ -72,6 +72,8 @@ namespace cnf {
         void add_literal(literal, clause);
         // remove a literal from a clause
         void remove_literal(literal, clause);
+        // remove a redundant variable from the record
+        void remove_variable(variable);
         // remove an entire clause
         void remove_clause(clause);
         // assign a variable and simplify the expression
