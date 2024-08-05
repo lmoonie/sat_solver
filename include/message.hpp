@@ -170,6 +170,9 @@ namespace info {
         const std::string solver(
             "allow only a particular algorithm to be used; see '--list-solvers'"
         );
+        const std::string problem(
+            "refer to the problem at the provided file path"
+        );
         const std::string list_solvers(
             "display the available solver algorithms and exit"
         );
