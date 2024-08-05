@@ -3,7 +3,6 @@
     - replace with variables
     - odd vars greater than max_var are false, even are true
     - use cnf facilities to simplify
-- sat not pointing out negative misformat properly
 
 # Next steps
 - video presentation

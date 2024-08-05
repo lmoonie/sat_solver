@@ -13,9 +13,6 @@ void sig_handler(int signal) {
 }
 
 int main(int argc, char** argv) try {
-    // register signal handler
-    std::signal(SIGINT, sig_handler);
-
     // configure program from CLI
     solve::program_interface pif(argc, argv);
 
