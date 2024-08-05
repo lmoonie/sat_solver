@@ -254,13 +254,10 @@ namespace cnf::sat {
         std::stack<bool> in_disjunctive_clause;
         in_conjunctive_clause.push(false);
         in_disjunctive_clause.push(false);
-        bool inner_clause(false);
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
-                if (inner_clause) {
-                    throw std::invalid_argument(err::expression_format);
-                } else if (parenth.empty() || !parenth.top()) {
-                    inner_clause = true;
+                if (!parenth.top()) {
+
                 }
                 if (
                     str.at(i) == '*' && in_conjunctive_clause.top() ||
@@ -276,7 +273,6 @@ namespace cnf::sat {
                     in_disjunctive_clause.push(str.at(i) == '+');
                     clean_str.push_back(str.at(i));
                     parenth.push(true);
-                    inner_clause = false;
                 }
                 i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
@@ -297,13 +293,38 @@ namespace cnf::sat {
                 }
                 parenth.pop();
             } else if (str.at(i) == '-') {
+                // check that the negative formula contains a valid formula
+                std::size_t scan_depth(1);
+                bool inner_formula(false);
+                while (!inner_formula) {
+                    std::size_t j(str.find_first_not_of(" \t\n", i+1));
+                    j = str.find_first_not_of(" \t\n", j+1);
+                    std::size_t clause_depth(1);
+                    while (clause_depth > 0) {
+                        if (str.at(j) == '(') clause_depth++;
+                        if (str.at(j) == ')') clause_depth--;
+                        if (clause_depth == scan_depth) {
+                            if (str.at(j) == '+' ||
+                                str.at(j) == '*'
+                            ) {
+                                if (inner_formula) {
+                                    throw std::invalid_argument(err::expression_format);
+                                } else {
+                                    inner_formula = true;
+                                }
+                            } else if (std::isdigit(str.at(j))) {
+                                if (inner_formula) {
+                                    throw std::invalid_argument(err::expression_format);
+                                } else {
+                                    inner_formula = true;
+                                    while (std::isdigit(str.at(j))) j++;
+                                }
+                            }
+                        }
+                    }
+                }
                 negatives++;
             } else {
-                if (inner_clause) {
-                    throw std::invalid_argument(err::expression_format);
-                } else if (parenth.empty() || !parenth.top()) {
-                    inner_clause = true;
-                }
                 std::size_t num_len;
                 try {
                     std::stoi(str.substr(i), &num_len);
