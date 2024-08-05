@@ -95,6 +95,7 @@ namespace solve {
 
         if (pif.solver == solver::SolverType::CDCL) {
             threads.emplace_back(std::jthread(solver::cdcl(expr, *this)));
+            active_divided_threads = 1;
         }
 
         // get current time

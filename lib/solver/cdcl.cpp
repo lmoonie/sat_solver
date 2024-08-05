@@ -13,7 +13,7 @@ namespace solver {
     struct assignment {
         variable var;
         bool val;
-        std::size_t decision_level;
+        int decision_level;
         clause reason_clause;
     };
 
@@ -99,7 +99,7 @@ namespace solver {
     inline int analyze_conflict(
         cnf::cnf_expr& expr,
         std::deque<assignment>& trail,
-        std::size_t decision_level,
+        int decision_level,
         const cnf::cnf_expr& original_expr
     ) {
         clause empty_clause = expr.get_empty_clause();
@@ -137,6 +137,7 @@ namespace solver {
         std::deque<cnf::cnf_expr> expr_record;
         std::size_t num_var = expr.variables().size();
         bool sol_found = true;
+        int decision_level = 0;
 
         if (!unit_propagate(expr, trail, expr_record.size())) {
             // unsatisfiable
@@ -150,6 +151,7 @@ namespace solver {
         // until all variables assigned
         while (expr.get_num_clauses() > 0) {
             expr_record.push_back(expr);
+            decision_level++;
             variable branch_var = expr.pick_var();
             trail.push_back({branch_var, next_val, expr_record.size(), 0});
             std::cout << trail.back();
@@ -166,6 +168,7 @@ namespace solver {
                     while (expr_record.size() > backjump_level) expr_record.pop_back();
                     while (trail.back().decision_level >= backjump_level) trail.pop_back();
                     expr = expr_record.back();
+                    decision_level = expr_record.size();
                     next_val = true;
                 }
             }
