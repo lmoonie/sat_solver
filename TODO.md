@@ -1,5 +1,3 @@
-- cdcl
-
 # Next steps
 - video presentation
 - README

@@ -53,6 +53,11 @@ target_link_libraries(test_sol_io PRIVATE sol)
 target_link_libraries(sat_verify PRIVATE verify sol cnf Boost::program_options)
 target_link_libraries(sat_solve PRIVATE solve solver sol cnf Boost::program_options Threads::Threads)
 
+# Install the executables, demo script, and example files
+install(TARGETS sat_verify sat_solve DESTINATION bin)
+install(FILES examples DESTINATION examples)
+install (FILES demo DESTINATION bin)
+
 # Generate coverage report
 # if(ENABLE_COVERAGE)
 #     setup_target_for_coverage_lcov(
