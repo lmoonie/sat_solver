@@ -579,6 +579,11 @@ namespace cnf::sat {
         remove_operators(str);
     }
 
+    // return clauses map
+    std::unordered_map<clause, lit_set> get_clauses() const {
+        return clauses;
+    }
+
 }
 
 // a collection of functions used to process problems via I/O
@@ -633,7 +638,7 @@ namespace cnf::io {
         const std::size_t& clauses
     ) {
         literal lit;
-        clause cl(0);
+        clause cl(1);
         std::string sat_str;
         do {
             // check for a comment line
@@ -690,7 +695,7 @@ namespace cnf::io {
         }
 
         // ensure the correct number of clauses was provided
-        if (type == ProblemType::CNF && cl != clauses) {
+        if (type == ProblemType::CNF && cl != clauses + 1) {
             throw std::invalid_argument(err::wrong_number_clauses);
         }
     }
