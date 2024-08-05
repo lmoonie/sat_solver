@@ -106,7 +106,7 @@ namespace solver {
         std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
         std::cout << conflict_clause;
         auto iter = trail.rbegin();
-        while (!first_uip(conflict_clause, trail, decision_level) && iter != trail.rend()) {
+        while (!first_uip(conflict_clause, trail, decision_level) && iter->reason_clause != 0) {
             conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(iter->reason_clause));
             iter++;
         }
