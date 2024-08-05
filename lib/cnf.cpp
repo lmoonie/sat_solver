@@ -50,6 +50,16 @@ namespace cnf {
         cl_set clauses_to_delete;
         std::unordered_multimap<literal, clause> literals_to_delete;
 
+        // for each clause in which the negative literal appears
+        for (auto const& cl : literals.at(-var)) {
+            if (!val) {
+                // literal is true; can delete the clause
+                clauses_to_delete.insert(cl);
+            } else {
+                // literal is false; can remove literal from clause
+                literals_to_delete.insert({-var, cl});
+            }
+        }
         // for each clause in which the positive literal appears
         for (auto const& cl : literals.at(var)) {
             if (val) {
@@ -61,24 +71,14 @@ namespace cnf {
             }
         }
 
-        // for each clause in which the negative literal appears
-        for (auto const& cl : literals.at(-var)) {
-            if (!val) {
-                // literal is true; can delete the clause
-                clauses_to_delete.insert(cl);
-            } else {
-                // literal is false; can remove literal from clause
-                literals_to_delete.insert({-var, cl});
-            }
-        }
         
         // delete the clauses and literals
         // this is delayed to prevent use-after-free errors
-        for (auto const& cl : clauses_to_delete) {
-            remove_clause(cl);
-        }
         for (auto const& [lit, cl] : literals_to_delete) {
             remove_literal(lit, cl);
+        }
+        for (auto const& cl : clauses_to_delete) {
+            remove_clause(cl);
         }
     }
 
