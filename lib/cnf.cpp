@@ -248,7 +248,7 @@ namespace cnf::sat {
     bool clean_sat_str(std::string& str) {
         std::string clean_str;
         std::size_t i = str.find_first_not_of(" \t\n");
-        std::stack<int> parenth;
+        std::stack<bool> parenth;
         int negatives(0);
         std::stack<bool> in_conjunctive_clause;
         std::stack<bool> in_disjunctive_clause;
@@ -260,14 +260,8 @@ namespace cnf::sat {
                     str.at(i) == '*' && in_conjunctive_clause.top() ||
                     str.at(i) == '+' && in_disjunctive_clause.top()
                 ) {
-                    parenth.push(1);
+                    parenth.push(false);
                 } else {
-                    if (parenth.top() == 1) {
-                        parenth.pop();
-                        parenth.push(2);
-                    } else if (parenth.top() >= 2) {
-                        throw std::invalid_argument(err::expression_format);
-                    }
                     if (negatives % 2 == 1) {
                         clean_str.push_back('-');
                         negatives = 0;
@@ -275,38 +269,29 @@ namespace cnf::sat {
                     in_conjunctive_clause.push(str.at(i) == '*');
                     in_disjunctive_clause.push(str.at(i) == '+');
                     clean_str.push_back(str.at(i));
-                    parenth.push(0);
+                    parenth.push(true);
                 }
                 i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
-                    if (parenth.top() == 0) clean_str.append("( ");
+                    if (parenth.top()) clean_str.append("( ");
                 } else {
                     throw std::invalid_argument(err::expression_format);
                 }
             } else if (str.at(i) == '(') {
-                parenth.push(1);
+                parenth.push(false);
             } else if (str.at(i) == ')') {
                 if (parenth.empty()) {
                     throw std::invalid_argument(err::expression_format);
                 }
-                if (parenth.top() == 0) {
+                if (parenth.top()) {
                     clean_str.append(") ");
                     in_conjunctive_clause.pop();
                     in_disjunctive_clause.pop();
                 }
                 parenth.pop();
             } else if (str.at(i) == '-') {
-                // check that this wraps a formula properly
-                std::size_t j(i);
-
                 negatives++;
             } else {
-                if (parenth.top() == 1) {
-                    parenth.pop();
-                    parenth.push(2);
-                } else if (parenth.top() >= 2) {
-                    throw std::invalid_argument(err::expression_format);
-                }
                 std::size_t num_len;
                 try {
                     std::stoi(str.substr(i), &num_len);
@@ -350,15 +335,15 @@ namespace cnf::sat {
                 }
                 if (num_elements > 1) {
                     str.push_back(clean_str.at(i++));
-                    parenth.push(0);
+                    parenth.push(true);
                 } else {
                     i += 3;
-                    parenth.push(1);
+                    parenth.push(false);
                     string_changed = true;
                     continue;
                 }
             } else if (clean_str.at(i) == ')') {
-                if (parenth.top() == 0) {
+                if (parenth.top()) {
                     parenth.pop();
                 } else {
                     parenth.pop();
