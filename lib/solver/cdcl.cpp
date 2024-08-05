@@ -191,11 +191,9 @@ namespace solver {
             std::chrono::duration<double> elapsed_time = time.now() - start_time;
             sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
             orc.report_solution(std::move(sol), SolverType::CDCL);
-        } else {
-            orc.report_no_solution();
         }
     } catch (std::exception& e) {
-        orc.report_error(true);
+        orc.report_error(false);
         return;
     }
 

@@ -59,8 +59,10 @@ namespace solve {
         uint num_local_search_threads(0);
         if (pif.solver == solver::SolverType::Auto) {
             num_local_search_threads = pif.threads - num_dpll_threads;
+            active_incomplete_threads = num_local_search_threads;
         } else if (pif.solver == solver::SolverType::LocalSearch) {
             num_local_search_threads = pif.threads;
+            active_incomplete_threads = num_local_search_threads;
         }
 
         // set the number of threads used for BruteForce
@@ -76,7 +78,7 @@ namespace solve {
         if (pif.solver == solver::SolverType::CDCL) {
             num_cdcl_threads = 1;
             while (num_cdcl_threads*2 <= pif.threads) num_cdcl_threads *= 2;
-            active_divided_threads = num_cdcl_threads;
+            active_incomplete_threads = num_cdcl_threads;
         }
 
         // start solvers
