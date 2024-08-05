@@ -59,9 +59,10 @@ namespace solve {
         message(2, format("the verbosity is set to {}", verbosity));
         message(2, "the solver is set to "s + (
             solver == solver::SolverType::Auto        ? "auto"s         :
-            solver == solver::SolverType::DPLL        ? "DPLL"s         :
+            solver == solver::SolverType::DPLL        ? "dpll"s         :
             solver == solver::SolverType::LocalSearch ? "local_search"s :
             solver == solver::SolverType::BruteForce  ? "brute_force"s  :
+            solver == solver::SolverType::CDCL        ? "cdcl"s         :
                                                         "undefined"s
         ));
         message(2, format("the portfolio is set to use {} threads", threads));

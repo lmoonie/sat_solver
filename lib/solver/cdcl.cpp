@@ -172,6 +172,7 @@ namespace solver {
                             expr.assign_and_simplify(ass.var, ass.val);
                         }
                         next_val = true;
+                        if (expr.get_num_clauses() == 0) break;
                         continue;
                     }
                 }
