@@ -28,6 +28,14 @@ namespace solver {
         return ostr;
     }
 
+    std::ostream& operator<<(std::ostream& ostr, const std::unordered_set<literal>& clause) {
+        for (auto const& lit : clause) {
+            ostr << lit << " ";
+        }
+        ostr << std::endl;
+        return ostr;
+    }
+
     // problem constructor
     cdcl::cdcl(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
         basic_solver(prob, orchestrator)
@@ -94,6 +102,7 @@ namespace solver {
     ) {
         clause empty_clause = expr.get_empty_clause();
         std::unordered_set<literal> conflict_clause = original_expr.get_clause(empty_clause);
+        std::cout << conflict_clause;
         while (!first_uip(conflict_clause, trail, decision_level)) {
             conflict_clause = resolve_clauses(conflict_clause, original_expr.get_clause(trail.back().reason_clause));
             trail.pop_back();
