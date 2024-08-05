@@ -622,17 +622,30 @@ namespace cnf::sat {
         std::string cnf_str;
         std::size_t i(2);
         std::size_t clause_depth(1);
-        while(clause_depth > 0) {
-            if (clause_depth == 2) {
+        if (str.at(0) == '+') {
+            while(clause_depth > 0) {
                 if (str.at(i) != ')') {
                     cnf_str.push_back(str.at(i));
                 } else {
                     cnf_str.push_back('0');
                 }
+                if (str.at(i) == '(') clause_depth++;
+                if (str.at(i) == ')') clause_depth--;
+                i++;
             }
-            if (str.at(i) == '(') clause_depth++;
-            if (str.at(i) == ')') clause_depth--;
-            i++;
+        } else {
+            while(clause_depth > 0) {
+                if (clause_depth == 2) {
+                    if (str.at(i) != ')') {
+                        cnf_str.push_back(str.at(i));
+                    } else {
+                        cnf_str.push_back('0');
+                    }
+                }
+                if (str.at(i) == '(') clause_depth++;
+                if (str.at(i) == ')') clause_depth--;
+                i++;
+            }
         }
         str = cnf_str;
     }
