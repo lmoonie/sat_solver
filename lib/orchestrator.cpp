@@ -81,23 +81,20 @@ namespace solve {
         auto brute_force_solvers = solver::brute_force(expr, *this).divide(num_brute_force_threads);
         auto local_search_solver = solver::local_search(expr, *this);
         for (std::size_t i(0); i < pif.threads; i++) {
-            threads.emplace_back(std::jthread());
-        }
-        for (std::size_t i(0); i < pif.threads; i++) {
             if (num_dpll_threads > 0) {
-                threads.at(i) = std::jthread(dpll_solvers[i]);
+                threads.emplace_back(std::jthread(dpll_solvers[i]));
                 num_dpll_threads--;
             } else if (num_local_search_threads > 0) {
-                threads.at(i) = std::jthread(local_search_solver);
+                threads.emplace_back(std::jthread(local_search_solver));
                 num_local_search_threads--;
             } else if (num_brute_force_threads > 0) {
-                threads.at(i) = std::jthread(brute_force_solvers[i]);
+                threads.emplace_back(std::jthread(brute_force_solvers[i]));
                 num_brute_force_threads--;
-            }
+            } else break;
         }
 
         if (pif.solver == solver::SolverType::CDCL) {
-            threads.at(0) = std::jthread(solver::cdcl(expr, *this));
+            threads.emplace_back(std::jthread(solver::cdcl(expr, *this)));
         }
 
         // get current time
