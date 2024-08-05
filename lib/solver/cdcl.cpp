@@ -1,0 +1,203 @@
+// cdcl.cpp
+// Logan Moonie
+// Jul 22, 2024
+
+#include <deque>
+#include "solver.hpp"
+#include "solve.hpp"
+
+namespace solver {
+
+    using std::abs;
+
+    struct assignment {
+        variable var;
+        bool val;
+        int decision_level;
+        clause reason_clause;
+    };
+
+    // problem constructor
+    cdcl::cdcl(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
+        basic_solver(prob, orchestrator)
+    {}
+
+    inline bool unit_propagate(cnf::cnf_expr& expr, std::deque<assignment>& trail, const int& decision_level) {
+        /// perform unit propagation
+        for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
+            literal unit_lit = *((ucl->second).begin());
+            bool unit_val = unit_lit > 0 ? true : false;
+            trail.push_back({abs(unit_lit), unit_val, decision_level, ucl->first});
+            expr.assign_and_simplify(abs(unit_lit), unit_val);
+        }
+        // return false on conflict
+        return !sub_expr.empty_clause();
+    }
+
+    inline bool first_uip(
+        const std::set<literal>& con_clause,
+        const std::deque<assignment>& trail,
+        const int& decision_level
+    ) {
+        int num_lit_at_dec_level = 0;
+        for (auto const& lit : con_clause) {
+            // is this literal at the current decision level?
+            auto iter = trail.rbegin();
+            while (iter != trail.rend() && iter->decision_level == decision_level) {
+                if (iter->var == abs(lit)) {
+                    num_lit_at_dec_level++;
+                    break;
+                }
+            }
+            if (num_lit_at_dec_level > 1) return false;
+        }
+        return true;
+    }
+
+    inline std::set<literal> resolve_clauses(
+        const std::set<literal>& con_clause,
+        const std::set<literal>& reason_clause
+    ) {
+        std::set<literal> resolved_clause = con_clause;
+        for (auto const& lit : reason_clause) {
+            if (resolved_clause.contains(-lit)) {
+                // the complementary literals cancel each other
+                resolved_clause.erase(-lit);
+            } else {
+                resolved_clause.insert(lit);
+            }
+        }
+        return resolved_clause;
+    }
+
+    inline int analyze_conflict(
+        cnf::cnf_expr& expr,
+        std::deque<assignment>& trail,
+        int decision_level,
+        const cnf::cnf_expr& original_expr
+    ) {
+        clause empty_clause = expr.get_empty_clause();
+        std::set<literal> conflict_clause = original_expr[empty_clause];
+        while (!first_uip(conflict_clause, trail, decision_level)) {
+            conflict_clause = resolve_clauses(conflict_clause, trail.back());
+            trail.pop_back();
+        }
+        // find second-greatest decision level in clause
+        int backjump_level = -1;
+        for (auto const& lit : conflict_clause) {
+            for (auto iter = trail.rbegin(); iter != trail.rend(); iter++) {
+                if (iter->var == abs(lit)) {
+                    if (
+                        iter->decision_level > backjump_level &&
+                        iter->decision_level < decision_level
+                    ) {
+                        backjump_level = iter->decision_level;
+                    }
+                    break;
+                }
+            }
+        }
+        return backjump_level;
+    }
+
+    void cdcl::operator()(std::stop_token token) try {
+        orc.pif.message(2, "cdcl solver starting");
+        auto start_time = time.now();
+        last_stop_check = time.now();
+
+        std::deque<assignment> trail;
+        std::deque<cnf::cnf_expr> expr_record;
+        expr_record.push_back(expr);
+        std::size_t num_var = expr.variables().size();
+        bool sol_found = true;
+
+        if (!unit_propagate(expr, trail)) {
+            // unsatisfiable
+            // skip the while loop
+            num_var = 0;
+            sol_found = false;
+        }
+
+        bool next_val = false;
+
+        // until all variables assigned
+        while (trail.size() < num_var) {
+            variable branch_var = expr.pick_var();
+            trail.push_back({branch_var, next_val, expr_record.size(), 0});
+            expr.assign_and_simplify(branch_var, next_val);
+            expr_record.push(expr);
+            if (next_val) next_val = false;
+            if (!unit_propagate(expr)) {
+                // on conflict
+                int backjump_level = analyze_conflict(expr, trail, expr_record.size(), expr_record[0]);
+                if (backjump_level < 0) {
+                    sol_found = false;
+                    break;
+                } else {
+                    // backjump to backjump_level
+                    while (expr_record.size() > backjump_level) expr_record.pop_back();
+                    while (trail.back().decision_level >= backjump_level) trail.pop_back();
+                    expr = expr_record.back();
+                    next_val = true;
+                }
+            }
+        }
+
+        if (trail.size() == num_var && sol_found) {
+            for (auto const& ass : trail) {
+                sol.assign_variable(ass.var, ass.val);
+            }
+            sol.set_valid(true);
+        }
+
+        // report the solution
+        if (final_sol.is_valid()) {
+            std::chrono::duration<double> elapsed_time = time.now() - start_time;
+            final_sol.stats().insert({"ELAPSED_TIME_SECONDS", std::to_string(elapsed_time.count())});
+            orc.report_solution(std::move(sol), SolverType::CDCL);
+        } else {
+            orc.report_no_solution();
+        }
+    } catch (...) {
+        orc.report_error(true);
+        return;
+    }
+
+    // std::vector<cdcl> cdcl::divide(uint num_sub_problems) {
+    //     // perform pure literal deletion
+    //     for (literal plit(expr.pure_literal()); plit != 0; plit = expr.pure_literal()) {
+    //         bool pure_val = plit > 0 ? true : false;
+    //         sol.assign_variable(abs(plit), pure_val);
+    //         expr.assign_and_simplify(abs(plit), pure_val);
+    //     }
+    //     std::vector<cdcl> reduced_solvers;
+    //     // variables in expression
+    //     auto var_list = expr.variables();
+    //     // divide the problem log_2(num_sub_problems) times
+    //     for (std::size_t i(0); i < num_sub_problems; i++) {
+    //         auto solver_copy(*this);
+    //         auto& reduced_sol = solver_copy.sol;
+    //         auto& reduced_expr = solver_copy.expr;
+    //         uint j(i);
+    //         auto var_iter = var_list.begin();
+    //         for (uint k(num_sub_problems - 1); k > 0; k /= 2) {
+    //             if (var_iter == var_list.end()) break;
+    //             if (j % 2 == 0) {
+    //                 // branch left
+    //                 reduced_sol.assign_variable(*var_iter, false);
+    //                 reduced_expr.assign_and_simplify(*var_iter, false);
+
+    //             } else {
+    //                 // branch right
+    //                 reduced_sol.assign_variable(*var_iter, true);
+    //                 reduced_expr.assign_and_simplify(*var_iter, true);
+    //             }
+    //             j /= 2;
+    //             var_iter++;
+    //         }
+    //         reduced_solvers.push_back(solver_copy);
+    //     }
+    //     return reduced_solvers;
+    // }
+
+}

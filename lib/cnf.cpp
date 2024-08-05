@@ -89,6 +89,9 @@ namespace cnf {
             if (iter->second.size() == 1) {
                 return iter;
             }
+            if (iter->second.empty()) {
+                return clauses.end();
+            }
             iter++;
         }
         return iter;
@@ -210,6 +213,16 @@ namespace cnf {
     // get the problem type
     ProblemType cnf_expr::get_type() const {
         return type;
+    }
+
+    // find an empty clause, presuming there is one
+    clause cnf_expr::get_empty_clause() const {
+        for (auto const& [cl, lset] : clauses) {
+            if (lset.empty()) {
+                return cl;
+            }
+        }
+        return 0;
     }
 
     // used to print cnf_expr

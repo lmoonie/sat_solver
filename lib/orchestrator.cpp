@@ -57,8 +57,7 @@ namespace solve {
 
         // set the number of threads used for LocalSearch
         uint num_local_search_threads(0);
-        if (
-            pif.solver == solver::SolverType::Auto) {
+        if (pif.solver == solver::SolverType::Auto) {
             num_local_search_threads = pif.threads - num_dpll_threads;
         } else if (pif.solver == solver::SolverType::LocalSearch) {
             num_local_search_threads = pif.threads;
@@ -97,13 +96,15 @@ namespace solve {
             }
         }
 
+        if (pif.solver == solver::SolverType::CDCL) {
+            threads.at(0) = solver::cdcl(expr, *this);
+        }
+
         // get current time
         std::chrono::steady_clock time;
         auto last_monitor_time = time.now();
         auto start_time = time.now();
         uint mem_warn_count(0);
-
-        pif.message(1, "solving...");
 
         // manage solvers periodically and upon finishing
         std::unique_lock lock(m);

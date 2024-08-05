@@ -208,6 +208,8 @@ namespace solve {
                     pif.solver = solver::SolverType::LocalSearch;
                 } else if (solver == std::string("auto")) {
                     pif.solver = solver::SolverType::Auto;
+                } else if (solver == std::string("cdcl")) {
+                    pif.solver = solver::SolverType::CDCL;
                 } else {
                     throw std::invalid_argument(err::invalid_solver);
                 }

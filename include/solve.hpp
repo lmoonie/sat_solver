@@ -27,7 +27,8 @@ namespace solver {
         Auto = 0,
         BruteForce = 1,
         DPLL = 2,
-        LocalSearch = 3
+        LocalSearch = 3,
+        CDCL = 4
     };
     
 }

@@ -84,6 +84,18 @@ namespace solver {
         ~dpll() {};
     };
 
+    class cdcl : public basic_solver {
+    public:
+        // problem constructor
+        cdcl(const cnf::cnf_expr&, solve::orchestrator&);
+        // run the algorithm
+        void operator()(std::stop_token);
+        // divide the problem
+        std::vector<cdcl> divide(uint);
+        // destructor
+        ~cdcl() {};
+    };
+
     class local_search : public basic_solver {
     public:
         // problem constructor

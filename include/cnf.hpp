@@ -105,6 +105,8 @@ namespace cnf {
         variable pick_var() const;
         // get the problem type
         ProblemType get_type() const;
+        // find an empty clause
+        clause get_empty_clause() const;
     private:
         // tracks which clauses a given literal is in
         std::unordered_map<literal, cl_set> literals;
