@@ -189,6 +189,7 @@ namespace solve {
                 s == solver::SolverType::DPLL        ? "dpll"s         :
                 s == solver::SolverType::LocalSearch ? "local_search"s :
                 s == solver::SolverType::BruteForce  ? "brute_force"s  :
+                s == solver::SolverType::CDCL        ? "cdcl"s         :
                                                             "unknown"s ;
             sol.stats().insert({"SOLVER", solver_name});
             finished = true;
