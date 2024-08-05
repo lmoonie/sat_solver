@@ -17,6 +17,11 @@ namespace solver {
         clause reason_clause;
     };
 
+    std::ostream& operator<<(std::ostream& ostr, const assignment& ass) {
+        ostr << std::format("{} {} {} {}", var, val, decision_level, reason_clause) << std::endl;
+        return ostr;
+    }
+
     // problem constructor
     cdcl::cdcl(const cnf::cnf_expr& prob, solve::orchestrator& orchestrator):
         basic_solver(prob, orchestrator)
@@ -32,6 +37,7 @@ namespace solver {
             literal unit_lit = *((ucl->second).begin());
             bool unit_val = unit_lit > 0 ? true : false;
             trail.push_back({abs(unit_lit), unit_val, decision_level, ucl->first});
+            std::cout << trail.back();
             expr.assign_and_simplify(abs(unit_lit), unit_val);
         }
         // return false on conflict
@@ -128,6 +134,7 @@ namespace solver {
             expr_record.push_back(expr);
             variable branch_var = expr.pick_var();
             trail.push_back({branch_var, next_val, expr_record.size(), 0});
+            std::cout << trail.back();
             expr.assign_and_simplify(branch_var, next_val);
             if (next_val) next_val = false;
             if (!unit_propagate(expr, trail, expr_record.size())) {
