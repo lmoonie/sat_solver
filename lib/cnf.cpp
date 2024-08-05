@@ -259,7 +259,7 @@ namespace cnf::sat {
             if (str.at(i) == '*' || str.at(i) == '+') {
                 if (inner_clause) {
                     throw std::invalid_argument(err::expression_format);
-                } else if (!parenth.top()) {
+                } else if (parenth.empty() || !parenth.top()) {
                     inner_clause = true;
                 }
                 if (
@@ -301,7 +301,7 @@ namespace cnf::sat {
             } else {
                 if (inner_clause) {
                     throw std::invalid_argument(err::expression_format);
-                } else if (!parenth.top()) {
+                } else if (parenth.empty() || !parenth.top()) {
                     inner_clause = true;
                 }
                 std::size_t num_len;
