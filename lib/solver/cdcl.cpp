@@ -27,7 +27,7 @@ namespace solver {
         std::deque<assignment>& trail,
         const std::size_t& decision_level
     ) {
-        /// perform unit propagation
+        // perform unit propagation
         for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
             literal unit_lit = *((ucl->second).begin());
             bool unit_val = unit_lit > 0 ? true : false;
@@ -111,7 +111,6 @@ namespace solver {
 
         std::deque<assignment> trail;
         std::deque<cnf::cnf_expr> expr_record;
-        expr_record.push_back(expr);
         std::size_t num_var = expr.variables().size();
         bool sol_found = true;
 
@@ -126,10 +125,10 @@ namespace solver {
 
         // until all variables assigned
         while (trail.size() < num_var) {
+            expr_record.push_back(expr);
             variable branch_var = expr.pick_var();
             trail.push_back({branch_var, next_val, expr_record.size(), 0});
             expr.assign_and_simplify(branch_var, next_val);
-            expr_record.push_back(expr);
             if (next_val) next_val = false;
             if (!unit_propagate(expr, trail, expr_record.size())) {
                 // on conflict
