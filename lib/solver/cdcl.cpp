@@ -44,7 +44,7 @@ namespace solver {
     inline bool unit_propagate(
         cnf::cnf_expr& expr,
         std::deque<assignment>& trail,
-        const std::size_t& decision_level
+        const int& decision_level
     ) {
         // perform unit propagation
         for (auto ucl(expr.unit_clause()); ucl != expr.clauses_end(); ucl = expr.unit_clause()) {
@@ -62,7 +62,7 @@ namespace solver {
     inline bool first_uip(
         const std::unordered_set<literal>& con_clause,
         const std::deque<assignment>& trail,
-        const std::size_t& decision_level
+        const int& decision_level
     ) {
         int num_lit_at_dec_level = 0;
         for (auto const& lit : con_clause) {
