@@ -384,16 +384,15 @@ namespace cnf::sat {
                 } else if (num_elements == 1) {
                     i += 3;
                     parenth.push(false);
-                    string_changed = true;
                     continue;
                 } else {
                     if (clean_str.at(i) == '*') {
                         str.append(
-                            std::to_string(std::numeric_limits<variable>::max())
+                            std::to_string(std::numeric_limits<variable>::max() - 1)
                         );
                     } else {
                         str.append(
-                            std::to_string(std::numeric_limits<variable>::min())
+                            std::to_string(std::numeric_limits<variable>::min() + 1)
                         );
                     }
                     i += 4;
