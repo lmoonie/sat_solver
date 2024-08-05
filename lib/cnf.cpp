@@ -300,9 +300,14 @@ namespace cnf::sat {
                     } else if (str.at(j) != '(') break;
                     j = str.find_first_not_of(" \t\n", j+1);
                     std::size_t clause_depth(1);
+                    std::size_t max_cl_depth(1);
                     while (clause_depth > 0 && j < str.size()) {
                         j = str.find_first_not_of(" \t\n", j+1);
-                        if (str.at(j) == '(') clause_depth++;
+                        if (str.at(j) == '(') {
+                            clause_depth++;
+                            if (clause_depth > max_cl_depth) {
+                                max_cl_depth = clause_depth;
+                            }
                         if (str.at(j) == ')') clause_depth--;
                         if (clause_depth == scan_depth) {
                             if (str.at(j) == '+' ||
@@ -323,6 +328,10 @@ namespace cnf::sat {
                             }
                         }
                     }
+                    if (scan_depth > max_cl_depth) {
+                        throw std::invalid_argument(err::expression_format);
+                    }
+                    scan_depth++;
                 }
                 negatives++;
             } else {
