@@ -37,8 +37,12 @@ namespace solve {
         sol.set_num_clauses(expr.get_num_clauses());
         sol.set_type(static_cast<sol::ProblemType>(expr.get_type()));
 
-        // register signal handler
-        std::signal(SIGINT, ::sig_handler);
+        if (sig != 0) {
+            if (pif.verbosity > 0) {
+                (std::cout << "\nc interrupt signal received\n").flush();
+            }
+            return {Status::IntSig, sol};
+        }
 
         // set the number of threads used for DPLL
         uint num_dpll_threads(0);
