@@ -256,9 +256,6 @@ namespace cnf::sat {
         in_disjunctive_clause.push(false);
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
-                if (!parenth.top()) {
-
-                }
                 if (
                     str.at(i) == '*' && in_conjunctive_clause.top() ||
                     str.at(i) == '+' && in_disjunctive_clause.top()
