@@ -254,8 +254,14 @@ namespace cnf::sat {
         std::stack<bool> in_disjunctive_clause;
         in_conjunctive_clause.push(false);
         in_disjunctive_clause.push(false);
+        bool inner_clause(false);
         while (i != std::string::npos) {
             if (str.at(i) == '*' || str.at(i) == '+') {
+                if (inner_clause) {
+                    throw std::invalid_argument(err::expression_format);
+                } else if (!parenth.top()) {
+                    inner_clause = true;
+                }
                 if (
                     str.at(i) == '*' && in_conjunctive_clause.top() ||
                     str.at(i) == '+' && in_disjunctive_clause.top()
@@ -270,6 +276,7 @@ namespace cnf::sat {
                     in_disjunctive_clause.push(str.at(i) == '+');
                     clean_str.push_back(str.at(i));
                     parenth.push(true);
+                    inner_clause = false;
                 }
                 i = str.find_first_not_of(" \t\n", i+1);
                 if (str.at(i) == '(') {
@@ -292,6 +299,11 @@ namespace cnf::sat {
             } else if (str.at(i) == '-') {
                 negatives++;
             } else {
+                if (inner_clause) {
+                    throw std::invalid_argument(err::expression_format);
+                } else if (!parenth.top()) {
+                    inner_clause = true;
+                }
                 std::size_t num_len;
                 try {
                     std::stoi(str.substr(i), &num_len);
