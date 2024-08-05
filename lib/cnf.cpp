@@ -302,11 +302,9 @@ namespace cnf::sat {
                         throw std::invalid_argument(err::expression_format);
                     } else if (str.at(j) != '(') break;
                     j = str.find_first_not_of(" \t\n", j+1);
-                    if (j == str.npos) {
-                        throw std::invalid_argument(err::expression_format);
-                    }
                     std::size_t clause_depth(1);
                     while (clause_depth > 0 && j < str.size()) {
+                        j = str.find_first_not_of(" \t\n", j+1);
                         if (str.at(j) == '(') clause_depth++;
                         if (str.at(j) == ')') clause_depth--;
                         if (clause_depth == scan_depth) {
@@ -327,7 +325,6 @@ namespace cnf::sat {
                                 }
                             }
                         }
-                        j++;
                     }
                 }
                 negatives++;
