@@ -4,9 +4,9 @@
 # This is a simple demonstration script for sat_solve and sat_verify
 # See README.txt for more details
 
-sat_solve ../example/cnf_1 > solution
+./sat_solve ../example/cnf_1 > solution
 
 cat solution
 
-sat_verify ../example/cnf_1 < solution
+./sat_verify ../example/cnf_1 < solution
 
