@@ -1,3 +1,8 @@
+# Final steps
+- record and upload video
+- write README
+- comment code
+
 # Next steps
 - video presentation
 - README

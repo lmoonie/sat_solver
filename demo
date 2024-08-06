@@ -6,9 +6,9 @@
 
 INSTALL_DIR=$(dirname "$0")/..
 
-$INSTALL_DIR/bin/sat_solve $INSTALL_DIR/example/cnf_1 > $INSTALL_DIR/work/solution
+$INSTALL_DIR/bin/sat_solve $INSTALL_DIR/example/cnf_1 > $INSTALL_DIR/solution
 
-cat $INSTALL_DIR/work/solution
+cat $INSTALL_DIR/solution
 
-$INSTALL_DIR/bin/sat_verify $INSTALL_DIR/example/cnf_1 < $INSTALL_DIR/work/solution
+$INSTALL_DIR/bin/sat_verify $INSTALL_DIR/example/cnf_1 < $INSTALL_DIR/solution
 
