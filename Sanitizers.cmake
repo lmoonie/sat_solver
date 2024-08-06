@@ -4,7 +4,7 @@
 option(EN_ASAN "Enable address sanitization" false)
 option(EN_UBSAN "Enable undefined behaviour sanitization" false)
 option(EN_LSAN "Enable leaked memory sanitization" false)
-option(EN_TSAN "Enable thread sanitization" true)
+option(EN_TSAN "Enable thread sanitization" false)
 
 # Enable ASAN if specified
 if(EN_ASAN)

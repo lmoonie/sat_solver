@@ -1,7 +1,8 @@
 # Next steps
 - video presentation
 - README
-- review spec for final tasks
+- review spec
+
 - code comments
 - testing
 

@@ -55,7 +55,7 @@ target_link_libraries(sat_solve PRIVATE solve solver sol cnf Boost::program_opti
 
 # Install the executables, demo script, and example files
 install(TARGETS sat_verify sat_solve DESTINATION bin)
-install(DIRECTORY examples DESTINATION .)
+install(FILES examples/demo/cnf_1 DESTINATION example)
 install (SCRIPT demo DESTINATION bin)
 
 # Generate coverage report
