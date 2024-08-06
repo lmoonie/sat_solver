@@ -1,15 +1,7 @@
 # Final steps
 - record and upload video
-- write README
+- add examples?
 - comment code
-
-# Next steps
-- video presentation
-- README
-- review spec
-
-- code comments
-- testing
 
 # Future plans
 - perf tuning
