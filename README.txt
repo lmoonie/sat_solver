@@ -40,7 +40,7 @@ The tool accepts several command line options in conventional format. Run "sat_v
 CNF format
 --------------------------------
 
-CNF files describe a satisfiability problem in conjunctive normal form. CNF files contain two sections: the problem line and the problem definition.
+CNF files (often called DIMACS CNF or simply DIMACS format) describe a satisfiability problem in conjunctive normal form. CNF files contain two sections: the problem line and the problem definition.
 
 The problem line is a single line of the form
 
