@@ -1,6 +1,5 @@
 # Final steps
 - record and upload video
-- add examples?
 - comment code
 
 # Future plans

@@ -1,5 +1,7 @@
+--------------------------------
 Portfolio SAT Solver Application
 Logan Moonie - August 5, 2024
+--------------------------------
 
 The project can be built using the following commands from the repository root:
 
@@ -40,7 +42,7 @@ The tool accepts several command line options in conventional format. Run "sat_v
 CNF format
 --------------------------------
 
-CNF files (often called DIMACS CNF or simply DIMACS format) describe a satisfiability problem in conjunctive normal form. CNF files contain two sections: the problem line and the problem definition.
+CNF files describe a satisfiability problem in conjunctive normal form. CNF files contain two sections: the problem line and the problem definition.
 
 The problem line is a single line of the form
 
@@ -142,6 +144,14 @@ v 2
 v 5
 v -9
 --------------------------------
+
+--------------------------------
+Third-party benchmarks
+-------------------------------
+
+The DIMACS CNF format (often simply called DIMACS format), is compatible with CNF format as described earlier. There are many benchmark problems available online in DIMACS CNF format. They have not been included with the project for copyright reasons. One such resource is the following:
+
+https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
 
 --------------------------------
 Third-party libraries
